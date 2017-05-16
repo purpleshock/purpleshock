@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_DATABASE: voucher
+    MYSQL_USER: voucher
+    MYSQL_PASSWORD: password
