@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   db:
@@ -7,7 +7,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-    MYSQL_ROOT_PASSWORD: password
-    MYSQL_DATABASE: voucher
-    MYSQL_USER: voucher
-    MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: voucher
+      MYSQL_USER: voucher
+      MYSQL_PASSWORD: password
