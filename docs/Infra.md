@@ -1,6 +1,6 @@
 
 # 概圖
-![Inputfra LInputks](https://photouploads.com/images/1eb72b.jpg)
+![Infra Links](https://photouploads.com/images/1eb72b.jpg)
 # References
 - [Admin Web UI](#admin-web-ui)
   - 用戶角色
@@ -84,7 +84,7 @@
 ### [`updateVoucherStatus`](#updatevoucherstatus)
 - 用來修改點數卷狀態
 - 點數卷狀態可視為一系列順序的**生命週期**
-  1. `Inputitialized` 點數卷剛建立的狀態，此時無法被使用也無法被列印
+  1. `Initialized` 點數卷剛建立的狀態，此時無法被使用也無法被列印
   2. `Activated` 點數卷只要進入此狀態，代表已被送出列印，無法回復上一週期
   3. **是否需要再加入列印完成的狀態？**
   4. `Deativated` 點數卷已被註銷，無法被使用
