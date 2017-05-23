@@ -40,7 +40,7 @@ module.exports = {
       batchId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'players',
+          model: 'batches',
           key: 'id'
         },
         onUpdate: 'cascade',
