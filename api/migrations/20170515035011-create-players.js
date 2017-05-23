@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      userId: {
+      playerId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'players',
@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         primaryKey: true
       },
-      userId: {
+      playerId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'players',

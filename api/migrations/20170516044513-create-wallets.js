@@ -6,7 +6,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      userId: {
+      playerId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'players',
@@ -31,7 +31,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      userId: {
+      playerId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'players',
