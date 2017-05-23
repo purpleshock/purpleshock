@@ -84,11 +84,13 @@
 ### [`updateVoucherStatus`](#updatevoucherstatus)
 - 用來修改點數卷狀態
 - 點數卷狀態可視為一系列順序的**生命週期**
-  1. `Initialized` 點數卷剛建立的狀態，此時無法被使用也無法被列印
-  2. `Activated` 點數卷只要進入此狀態，代表已被送出列印，無法回復上一週期
-  3. **是否需要再加入列印完成的狀態？**
-  4. `Deativated` 點數卷已被註銷，無法被使用
-  5. `Applied` 點數卷已被使用 (是否需要保留已被使用的點數卷？)
+1. `Initialized` 點數卷剛建立的狀態，此時無法被使用也無法被列印
+2. `Activated` 點數卷只要進入此狀態，代表已被送出列印，無法回復上一週期
+3. **是否需要再加入列印完成的狀態？**
+4. `Deativated` 點數卷已被註銷，無法被使用
+5. `Consigned` 點數卷已抵達銷售商
+6. `Sold` 點數卷已售出
+7. `Applied` 點數卷已被使用
 
 ### [`updateVoucherInfo`](#updatevoucherinfo)
 - 用來修改點數卷內容資訊，例如簡介，時間等等。

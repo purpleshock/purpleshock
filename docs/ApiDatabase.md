@@ -1,17 +1,19 @@
 
 # 概圖
-![Schemas](https://photouploads.com/images/ccbfe5.png)
+![Schemas](https://photouploads.com/images/6c36bb.png)
 
 # References
 - [Schemas](#schemas)
   - [`admins`](#admins)
   - [`batches`](#batches)
   - [`vouchers`](#vouchers)
+  - [`voucherStatusHistories`](#voucherstatushistories)
   - [`players`](#players)
   - [`facebookIdentity`](#facebookidentity)
   - [`mailIdentity`](#mailidentity)
   - [`wallets`](#wallets)
   - [`walletTransfers`](#wallettransfers)
+  - [`voucherHistories`](#voucherhistories)
 
 # Schemas
 
@@ -40,6 +42,15 @@
 - `batchId`: FK Reference to [`batches`](#batches)，產生此張點數卷的`批次`
 - `status`: 點數卷目前的生命週期，ENUM(`Initialized`，`Activated`，`Deactivated`，`Applied`)
 - `amount`: 此張點數卷的面額
+
+### [`voucherStatusHistories`](#voucherstatushistories)
+點數卷狀態從 `Initiailzed` 到 `Sold` 之間的變更記錄
+- `id`: PK
+- `adminId`: FK Reference to [`admins`](#admins)，此次操作的管理員
+- `voucherId`: FK Reference to [`vouchers`](#vouchers)，此次操作的點數卷
+- `operatedAt`: 此次操作時間
+- `fromStatus`: 起始狀態
+- `toStatus`: 變更狀態
 
 ### [`players`](#players)
 每個玩家代表一個player資料列，視玩家第三方不同的社群媒體連結狀況，而關聯到不同 [`facebookIdentity`](#facebookidentity) 或 [`mailIdentity`](#mailidentity) 或其他的Table
@@ -72,3 +83,10 @@
 - `srcId`: FK Reference to [`wallets`](#wallets)，點數**轉出**的錢包
 - `destId`: FK Reference to [`wallets`](#wallets)，點數**轉入**的錢包
 - `amount`: 此次轉換點數的數值
+
+### [`voucherHistories`](#voucherhistories)
+玩家將點數卷轉換回點數的紀錄，也代表點數卷狀態改為 `Applied` 的紀錄
+- `id`: PK
+- `playerId`: FK Reference to [`players`](#players)，做出轉換的玩家
+- `voucherId`: FK Reference to [`vouchers`](#vouchers)，轉換的點數卷
+- `operatedAt`: 此次操作時間

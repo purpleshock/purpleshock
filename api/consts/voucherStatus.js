@@ -1,4 +1,6 @@
 exports.INITIALIZED = 'Initialized'
 exports.ACTIVATED = 'Activated'
 exports.DEACTIVATED = 'Deactivated'
+exports.CONSIGNED = 'Consigned'
+exports.SOLD = 'Sold'
 exports.APPLIED = 'Applied'

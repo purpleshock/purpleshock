@@ -52,6 +52,8 @@ module.exports = {
           voucherStatus.INITIALIZED,
           voucherStatus.ACTIVATED,
           voucherStatus.DEACTIVATED,
+          voucherStatus.CONSIGNED,
+          voucherStatus.SOLD,
           voucherStatus.APPLIED
         )
       },
