@@ -4,10 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "DEBUG=api:* node bin/www",
     "eslint": "eslint ."
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2",
     "mysql": "^2.13.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
     "sequelize": "^3.30.4"
   },
   "devDependencies": {
