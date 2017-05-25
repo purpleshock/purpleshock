@@ -1,11 +1,14 @@
 const test = require('ava')
 const request = require('supertest')
+const { sequelize } = require('../../models')
 const session = require('./session')
 const app = require('../../mockApp')({ session })
 
 let uuid
 
-test.serial.skip('POST /session/uuid', t => {
+test.before(t => sequelize.sync({ force: true }))
+
+test.serial('POST /session/uuid', t => {
   return request(app)
     .post('/session/uuid')
     .send({
