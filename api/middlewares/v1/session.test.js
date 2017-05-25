@@ -9,13 +9,12 @@ test.serial.skip('POST /session/uuid', t => {
   return request(app)
     .post('/session/uuid')
     .send({
-      "displayName": "Somebody"
+      displayName: 'Somebody'
     })
     .then(response => {
-      const { uuid, token } = response.body
-      t.is(typeof uuid, 'string')
-      t.is(typeof token, 'string')
-      uuid = response.uuid
+      t.is(typeof response.body.uuid, 'string')
+      t.is(typeof response.body.token, 'string')
+      uuid = response.body.uuid
     })
 })
 
@@ -26,7 +25,6 @@ test.serial.skip('POST /session with uuid', t => {
       uuid
     })
     .then(response => {
-      const { uuid, token } = response.body
-      t.is(typeof token, 'string')
+      t.is(typeof response.body.token, 'string')
     })
 })

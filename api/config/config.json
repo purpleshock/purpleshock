@@ -1,5 +1,9 @@
 {
   "development": {
+    "jwt": {
+      "secret": "secret",
+      "session": false
+    },
     "username": "voucher",
     "password": "password",
     "database": "voucher",
