@@ -11,6 +11,9 @@ module.exports = {
       },
       loginAt: {
         type: Sequelize.DATE
+      },
+      displayName: {
+        type: Sequelize.STRING
       }
     })
     await queryInterface.createTable('mailIdentity', {
@@ -29,8 +32,7 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'cascade',
-        onDelete: 'cascade',
-        allowNull: false
+        onDelete: 'cascade'
       }
     })
     await queryInterface.createTable('facebookIdentity', {
@@ -45,12 +47,27 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'cascade',
-        onDelete: 'cascade',
-        allowNull: false
+        onDelete: 'cascade'
+      }
+    })
+    await queryInterface.createTable('uuidIdentity', {
+      uuid: {
+        type: Sequelize.STRING,
+        primaryKey: true
+      },
+      playerId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'players',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       }
     })
   },
   async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('uuidIdentity')
     await queryInterface.dropTable('mailIdentity')
     await queryInterface.dropTable('facebookIdentity')
     await queryInterface.dropTable('players')

@@ -7,6 +7,7 @@
     "eslint": "eslint .",
     "prestart": "yarn eslint",
     "start": "DEBUG=api:* node bin/www",
+    "pretest": "yarn eslint",
     "test": "NODE_ENV=test ava"
   },
   "dependencies": {

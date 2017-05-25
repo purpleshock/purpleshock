@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
-const { NODE_ENV } = require('../config/env')
 const config = require('../config')
 
 const basename = path.basename(module.filename)
@@ -17,10 +16,10 @@ const db = fs
   .readdirSync(__dirname)
   .filter(file => {
     return (
-      file.indexOf('.') !== 0       // is hidden file
-      && file !== basename          // is index file
-      && file.slice(-3) === '.js'   // is javascript file
-      && file.indexOf('.test') < 0  // is not test file   
+      file.indexOf('.') !== 0 &&  // is hidden file
+      file !== basename &&        // is index file
+      file.slice(-3) === '.js' && // is javascript file
+      file.indexOf('.test') < 0   // is not test file
     )
   })
   .reduce((db, file) => {
