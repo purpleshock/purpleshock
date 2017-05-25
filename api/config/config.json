@@ -11,6 +11,10 @@
     "dialect": "mysql"
   },
   "test": {
+    "jwt": {
+      "secret": "secret",
+      "session": false
+    },
     "username": "voucher",
     "password": "password",
     "database": "voucher",
