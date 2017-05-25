@@ -15,20 +15,4 @@ app.use(function (req, res, next) {
   next(err)
 })
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.status(err.status || 500)
-
-  if (app.get('env') === 'production') {
-    res.end()
-  } else {
-    res.end(`
-      <h1>${err.message}</h1>
-      <h2>${err.status}</h2>
-      <pre>${err.stack}</pre>
-    `)
-  }
-})
-
 module.exports = app

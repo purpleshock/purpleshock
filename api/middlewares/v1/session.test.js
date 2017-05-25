@@ -21,7 +21,7 @@ test.serial('POST /session/uuid', t => {
     })
 })
 
-test.serial.skip('POST /session with uuid', t => {
+test.serial('POST /session with uuid', t => {
   return request(app)
     .post('/session')
     .send({
@@ -29,5 +29,16 @@ test.serial.skip('POST /session with uuid', t => {
     })
     .then(response => {
       t.is(typeof response.body.token, 'string')
+    })
+})
+
+test.serial('POST /session with not existed uuid', t => {
+  return request(app)
+    .post('/session')
+    .send({
+      uuid: 'some-uuid-not-existed'
+    })
+    .then(response => {
+      t.is(response.status, 404)
     })
 })
