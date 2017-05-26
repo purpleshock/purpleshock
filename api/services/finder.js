@@ -17,6 +17,12 @@ async function findUUIdPlayer (uuid) {
   }
 }
 
+async function findPlayerByPlayerId (playerId) {
+  const player = await Player.findById(playerId)
+  return player.toJSON()
+}
+
 module.exports = {
-  findUUIdPlayer
+  findUUIdPlayer,
+  findPlayerByPlayerId
 }

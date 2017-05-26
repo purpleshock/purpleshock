@@ -11,7 +11,7 @@ module.exports = function () {
   }
 
   passport.use(new Strategy(opt, async (payload, next) => {
-    const player = await finder.findUUIdPlayer(payload.uuid)
+    const player = await finder.findPlayerByPlayerId(payload.id)
     if (player) {
       return next(null, player)
     } else {

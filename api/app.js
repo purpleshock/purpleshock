@@ -6,7 +6,10 @@ const { NODE_ENV } = require('./config/env')
 
 const app = express()
 
-app.use(logger('dev'))
+if (NODE_ENV !== 'test') {
+  app.use(logger('dev'))
+}
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
