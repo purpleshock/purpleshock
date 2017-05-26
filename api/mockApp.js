@@ -13,5 +13,14 @@ module.exports = function mockApp (middlewares) {
       app.use(`/${path}`, handler)
     })
 
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500)
+    res.end(`
+      <h1>${err.message}</h1>
+      <h2>${err.statusCode}</h2>
+      <pre>${err.stack}</pre>
+    `)
+  })
+
   return app
 }
