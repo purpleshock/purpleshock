@@ -8,6 +8,9 @@
     "start": "DEBUG=api:* node bin/www",
     "test": "NODE_ENV=test ava"
   },
+  "engines": {
+    "node": "7.6.0"
+  },
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
