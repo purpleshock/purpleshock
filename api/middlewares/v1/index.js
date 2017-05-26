@@ -7,9 +7,7 @@ module.exports = function api (auth) {
 
   api.use(auth.authenticate())
 
-  api.get('/me', (req, res) => {
-    res.end('you got it!')
-  })
+  api.use('/me', require('./me'))
 
   return api
 }
