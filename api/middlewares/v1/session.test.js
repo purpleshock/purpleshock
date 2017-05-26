@@ -1,16 +1,15 @@
 const test = require('ava')
 const request = require('supertest')
 const { sequelize } = require('../../models')
-const session = require('./session')
-const app = require('../../mockApp')({ session })
+const app = require('../../app')
 
 let uuid
 
 test.before(t => sequelize.sync({ force: true }))
 
-test.serial('POST /session/uuid', t => {
+test.serial('POST /api/v1/session/uuid', t => {
   return request(app)
-    .post('/session/uuid')
+    .post('/api/v1/session/uuid')
     .send({
       displayName: 'Somebody'
     })
@@ -21,9 +20,9 @@ test.serial('POST /session/uuid', t => {
     })
 })
 
-test.serial('POST /session with uuid', t => {
+test.serial('POST /api/v1/session with uuid', t => {
   return request(app)
-    .post('/session')
+    .post('/api/v1/session')
     .send({
       uuid
     })
@@ -32,9 +31,9 @@ test.serial('POST /session with uuid', t => {
     })
 })
 
-test.serial('POST /session with not existed uuid', t => {
+test.serial('POST /api/v1/session with not existed uuid', t => {
   return request(app)
-    .post('/session')
+    .post('/api/v1/session')
     .send({
       uuid: 'some-uuid-not-existed'
     })
