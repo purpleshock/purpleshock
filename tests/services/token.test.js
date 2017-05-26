@@ -1,5 +1,5 @@
 const test = require('ava')
-const token = require('./token')
+const { token } = require('../../services')
 
 test('#grantPlayer', async t => {
   const player = {

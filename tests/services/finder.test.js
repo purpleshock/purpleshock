@@ -1,6 +1,6 @@
 const test = require('ava')
-const { sequelize } = require('../models')
-const { finder, registration } = require('./index')
+const { sequelize } = require('../../models')
+const { finder, registration } = require('../../services')
 
 let player
 

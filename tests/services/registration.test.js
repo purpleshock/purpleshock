@@ -1,6 +1,6 @@
 const test = require('ava')
-const { sequelize } = require('../models')
-const registration = require('./registration')
+const { sequelize } = require('../../models')
+const { registration } = require('../../services')
 
 test.before(t => sequelize.sync({ force: true }))
 

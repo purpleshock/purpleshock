@@ -1,7 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
-const { sequelize } = require('../../models')
-const app = require('../../app')
+const { sequelize } = require('../../../models')
+const app = require('../../../app')
 
 const playerData = {
   displayName: 'Somebody'

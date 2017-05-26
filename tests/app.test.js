@@ -1,7 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('./app')
-const { sequelize } = require('./models')
+const app = require('../app')
+const { sequelize } = require('../models')
 
 let createSessionResponse
 
