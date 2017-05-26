@@ -18,15 +18,25 @@ function verify (token, secret) {
 }
 
 function grantPlayer (player) {
-  const payload = { id: player.id }
+  const payload = {
+    playerId: player.id
+  }
   return sign(payload, config.jwt.secret)
 }
 
-async function extractToken (token) {
+function grantAdmin (admin) {
+  const payload = {
+    adminId: admin.id
+  }
+  return sign(payload, config.jwt.secret)
+}
+
+function extractToken (token) {
   return verify(token, config.jwt.secret)
 }
 
 module.exports = {
   grantPlayer,
+  grantAdmin,
   extractToken
 }
