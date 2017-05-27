@@ -11,11 +11,25 @@ module.exports = function () {
   }
 
   passport.use(new Strategy(opt, async (payload, next) => {
-    const player = await finder.findPlayerByPlayerId(payload.playerId)
-    if (player) {
-      return next(null, player)
-    } else {
-      return next(httpError(404))
+    try {
+      let user
+      if (payload.playerId) {
+        user = await finder.findPlayerByPlayerId(payload.playerId)
+        user.playerId = user.id
+        delete user.id
+      } else if (payload.adminId) {
+        user = await finder.findAdminByAdminId(payload.adminId)
+        user.adminId = user.id
+        delete user.id
+      }
+
+      if (user) {
+        return next(null, user)
+      } else {
+        throw httpError(404)
+      }
+    } catch (err) {
+      next(err)
     }
   }))
 

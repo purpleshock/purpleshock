@@ -12,6 +12,11 @@ async function findAdminByMail (mail, password) {
   }
 }
 
+async function findAdminByAdminId (adminId) {
+  const admin = await Admin.findById(adminId)
+  return admin ? admin.toJSON() : null
+}
+
 async function findUUIdPlayer (uuid) {
   const uuidIdentity = await UUIdIdentity.findOne({
     where: { uuid }
@@ -31,11 +36,12 @@ async function findUUIdPlayer (uuid) {
 
 async function findPlayerByPlayerId (playerId) {
   const player = await Player.findById(playerId)
-  return player.toJSON()
+  return player ? player.toJSON() : null
 }
 
 module.exports = {
   findAdminByMail,
+  findAdminByAdminId,
   findUUIdPlayer,
   findPlayerByPlayerId
 }
