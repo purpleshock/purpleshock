@@ -3,7 +3,8 @@ const express = require('express')
 module.exports = function api (auth) {
   const api = express.Router()
 
-  api.use('/session', require('./session'))
+  api.use('/admins', require('./admins'))
+  api.use('/players', require('./players'))
 
   api.use(auth.authenticate())
 

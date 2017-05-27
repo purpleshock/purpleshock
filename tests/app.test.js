@@ -8,7 +8,7 @@ let createSessionResponse
 test.before(async t => {
   await sequelize.sync({ force: true })
   createSessionResponse = await request(app)
-    .post('/api/v1/session/uuid')
+    .post('/api/v1/players/uuid')
     .send({
       displayName: 'Somebody'
     })

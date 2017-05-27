@@ -1,5 +1,17 @@
 const uuid = require('uuid')
-const { Player, UUIdIdentity } = require('../models')
+const { Admin, Player, UUIdIdentity } = require('../models')
+
+async function registerAdmin (mail, password) {
+  const now = new Date()
+  const admin = Admin.build({
+    createdAt: now,
+    loginAt: now,
+    mail
+  })
+  await admin.setPlainPassword(password)
+  await admin.save()
+  return admin.toJSON()
+}
 
 async function registerUUIdPlayer (playerInfo) {
   const now = new Date()
@@ -21,5 +33,6 @@ async function registerUUIdPlayer (playerInfo) {
 }
 
 module.exports = {
-  registerUUIdPlayer
+  registerUUIdPlayer,
+  registerAdmin
 }
