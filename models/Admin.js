@@ -1,6 +1,11 @@
 const bcrypt = require('bcrypt')
 
 module.exports = (sequelize, DataTypes) => sequelize.define('Admin', {
+  adminId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   createdAt: {
     type: DataTypes.DATE
   },
@@ -14,7 +19,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Admin', {
     type: DataTypes.STRING
   }
 }, {
-  tableName: 'admins',
   timestamps: false,
   instanceMethods: {
     setPlainPassword (plain) {

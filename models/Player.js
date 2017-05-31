@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('Player', {
-  id: {
+  playerId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Player', {
     type: DataTypes.STRING
   }
 }, {
-  tableName: 'players',
   timestamps: false,
   classMethods: {
     associate (models) {

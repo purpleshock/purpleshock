@@ -7,6 +7,5 @@ module.exports = (sequelize, DataTypes) => sequelize.define('UUIdIdentity', {
     type: DataTypes.INTEGER
   }
 }, {
-  tableName: 'uuidIdentity',
   timestamps: false
 })

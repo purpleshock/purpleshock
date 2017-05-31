@@ -20,7 +20,7 @@ test.before(async t => {
 test('#findAdminByMail', async t => {
   const admin = await finder.findAdminByMail(mail, password)
 
-  t.truthy(admin.id)
+  t.truthy(admin.adminId)
   t.not(admin.password, password)
 })
 
@@ -28,5 +28,5 @@ test('#findUUIdPlayer', async t => {
   const { uuid } = player.identity.uuid
   const foundPlayer = await finder.findUUIdPlayer(uuid)
 
-  t.is(foundPlayer.id, player.id)
+  t.is(foundPlayer.adminId, player.adminId)
 })

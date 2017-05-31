@@ -15,12 +15,8 @@ module.exports = function () {
       let user
       if (payload.playerId) {
         user = await finder.findPlayerByPlayerId(payload.playerId)
-        user.playerId = user.id
-        delete user.id
       } else if (payload.adminId) {
         user = await finder.findAdminByAdminId(payload.adminId)
-        user.adminId = user.id
-        delete user.id
       }
 
       if (user) {

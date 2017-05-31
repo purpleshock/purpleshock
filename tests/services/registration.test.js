@@ -9,7 +9,7 @@ test('#registerUUIdPlayer', async t => {
     displayName: 'Somebody'
   })
 
-  t.is(player.id, player.identity.uuid.playerId)
+  t.is(player.playerId, player.identity.uuid.playerId)
   t.truthy(player.identity.uuid)
 })
 
@@ -18,5 +18,5 @@ test('#registerAdmin', async t => {
   const password = 'pas2vv0rd'
   const admin = await registration.registerAdmin(mail, password)
 
-  t.truthy(admin.id)
+  t.truthy(admin.adminId)
 })

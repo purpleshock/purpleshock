@@ -9,7 +9,7 @@ test('#grantPlayer', async t => {
   const secretToken = await token.grantPlayer(player)
   const extractPlayer = await token.extractToken(secretToken)
   t.is(typeof secretToken, 'string')
-  t.is(extractPlayer.playerId, player.id)
+  t.is(extractPlayer.playerId, player.playerId)
 })
 
 test('#grantAdmin', async t => {
@@ -19,5 +19,5 @@ test('#grantAdmin', async t => {
   const secretToken = await token.grantAdmin(admin)
   const extractAdmin = await token.extractToken(secretToken)
   t.is(typeof secretToken, 'string')
-  t.is(extractAdmin.adminId, admin.id)
+  t.is(extractAdmin.adminId, admin.adminId)
 })
