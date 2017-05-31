@@ -1,14 +1,12 @@
 const express = require('express')
+const authenticate = require('../authenticate')
 
-module.exports = function api (auth) {
-  const api = express.Router()
+const api = express.Router()
 
-  api.use('/admins', require('./admins'))
-  api.use('/players', require('./players'))
+api.use('/admins', require('./admins'))
+api.use('/players', require('./players'))
+api.use(authenticate())
 
-  api.use(auth.authenticate())
+api.use('/me', require('./me'))
 
-  api.use('/me', require('./me'))
-
-  return api
-}
+module.exports = api
