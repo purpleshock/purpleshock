@@ -18,11 +18,18 @@ function verify (token, secret) {
 }
 
 function grantPlayer (player) {
-  return sign(player, config.jwt.secret)
+  const payload = {
+    playerId: player.playerId
+  }
+  return sign(payload, config.jwt.secret)
 }
 
-function grantAdmin (admin) {
-  return sign(admin, config.jwt.secret)
+function grantAdmin (admin, scopes) {
+  const payload = {
+    adminId: admin.adminId,
+    scopes
+  }
+  return sign(payload, config.jwt.secret)
 }
 
 function extractToken (token) {
