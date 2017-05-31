@@ -1,4 +1,6 @@
 const _ = require('lodash')
+const jwt = require('express-jwt')
+const config = require('../config')
 const httpError = require('../utils/httpError')
 
 async function getAdminScopes (admin) {
@@ -27,7 +29,26 @@ function getCheckScopesMiddleware (permissions) {
   }
 }
 
+function getCheckTokenMiddleware (opt = {}) {
+  const middlewareOpt = Object.assign({
+    secret: config.jwt.secret,
+    getToken (req) {
+      const { authorization } = req.headers
+      if (authorization) {
+        const jwt = authorization.split(' ')
+        if (jwt[0] === 'JWT' && jwt[1].length > 0) {
+          return jwt[1]
+        }
+      }
+      return null
+    }
+  }, opt)
+
+  return jwt(middlewareOpt)
+}
+
 module.exports = {
   getAdminScopes,
-  getCheckScopesMiddleware
+  getCheckScopesMiddleware,
+  getCheckTokenMiddleware
 }

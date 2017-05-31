@@ -1,11 +1,11 @@
 const express = require('express')
-const authenticate = require('../authenticate')
+const { permission } = require('../../services')
 
 const api = express.Router()
 
 api.use('/admins', require('./admins'))
 api.use('/players', require('./players'))
-api.use(authenticate())
+api.use(permission.getCheckTokenMiddleware())
 api.use('/me', require('./me'))
 api.use('/vouchers', require('./vouchers'))
 
