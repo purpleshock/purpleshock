@@ -1,13 +1,11 @@
 const _ = require('lodash')
 const httpError = require('../utils/httpError')
 
-async function getAdminPermission (admin) {
+async function getAdminScopes (admin) {
   // find permissions by adminId
-  return Object.assign(admin, {
-    scopes: {
-      vouchers: ['create']
-    }
-  })
+  return {
+    vouchers: ['create']
+  }
 }
 
 function getCheckScopesMiddleware (permissions) {
@@ -30,6 +28,6 @@ function getCheckScopesMiddleware (permissions) {
 }
 
 module.exports = {
-  getAdminPermission,
+  getAdminScopes,
   getCheckScopesMiddleware
 }
