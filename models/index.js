@@ -1,15 +1,15 @@
 const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
-const config = require('../config')
+const dbConfig = require('../config').database
 
 const basename = path.basename(module.filename)
 
 let sequelize
-if (config.use_env_constiable) {
-  sequelize = new Sequelize(process.env[config.use_env_constiable])
+if (dbConfig.use_env_constiable) {
+  sequelize = new Sequelize(process.env[dbConfig.use_env_constiable])
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config)
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 }
 
 const db = fs

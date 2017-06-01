@@ -39,3 +39,6 @@ dist
 
 # bug reports
 reports
+
+# ignore config.ini
+config.ini
