@@ -1,15 +1,15 @@
 <template>
   <md-card class="login-form">
-    <form novalidate @submit.stop.prevent="submit">
+    <form novalidate @submit.stop.prevent="onSubmit">
       <md-input-container>
         <label>Mail</label>
-        <md-input type="mail"></md-input>
+        <md-input type="mail" v-model="mail"></md-input>
       </md-input-container>
       <md-input-container md-has-password>
         <label>Password</label>
-        <md-input type="password"></md-input>
+        <md-input type="password" v-model="password"></md-input>
       </md-input-container>
-      <md-button class="md-primary" type="submit">login</md-button>
+      <md-button class="md-primary" type="submit" :disabled="invalidForm">login</md-button>
     </form>
   </md-card>
 </template>
@@ -18,7 +18,22 @@
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      mail: '',
+      password: ''
+    }
+  },
+  computed: {
+    invalidForm () {
+      return !this.mail || !this.password
+    }
+  },
+  methods: {
+    onSubmit () {
+      const { mail, password } = this
+      this.$emit('submit', {
+        mail,
+        password
+      })
     }
   }
 }
