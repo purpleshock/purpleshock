@@ -22,7 +22,7 @@ function formatGetDelRequest (url, opt) {
       ...parse(url),
       query
     }),
-    request: other
+    opt: other
   }
 }
 
@@ -33,7 +33,7 @@ function formatPostPutRequest (url, opt) {
   delete opt.query
   return {
     url: format(urlObj),
-    request: {
+    opt: {
       ...opt,
       body: typeof opt.body === 'string'
         ? opt.body
@@ -56,6 +56,9 @@ function handleErrorResponse (response) {
       }
       err.status = response.status
       err.payload = errPayload
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(`${errPayload.message}\n${errPayload.stack}`)
+      }
       return Promise.reject(err)
     })
 }
