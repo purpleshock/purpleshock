@@ -1,5 +1,5 @@
 import { resolve, parse, format } from 'url'
-import window from 'global/window'
+import { getJWT } from './localStorage'
 
 function formatRequest (url, opt) {
   opt.method = (opt.method || 'GET').toUpperCase()
@@ -69,7 +69,7 @@ function attachCommonHeaders (headers = {}) {
     'Content-Type': 'application/json'
   }
 
-  const jwt = window.localStorage.getItem('jwt')
+  const jwt = getJWT()
   if (jwt) {
     headers['Authorization'] = `JWT ${jwt}`
   }

@@ -1,3 +1,4 @@
+import { getJWT } from './localStorage'
 import { fetchJSON, fetchApi } from './fetch'
 
 export function login (mail, password) {
@@ -11,7 +12,8 @@ export function login (mail, password) {
 }
 
 export function checkToken () {
-  return fetchApi('/api/v1/admins/token')
+  if (getJWT()) {
+    return fetchApi('/api/v1/admins/token')
     .then(() => Promise.resolve(true))
     .catch(err => {
       if (err.status === 401 || err.status === 404) {
@@ -20,4 +22,7 @@ export function checkToken () {
         throw err
       }
     })
+  } else {
+    return Promise.resolve(false)
+  }
 }
