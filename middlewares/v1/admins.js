@@ -29,4 +29,8 @@ admins.post('/session', wrap(async (req, res) => {
   })
 }))
 
+admins.get('/token', permission.getCheckTokenMiddleware(), (req, res) => {
+  res.end()
+})
+
 module.exports = admins
