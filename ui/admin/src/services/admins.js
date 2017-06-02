@@ -1,7 +1,7 @@
 import { fetchJSON, fetchApi } from './fetch'
 
 export function login (mail, password) {
-  return fetchJSON('/admins/session', {
+  return fetchJSON('/api/v1/admins/session', {
     method: 'POST',
     body: {
       mail,
@@ -11,7 +11,7 @@ export function login (mail, password) {
 }
 
 export function checkToken () {
-  return fetchApi('/admins/token')
+  return fetchApi('/api/v1/admins/token')
     .then(() => Promise.resolve(true))
     .catch(err => {
       if (err.status === 401 || err.status === 404) {

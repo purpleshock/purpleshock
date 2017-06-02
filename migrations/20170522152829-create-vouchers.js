@@ -1,69 +1,50 @@
-const voucherStatus = require('../consts/voucherStatus')
-
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('batches', {
-      id: {
+    await queryInterface.createTable('Batches', {
+      batchId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
-      },
-      createdAt: {
-        type: Sequelize.DATE
-      },
-      startAt: {
-        type: Sequelize.DATE
-      },
-      endAt: {
-        type: Sequelize.DATE
       },
       adminId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'admins',
-          key: 'id'
+          model: 'Admins',
+          key: 'adminId'
         },
         onUpdate: 'cascade',
         onDelete: 'cascade',
         allowNull: false
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false
       }
     })
-    await queryInterface.createTable('vouchers', {
-      id: {
+
+    await queryInterface.createTable('Vouchers', {
+      voucherId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      code: {
-        type: Sequelize.STRING
-      },
       batchId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'batches',
-          key: 'id'
+          model: 'Batches',
+          key: 'batchId'
         },
         onUpdate: 'cascade',
         onDelete: 'cascade',
         allowNull: false
       },
-      status: {
-        type: Sequelize.ENUM(
-          voucherStatus.INITIALIZED,
-          voucherStatus.ACTIVATED,
-          voucherStatus.DEACTIVATED,
-          voucherStatus.CONSIGNED,
-          voucherStatus.SOLD,
-          voucherStatus.APPLIED
-        )
-      },
-      amount: {
-        type: Sequelize.INTEGER
+      code: {
+        type: Sequelize.STRING
       }
     })
   },
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('vouchers')
-    await queryInterface.dropTable('batches')
+    await queryInterface.dropTable('Vouchers')
+    await queryInterface.dropTable('Batches')
   }
 }

@@ -1,7 +1,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('admins', {
-      id: {
+    await queryInterface.createTable('Admins', {
+      adminId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -13,16 +13,14 @@ module.exports = {
         type: Sequelize.DATE
       },
       mail: {
-        type: Sequelize.STRING,
-        primaryKey: true
+        type: Sequelize.STRING
       },
       password: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       }
     })
   },
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('admins')
+    await queryInterface.dropTable('Admins')
   }
 }

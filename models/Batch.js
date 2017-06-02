@@ -11,9 +11,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Batch', {
   classMethods: {
     associate (models) {
       const { Admin, Batch, Voucher } = models
+
       Batch.belongsTo(Admin, {
         foreignKey: 'adminId'
       })
+
       Batch.hasMany(Voucher, {
         foreignKey: 'batchId'
       })
