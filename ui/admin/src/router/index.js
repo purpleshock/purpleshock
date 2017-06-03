@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { toIndexIfAnnoymous } from './needLogin'
 import { Layout } from '../components/layouts'
 import Login from '../pages/Login'
 import Dashboard from '../pages/Dashboard'
+import { needAnnoymous, needLogin } from './hooks'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -16,14 +16,17 @@ export default new Router({
       children: [
         {
           path: '/',
+          beforeEnter: needAnnoymous,
           component: Login
         },
         {
           path: '/dashboard',
-          beforeEnter: toIndexIfAnnoymous,
+          beforeEnter: needLogin,
           component: Dashboard
         }
       ]
     }
   ]
 })
+
+export default router

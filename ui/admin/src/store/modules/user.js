@@ -1,7 +1,7 @@
 import { admins, localStorage } from '../../services'
 
 export const LOGIN = 'user/login'
-export const ON_LOGIN = 'user/onLogin'
+export const ON_GET_INFO = 'user/onGetInfo'
 
 export default {
   state: {
@@ -14,11 +14,8 @@ export default {
     [LOGIN] (state, payload) {
       state.isLogin = false
     },
-    [ON_LOGIN] (state, payload) {
+    [ON_GET_INFO] (state, payload) {
       state.isLogin = true
-      state.mail = payload.mail
-      state.password = payload.password
-      state.token = payload.token
     }
   },
   actions: {
@@ -26,10 +23,6 @@ export default {
       localStorage.setJWT(null)
       const { token } = await admins.login(payload.mail, payload.password)
       localStorage.setJWT(token)
-      commit(ON_LOGIN, {
-        ...payload,
-        token
-      })
     }
   }
 }
