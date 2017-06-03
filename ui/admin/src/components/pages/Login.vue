@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { LOGIN } from '../store/modules/user'
+import { LOGIN } from '@/store/modules/user'
 import { LoginForm } from '@/components/forms'
 
 export default {

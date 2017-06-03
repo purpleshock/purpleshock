@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { Layout } from '../components/layouts'
-import Login from '../pages/Login'
-import Dashboard from '../pages/Dashboard'
+import { Login, Dashboard, Vouchers } from '../components/pages'
 import { needAnnoymous, needLogin } from './hooks'
 
 Vue.use(Router)
@@ -23,6 +22,11 @@ const router = new Router({
           path: '/dashboard',
           beforeEnter: needLogin,
           component: Dashboard
+        },
+        {
+          path: '/vouchers',
+          beforeEnter: needLogin,
+          component: Vouchers
         }
       ]
     }
