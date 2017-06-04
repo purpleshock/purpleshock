@@ -6,7 +6,11 @@
     "eslint": "eslint .",
     "prestart": "yarn eslint",
     "start": "DEBUG=api:* node bin/www",
-    "test": "NODE_ENV=test ava"
+    "test": "NODE_ENV=test ava",
+    "db:up": "sequelize db:migrate",
+    "db:down": "sequelize db:migrate:undo:all",
+    "db:seed": "sequelize db:seed:all",
+    "db:reset": "yarn db:down && yarn db:up && yarn db:seed"
   },
   "engines": {
     "node": "7.6.0"
@@ -35,6 +39,7 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "sequelize-cli": "^2.7.0",
     "sinon": "^2.3.2",
     "sqlite3": "^3.1.8",
     "supertest": "^3.0.0"
