@@ -5,7 +5,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Voucher', {
     autoIncrement: true
   },
   code: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    unique: true
+  },
+  amount: {
+    type: DataTypes.INTEGER
   }
 }, {
   timestamps: true,

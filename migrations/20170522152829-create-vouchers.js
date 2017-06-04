@@ -19,6 +19,12 @@ module.exports = {
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false
+      },
+      validAt: {
+        type: Sequelize.DATE
+      },
+      expiredAt: {
+        type: Sequelize.DATE
       }
     })
 
@@ -39,7 +45,11 @@ module.exports = {
         allowNull: false
       },
       code: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
+      },
+      amount: {
+        type: Sequelize.INTEGER
       }
     })
   },
