@@ -26,30 +26,46 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Batch', {
         foreignKey: 'batchId'
       })
     },
-    findBetweenCreationTime (from, to) {
+    findBetweenCreationTime (duration, pagination) {
       const { Batch } = sequelize.models
+      const { from, to } = duration
+      const { page, size } = pagination
 
+      const where = {}
       if (from && to) {
-        return Batch.findAll({
-          where: {
-            createdAt: { $between: [from, to] }
-          }
-        })
+        where.createdAt = { $between: [from, to] }
       } else if (from) {
-        return Batch.findAll({
-          where: {
-            createdAt: { $gte: from }
-          }
-        })
+        where.createdAt = { $gte: from }
       } else if (to) {
-        return Batch.findAll({
-          where: {
-            createdAt: { $lte: to }
-          }
-        })
-      } else {
-        throw new Error('Invalid duration')
+        where.createdAt = { $lte: to }
       }
+
+      return Batch.findAll({
+        where,
+        limit: size,
+        offset: (page - 1) * size
+      })
+    },
+    findBetweenValidTime (duration, pagination) {
+      const { Batch } = sequelize.models
+      const { from, to } = duration
+      const { page, size } = pagination
+
+      const where = {}
+      if (from && to) {
+        where.validAt = { $gte: from }
+        where.expiredAt = { $lte: to }
+      } else if (from) {
+        where.validAt = { $gte: from }
+      } else if (to) {
+        where.expiredAt = { $lte: to }
+      }
+
+      return Batch.findAll({
+        where,
+        limit: size,
+        offset: (page - 1) * size
+      })
     }
   }
 })
