@@ -6,8 +6,8 @@ async function createBatch (adminId, batchData) {
   const { validAt, expiredAt, numVouchers, amount } = batchData
   const batch = await Batch.create({
     adminId,
-    validAt,
-    expiredAt
+    validAt: validAt && validAt.toDate(),
+    expiredAt: expiredAt && validAt.toDate()
   })
 
   let createdCount = 0
