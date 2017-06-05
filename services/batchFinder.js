@@ -13,7 +13,7 @@ async function findByCreationTime (from, to, pagination) {
     where.createdAt = { $lte: to }
   }
 
-  const batches = await Batch.findAll({ 
+  const batches = await Batch.findAll({
     where,
     limit: pagination.size,
     offset: (pagination.page - 1) * pagination.size

@@ -1,7 +1,7 @@
 const test = require('ava')
 const moment = require('moment')
 const { sequelize } = require('../../models')
-const { registration, batch, batchHistory } = require('../../services')
+const { registration, batch, batchFinder } = require('../../services')
 
 let admin
 
@@ -21,19 +21,19 @@ test.serial('#findByCreationTime', async t => {
     batch.createBatch(admin.adminId, { numVouchers: 5, amount: 100 })
   ])
 
-  // start from 5 min. before  
+  // start from 5 min. before
   const from = moment().subtract(5, 'minutes')
   const to = moment()
 
   // page 1
-  const page1 = await batchHistory.findByCreationTime(from, to, {
+  const page1 = await batchFinder.findByCreationTime(from, to, {
     page: 1,
     size: 2
   })
   t.is(page1.length, 2)
 
   // page 2
-  const page2 = await batchHistory.findByCreationTime(from, to, {
+  const page2 = await batchFinder.findByCreationTime(from, to, {
     page: 2,
     size: 2
   })
@@ -60,9 +60,9 @@ test.serial('#findBetweenValidTime', async t => {
     numVouchers: 5,
     amount: 100
   }
-  
+
   // create 2 batches
-  const batches = await Promise.all([
+  await Promise.all([
     batch.createBatch(admin.adminId, expiredBatch),
     batch.createBatch(admin.adminId, validBatch),
     batch.createBatch(admin.adminId, withoutExpiredBatch)
@@ -72,7 +72,7 @@ test.serial('#findBetweenValidTime', async t => {
   const validAt = moment()
   const expiredAt = moment().add(15, 'minutes')
 
-  const page = await batchHistory.findBetweenValidTime(validAt, expiredAt, {
+  const page = await batchFinder.findBetweenValidTime(validAt, expiredAt, {
     page: 1,
     size: 10
   })
