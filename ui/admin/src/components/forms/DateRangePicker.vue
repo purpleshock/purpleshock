@@ -69,6 +69,7 @@ export default {
         this.endTime = newStartTime.clone()
       }
       this.startTime = newStartTime
+      this.$emit('change', this.startTime, this.endTime)
     },
     onChangeEnd (newEndTime) {
       newEndTime = moment(newEndTime)
@@ -76,9 +77,11 @@ export default {
         this.startTime = newEndTime.clone()
       }
       this.endTime = newEndTime
+      this.$emit('change', this.startTime, this.endTime)
     },
     onClear (target) {
       this[target] = ''
+      this.$emit('change', this.startTime, this.endTime)
     }
   }
 }
