@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => sequelize.define('Voucher', {
     type: Sequelize.INTEGER
   }
 }, {
-  timestamps: true,
+  timestamps: false,
   classMethods: {
     associate (models) {
       const { Batch, Voucher } = models

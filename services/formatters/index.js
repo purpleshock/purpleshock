@@ -1,4 +1,4 @@
-const joi = require('joi')
+const joi = require('./joi')
 const vouchers = require('./vouchers')
 
 function validate (value, schema) {

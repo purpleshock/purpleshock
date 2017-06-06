@@ -1,14 +1,18 @@
-export const CREATE_BATCH = 'vouchers/createBatch'
+import { vouchers } from '../../services'
+export const CREATE_VOUCHERS = 'vouchers/createVouchers'
+export const ON_CREATE_VOUCHERS = 'vouchers/onCreateVouchers'
 
 export default {
   state: {
   },
   mutations: {
-    [CREATE_BATCH] (state, payload) {
+    [CREATE_VOUCHERS] (state, payload) {
     }
   },
   actions: {
-    async [CREATE_BATCH] ({ commit }, payload) {
+    async [CREATE_VOUCHERS] ({ commit }, payload) {
+      await vouchers.createVouchers(payload)
+      commit(ON_CREATE_VOUCHERS)
     }
   }
 }
