@@ -20,11 +20,12 @@ test.before('POST /api/v1/vouchers for create batches of vouchers', async t => {
     .post('/api/v1/vouchers')
     .set('Authorization', `JWT ${createAdminResponse.body.token}`)
     .send({
-      num: 10
+      num: 10,
+      amount: 100
     })
 })
 
 test('batches response of vouchers', t => {
   t.is(createVouchersResponse.status, 200)
-  // t.truthy(createVouchersResponse.body.batchId)
+  t.truthy(createVouchersResponse.body.batchId)
 })

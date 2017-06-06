@@ -14,7 +14,7 @@ test.serial('#createBatch', async t => {
   const numVouchers = 10
   const amount = 100
   const createdBatch = await batch.createBatch(admin.adminId, {
-    numVouchers,
+    num: numVouchers,
     amount
   })
   t.truthy(createdBatch.batchId)
