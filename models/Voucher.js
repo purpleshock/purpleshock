@@ -1,15 +1,18 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('Voucher', {
+module.exports = (sequelize, Sequelize) => sequelize.define('Voucher', {
   voucherId: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
   code: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     unique: true
   },
   amount: {
-    type: DataTypes.INTEGER
+    type: Sequelize.INTEGER
+  },
+  status: {
+    type: Sequelize.INTEGER
   }
 }, {
   timestamps: true,

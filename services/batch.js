@@ -1,5 +1,5 @@
-const uuid = require('uuid')
-const { Batch, Voucher } = require('../models')
+const { Batch } = require('../models')
+const voucher = require('./voucher')
 
 async function createBatch (adminId, batchData) {
   const batchCount = batchData.batchCount || 100
@@ -13,17 +13,8 @@ async function createBatch (adminId, batchData) {
   let createdCount = 0
   while (createdCount < num) {
     const n = Math.min(num - createdCount, batchCount)
+    await voucher.createVouchers(batch.batchId, n, amount)
     createdCount += n
-
-    const vouchers = []
-    for (let i = 0; i < n; i++) {
-      vouchers[i] = {
-        batchId: batch.batchId,
-        code: uuid.v4(),
-        amount
-      }
-    }
-    await Voucher.bulkCreate(vouchers)
   }
 
   return batch.toJSON()

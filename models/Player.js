@@ -1,17 +1,17 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('Player', {
+module.exports = (sequelize, Sequelize) => sequelize.define('Player', {
   playerId: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
   createdAt: {
-    type: DataTypes.DATE
+    type: Sequelize.DATE
   },
   loginAt: {
-    type: DataTypes.DATE
+    type: Sequelize.DATE
   },
   displayName: {
-    type: DataTypes.STRING
+    type: Sequelize.STRING
   }
 }, {
   timestamps: false,

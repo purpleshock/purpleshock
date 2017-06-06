@@ -1,10 +1,10 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('UUIdIdentity', {
+module.exports = (sequelize, Sequelize) => sequelize.define('UUIdIdentity', {
   uuid: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     primaryKey: true
   },
   playerId: {
-    type: DataTypes.INTEGER
+    type: Sequelize.INTEGER
   }
 }, {
   timestamps: false

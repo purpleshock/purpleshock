@@ -9,7 +9,7 @@ module.exports = function (dirpath) {
       const stat = fs.statSync(filePath)
 
       if (stat.isFile()) {
-        const { name, ext  } = path.parse(filePath)
+        const { name, ext } = path.parse(filePath)
         return (
           ext === '.js' &&              // is javascript file
           name.indexOf('.') !== 0 &&    // is not hidden file

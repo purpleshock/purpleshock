@@ -21,7 +21,6 @@ function getValidateMiddleware (schema, resolver) {
       next()
     })
     .catch(err => {
-    console.log(req.body, err)
       next(err)
     })
   }

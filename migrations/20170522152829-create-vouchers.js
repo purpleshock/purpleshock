@@ -50,6 +50,9 @@ module.exports = {
       },
       amount: {
         type: Sequelize.INTEGER
+      },
+      status: {
+        type: Sequelize.INTEGER
       }
     })
   },
