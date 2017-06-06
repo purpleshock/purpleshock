@@ -11,12 +11,19 @@
     <div>
       <date-range-picker @change="onChangeValidPeriod"></date-range-picker>
     </div>
-    <md-button type="submit" class="md-primary">create</md-button>
+    <md-snackbar>
+      <span>Connection timeout. Showing limited messages.</span>
+      <md-button class="md-accent" md-theme="light-blue" @click.native="$refs.snackbar.close()">Retry</md-button>
+      <md-button class="md-icon-button md-dense" @click.native="onClear('endTime')">
+        <md-icon>clear</md-icon>
+      </md-button>
+    </md-snackbar>
   </form>
 </template>
 
 <script>
-import DateRangePicker from './DateRangePicker'
+import { CREATE_BATCH } from '@/store/modules/vouchers'
+import DateRangePicker from '@/components/forms/DateRangePicker'
 
 export default {
   components: {
@@ -36,7 +43,7 @@ export default {
       this.endTime = end
     },
     onSubmit () {
-      this.$emit('submit', this.$data)
+      this.$store.dispatch(CREATE_BATCH)
     }
   }
 }

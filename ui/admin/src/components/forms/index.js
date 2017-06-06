@@ -1,7 +1,5 @@
-import LoginForm from './LoginForm'
-import CreateBatch from './CreateBatch'
+import DateRangPicker from './DateRangePicker'
 
 export {
-  LoginForm,
-  CreateBatch
+  DateRangPicker
 }

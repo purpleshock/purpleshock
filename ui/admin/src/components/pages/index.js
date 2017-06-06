@@ -1,6 +1,6 @@
-import Login from './Login'
+import Login from './login/Login'
 import Dashboard from './Dashboard'
-import Vouchers from './Vouchers'
+import Vouchers from './vouchers/Vouchers'
 
 export {
   Login,

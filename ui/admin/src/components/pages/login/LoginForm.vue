@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { LOGIN } from '@/store/modules/user'
+
 export default {
   data () {
     return {
@@ -30,9 +32,14 @@ export default {
   methods: {
     onSubmit () {
       const { mail, password } = this
-      this.$emit('submit', {
+      this.$store.dispatch(LOGIN, {
         mail,
         password
+      })
+      .then(() => {
+        this.$router.push({
+          path: '/dashboard'
+        })
       })
     }
   }
