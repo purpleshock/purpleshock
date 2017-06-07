@@ -13,13 +13,20 @@ async function findByCreationTime (from, to, pagination) {
     where.createdAt = { $lte: to }
   }
 
+  const numTotal = await Batch.count({
+    where
+  })
+
   const batches = await Batch.findAll({
     where,
     limit: pagination.size,
     offset: (pagination.page - 1) * pagination.size
   })
 
-  return batches.map(batch => batch.toJSON())
+  return {
+    numTotal,
+    batches: batches.map(batch => batch.toJSON())
+  }
 }
 
 async function findBetweenValidTime (validAt, expiredAt, pagination) {
@@ -36,13 +43,20 @@ async function findBetweenValidTime (validAt, expiredAt, pagination) {
     where.expiredAt = { $lte: expiredAt }
   }
 
+  const numTotal = await Batch.count({
+    where
+  })
+
   const batches = await Batch.findAll({
     where,
     limit: pagination.size,
     offset: (pagination.page - 1) * pagination.size
   })
 
-  return batches.map(batch => batch.toJSON())
+  return {
+    numTotal,
+    batches: batches.map(batch => batch.toJSON())
+  }
 }
 
 module.exports = {

@@ -30,14 +30,16 @@ test.serial('#findByCreationTime', async t => {
     page: 1,
     size: 2
   })
-  t.is(page1.length, 2)
+  t.is(page1.numTotal, 3)
+  t.is(page1.batches.length, 2)
 
   // page 2
   const page2 = await batchFinder.findByCreationTime(from, to, {
     page: 2,
     size: 2
   })
-  t.is(page2.length, 1)
+  t.is(page2.numTotal, 3)
+  t.is(page2.batches.length, 1)
 })
 
 test.serial('#findBetweenValidTime', async t => {
@@ -76,5 +78,6 @@ test.serial('#findBetweenValidTime', async t => {
     page: 1,
     size: 10
   })
-  t.is(page.length, 1)
+  t.is(page.numTotal, 1)
+  t.is(page.batches.length, 1)
 })

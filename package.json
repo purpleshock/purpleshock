@@ -5,6 +5,7 @@
   "scripts": {
     "eslint": "eslint .",
     "prestart": "yarn eslint",
+    "dev": "nodemon --exec \"yarn start\"",
     "start": "DEBUG=api:* node bin/www",
     "test": "NODE_ENV=test ava",
     "db:up": "sequelize db:migrate",
@@ -40,6 +41,7 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "nodemon": "^1.11.0",
     "sequelize-cli": "^2.7.0",
     "sinon": "^2.3.2",
     "sqlite3": "^3.1.8",

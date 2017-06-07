@@ -1,5 +1,5 @@
 <template>
-  <form novalidate @submit.stop.prevent="onSubmit">
+  <form novalidate @submit.stop.prevent="$emit('create', $data)">
     <md-input-container>
       <label>Number of vouchers</label>
       <md-input type="number" v-model="num"></md-input>
@@ -15,18 +15,11 @@
     <div>
       <date-range-picker @change="onChangeValidPeriod"></date-range-picker>
     </div>
-    <md-snackbar ref="snackbar">
-      <span>Creation Success</span>
-      <md-button class="md-icon-button md-dense" @click.native="$refs.snackbar.close()">
-        <md-icon>clear</md-icon>
-      </md-button>
-    </md-snackbar>
     <md-button type="submit" class="md-primary">create</md-button>
   </form>
 </template>
 
 <script>
-import { CREATE_VOUCHERS } from '@/store/modules/vouchers'
 import DateRangePicker from '@/components/forms/DateRangePicker'
 
 export default {
@@ -46,12 +39,6 @@ export default {
     onChangeValidPeriod (start, end) {
       this.validAt = start
       this.expiredAt = end
-    },
-    onSubmit () {
-      this.$store.dispatch(CREATE_VOUCHERS, this.$data)
-      .then(() => {
-        this.$refs.snackbar.open()
-      })
     }
   }
 }

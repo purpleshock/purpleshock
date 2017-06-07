@@ -1,9 +1,14 @@
 const joi = require('./joi')
 const vouchers = require('./vouchers')
 
+const validateOptions = {
+  stripUnknown: true,
+  convert: true
+}
+
 function validate (value, schema) {
   return new Promise((resolve, reject) => {
-    joi.validate(value, schema, { stripUnknown: true }, (err, value) => {
+    joi.validate(value, schema, validateOptions, (err, value) => {
       if (err) {
         reject(err)
       } else {
@@ -13,11 +18,11 @@ function validate (value, schema) {
   })
 }
 
-function getValidateMiddleware (schema, resolver) {
+function getValidateMiddleware (schema, field) {
   return function bodyValidateMiddleware (req, res, next) {
-    validate(resolver(req), schema)
+    validate(req[field], schema)
     .then(value => {
-      req.body = value
+      req[field] = value
       next()
     })
     .catch(err => {
@@ -27,11 +32,11 @@ function getValidateMiddleware (schema, resolver) {
 }
 
 function valdateBody (schema) {
-  return getValidateMiddleware(schema, req => req.body)
+  return getValidateMiddleware(schema, 'body')
 }
 
 function validateQuery (schema) {
-  return getValidateMiddleware(schema, req => req.query)
+  return getValidateMiddleware(schema, 'query')
 }
 
 module.exports = {

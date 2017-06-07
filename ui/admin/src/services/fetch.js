@@ -1,5 +1,4 @@
 import { resolve, parse, format } from 'url'
-import moment from 'moment'
 import { getJWT } from './localStorage'
 
 function formatRequest (url, opt) {
@@ -107,29 +106,4 @@ export function fetchApi (url, opt = {}) {
         return handleErrorResponse(response)
       }
     })
-}
-
-function stripEmptyValue (object) {
-  return Object
-    .entries(object)
-    .reduce((ret, [key, val]) => {
-      const isEmpty = val === undefined || val === null || isNaN(val) || val === ''
-      if (!isEmpty) {
-        ret[key] = val
-      }
-      return ret
-    }, {})
-}
-
-function turnMomentToDate (object) {
-  return Object
-    .entries(object)
-    .reduce((ret, [key, val]) => {
-      ret[key] = moment.isMoment(val) ? val.toDate() : val
-      return ret
-    }, {})
-}
-
-export function formatBody (body) {
-  return turnMomentToDate(stripEmptyValue(body))
 }

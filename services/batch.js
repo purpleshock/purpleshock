@@ -8,7 +8,7 @@ async function createBatch (adminId, batchData) {
     adminId,
     createdAt: new Date(),
     validAt: validAt && validAt.toDate(),
-    expiredAt: expiredAt && validAt.toDate()
+    expiredAt: expiredAt && expiredAt.toDate()
   })
 
   let createdCount = 0
