@@ -1,6 +1,6 @@
 <template>
   <md-card class="login-form">
-    <form novalidate @submit.stop.prevent="onSubmit">
+    <form novalidate @submit.stop.prevent="$emit('login', { mail, password })">
       <md-input-container>
         <label>Mail</label>
         <md-input type="mail" v-model="mail"></md-input>
@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { LOGIN } from '@/store/modules/user'
-
 export default {
   data () {
     return {
@@ -27,20 +25,6 @@ export default {
   computed: {
     invalidForm () {
       return !this.mail || !this.password
-    }
-  },
-  methods: {
-    onSubmit () {
-      const { mail, password } = this
-      this.$store.dispatch(LOGIN, {
-        mail,
-        password
-      })
-      .then(() => {
-        this.$router.push({
-          path: '/dashboard'
-        })
-      })
     }
   }
 }
