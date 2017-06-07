@@ -10,12 +10,21 @@ export default {
   state: {
     list: [],
     pageOffset: 10,
-    totalPages: 0
+    numTotal: 0
+  },
+  getters: {
+    totalPages: state => {
+      return Math.ceil(state.numTotal / state.pageOffset)
+    }
   },
   mutations: {
     [CREATE_VOUCHERS] (state, payload) {
     },
     [ON_CREATE_VOUCHERS] (state, payload) {
+    },
+    [ON_FIND_VOUCHERS] (state, payload) {
+      state.list = payload.batches
+      state.numTotal = payload.numTotal
     }
   },
   actions: {
@@ -26,8 +35,8 @@ export default {
     async [FIND_VOUCHERS] ({ commit, state }, payload) {
       const { validAt, expiredAt, page } = payload
       const { pageOffset } = state
-      await vouchers.getVouchers(validAt, expiredAt, page, pageOffset)
-      commit(ON_FIND_VOUCHERS)
+      const response = await vouchers.getVouchers(validAt, expiredAt, page, pageOffset)
+      commit(ON_FIND_VOUCHERS, response)
     }
   }
 }
