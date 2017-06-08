@@ -5,7 +5,7 @@
   "scripts": {
     "eslint": "eslint .",
     "prestart": "yarn eslint",
-    "dev": "nodemon --exec \"yarn start\"",
+    "dev": "nodemon -i ./ui --exec \"yarn start\"",
     "start": "DEBUG=api:* node bin/www",
     "test": "NODE_ENV=test ava",
     "db:up": "sequelize db:migrate",
