@@ -1,5 +1,4 @@
 const joi = require('./joi')
-const vouchers = require('./vouchers')
 
 const validateOptions = {
   stripUnknown: true,
@@ -40,7 +39,6 @@ function validateQuery (schema) {
 }
 
 module.exports = {
-  vouchers,
   validate,
   valdateBody,
   validateQuery
