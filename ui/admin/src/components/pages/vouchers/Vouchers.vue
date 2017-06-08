@@ -2,7 +2,7 @@
   <div>
     <h1>Vouchers</h1>
     <create-vouchers @create="onCreate"></create-vouchers>
-    <voucher-list @find="onFind"></voucher-list>
+    <find-vouchers @find="onFind"></find-vouchers>
   </div>
 </template>
 
@@ -10,12 +10,12 @@
 import { CREATE_VOUCHERS, FIND_VOUCHERS } from '@/store/modules/vouchers'
 import formatRequest from '@/utils/formatRequest'
 import CreateVouchers from './CreateVouchers'
-import VoucherList from './VoucherList'
+import FindVouchers from './FindVouchers'
 
 export default {
   components: {
     CreateVouchers,
-    VoucherList
+    FindVouchers
   },
   beforeRouteEnter (to, from, next) {
     next(vm => vm.findVouchers(to.query))
