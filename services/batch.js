@@ -1,3 +1,4 @@
+const uuid = require('uuid')
 const { Batch } = require('../models')
 const voucher = require('./voucher')
 
@@ -6,6 +7,7 @@ async function createBatch (adminId, batchData) {
   const { validAt, expiredAt, num, amount, description } = batchData
   const batch = await Batch.create({
     adminId,
+    code: uuid.v4(),
     createdAt: new Date(),
     validAt: validAt && validAt.toDate(),
     expiredAt: expiredAt && expiredAt.toDate(),

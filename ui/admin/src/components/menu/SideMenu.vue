@@ -2,14 +2,17 @@
   <div class="side-menu">
     <md-list>
       <md-list-item>
+        <md-button
+          class="md-raised md-primary btn-create"
+          @click.native="$emit('create-batch')">create</md-button>
+      </md-list-item>
+      <md-list-item>
         <router-link to="/dashboard">
-          <md-icon>dashboard</md-icon>
           <span class="link-label">dashboard</span>
         </router-link>
       </md-list-item>
       <md-list-item>
         <router-link to="/batches">
-          <md-icon>all_inclusive</md-icon>
           <span class="link-label">batches</span>
         </router-link>
       </md-list-item>
@@ -20,5 +23,10 @@
 <style scoped>
 .link-label {
   text-transform: uppercase;
+}
+
+.btn-create {
+  font-size: 16px;
+  margin: 0;
 }
 </style>

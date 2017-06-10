@@ -10,6 +10,7 @@
       md-sort-type="desc">
       <md-table-header>
         <md-table-row>
+          <md-table-head class="table-head">code</md-table-head>
           <md-table-head class="table-head">creation time</md-table-head>
           <md-table-head class="table-head">validated time</md-table-head>
           <md-table-head class="table-head">expired time</md-table-head>
@@ -21,6 +22,9 @@
           v-for="(batch, batchIndex) in batches"
           :key="batchIndex"
           :md-item="batch">
+          <md-table-cell class="code">
+            <router-link :to="getVouchersLink(batch.code)">{{batch.code}}</router-link>
+          </md-table-cell>
           <md-table-cell>{{formatTime(batch.createdAt)}}</md-table-cell>
           <md-table-cell>{{formatTime(batch.validAt)}}</md-table-cell>
           <md-table-cell>{{formatTime(batch.expiredAt)}}</md-table-cell>
@@ -76,6 +80,14 @@ export default {
     },
     formatTime (time) {
       return time ? time.format('MM/DD/YYYY') : '-'
+    },
+    getVouchersLink (code) {
+      return {
+        path: '/batches/' + code,
+        query: {
+          page: 1
+        }
+      }
     }
   }
 }

@@ -11,7 +11,7 @@ const findBatchesResponse = joi.object().keys({
   numTotal: joi.number().integer(),
   batches: joi.array().items(
     joi.object().keys({
-      batchId: joi.number().integer(),
+      code: joi.string(),
       description: [joi.equal(null).strip(), joi.string()],
       createdAt: [joi.equal(null).strip(), joi.unix().optional()],
       validAt: [joi.equal(null).strip(), joi.unix().optional()],
@@ -29,8 +29,7 @@ const createBatchBody = joi.object().keys({
 })
 
 const createBatchResponse = joi.object().keys({
-  batchId: joi.number().integer(),
-  createdAt: joi.unix()
+  code: joi.string()
 })
 
 module.exports = {

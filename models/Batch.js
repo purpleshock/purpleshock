@@ -4,6 +4,10 @@ module.exports = (sequelize, Sequelize) => sequelize.define('Batch', {
     primaryKey: true,
     autoIncrement: true
   },
+  code: {
+    type: Sequelize.STRING,
+    unique: true
+  },
   validAt: {
     type: Sequelize.DATE
   },

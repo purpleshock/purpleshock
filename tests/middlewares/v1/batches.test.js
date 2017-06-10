@@ -27,5 +27,5 @@ test.before('POST /api/v1/batches for create batches of batches', async t => {
 
 test('batches response of batches', t => {
   t.is(createBatchResponse.status, 200)
-  t.truthy(createBatchResponse.body.batchId)
+  t.truthy(createBatchResponse.body.code)
 })
