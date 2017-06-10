@@ -1,9 +1,9 @@
 import Login from './login/Login'
 import Dashboard from './Dashboard'
-import Vouchers from './vouchers/Vouchers'
+import Batches from './batches/Batches'
 
 export {
   Login,
   Dashboard,
-  Vouchers
+  Batches
 }

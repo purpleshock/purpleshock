@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => sequelize.define('Batch', {
   },
   expiredAt: {
     type: Sequelize.DATE
+  },
+  description: {
+    type: Sequelize.STRING
   }
 }, {
   timestamps: true,

@@ -13,14 +13,14 @@
       <md-textarea v-model="description"></md-textarea>
     </md-input-container>
     <div>
-      <date-range-picker @change="onChangeValidPeriod"></date-range-picker>
+      <date-range-picker @change="onChangeValidDates"></date-range-picker>
     </div>
     <md-button type="submit" class="md-primary">create</md-button>
   </form>
 </template>
 
 <script>
-import DateRangePicker from '@/components/forms/DateRangePicker'
+import { DateRangePicker } from '@/components/forms'
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
     }
   },
   methods: {
-    onChangeValidPeriod (start, end) {
+    onChangeValidDates (start, end) {
       this.validAt = start
       this.expiredAt = end
     }

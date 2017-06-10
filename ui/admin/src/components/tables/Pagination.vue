@@ -1,5 +1,5 @@
 <template>
-  <ul class="pagination" v-if="show">
+  <ul class="pagination">
     <li class="pagination-item">
       <router-link :to="getPageLocation(1)">
         <md-icon>first_page</md-icon>
@@ -29,6 +29,10 @@
 <script>
 export default {
   props: {
+    page: {
+      type: Number,
+      required: true
+    },
     totalPages: {
       type: Number,
       required: true
@@ -39,18 +43,15 @@ export default {
     }
   },
   computed: {
-    show () {
-      return this.$route.query.page > 0
-    },
     isFirstDisable () {
-      return this.$route.query.page === 1
+      return this.page === 1
     },
     isLastDisable () {
-      return this.$route.query.page === this.totalPages
+      return this.page === this.totalPages
     },
     pages () {
       const halfPagination = Math.floor(this.numOffset / 2) - 1
-      let min = this.$route.query.page - halfPagination
+      let min = this.page - halfPagination
       min = Math.max(min, 1)
       let max = min + this.numOffset - 1
       if (max > this.totalPages) {

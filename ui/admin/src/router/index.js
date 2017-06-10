@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { Layout } from '../components/layouts'
-import { Login, Dashboard, Vouchers } from '../components/pages'
+import { Login, Dashboard, Batches } from '../components/pages'
 import { needAnnoymous, needLogin } from './hooks'
 
 Vue.use(Router)
@@ -24,9 +24,9 @@ const router = new Router({
           component: Dashboard
         },
         {
-          path: '/vouchers',
+          path: '/batches',
           beforeEnter: needLogin,
-          component: Vouchers
+          component: Batches
         }
       ]
     }

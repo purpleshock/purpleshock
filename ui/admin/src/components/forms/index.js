@@ -1,5 +1,5 @@
-import DateRangPicker from './DateRangePicker'
+import DateRangePicker from './DateRangePicker'
 
 export {
-  DateRangPicker
+  DateRangePicker
 }

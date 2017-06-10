@@ -1,26 +1,26 @@
 const joi = require('./joi')
 
-const findVouchersQuery = joi.object().keys({
+const findBatchesQuery = joi.object().keys({
   page: joi.number().integer().positive().required(),
   size: joi.number().integer().positive().required(),
   validAt: joi.moment().optional(),
   expiredAt: joi.moment().optional()
 })
 
-const findVouchersResponse = joi.object().keys({
+const findBatchesResponse = joi.object().keys({
   numTotal: joi.number().integer(),
   batches: joi.array().items(
     joi.object().keys({
-      num: joi.number().integer(),
-      amount: joi.number(),
-      description: joi.string(),
-      validAt: joi.unix(),
-      expiredAt: joi.unix()
+      batchId: joi.number().integer(),
+      description: [joi.equal(null).strip(), joi.string()],
+      createdAt: [joi.equal(null).strip(), joi.unix().optional()],
+      validAt: [joi.equal(null).strip(), joi.unix().optional()],
+      expiredAt: [joi.equal(null).strip(), joi.unix().optional()]
     })
   )
 })
 
-const createVcouhersBody = joi.object().keys({
+const createBatchBody = joi.object().keys({
   num: joi.number().integer().min(1).required(),
   amount: joi.number().integer().min(1).required(),
   description: joi.string().trim().min(2).max(50).optional(),
@@ -28,16 +28,14 @@ const createVcouhersBody = joi.object().keys({
   expiredAt: joi.moment().optional()
 })
 
-const createVouchersResponse = joi.object().keys({
+const createBatchResponse = joi.object().keys({
   batchId: joi.number().integer(),
-  createdAt: joi.unix(),
-  validAt: joi.unix(),
-  expiredAt: joi.unix()
+  createdAt: joi.unix()
 })
 
 module.exports = {
-  findVouchersQuery,
-  findVouchersResponse,
-  createVcouhersBody,
-  createVouchersResponse
+  findBatchesQuery,
+  findBatchesResponse,
+  createBatchBody,
+  createBatchResponse
 }

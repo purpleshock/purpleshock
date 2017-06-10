@@ -8,9 +8,9 @@
         </router-link>
       </md-list-item>
       <md-list-item>
-        <router-link to="/vouchers">
+        <router-link to="/batches">
           <md-icon>all_inclusive</md-icon>
-          <span class="link-label">vouchers</span>
+          <span class="link-label">batches</span>
         </router-link>
       </md-list-item>
     </md-list>
