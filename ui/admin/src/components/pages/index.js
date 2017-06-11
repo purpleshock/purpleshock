@@ -1,9 +1,9 @@
 import Login from './login/Login'
 import Dashboard from './Dashboard'
-import Batches from './batches/Batches'
+import BatchHistory from './batchHistory/BatchHistory'
 
 export {
   Login,
   Dashboard,
-  Batches
+  BatchHistory
 }

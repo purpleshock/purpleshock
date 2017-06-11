@@ -83,7 +83,7 @@ export default {
     },
     getVouchersLink (code) {
       return {
-        path: '/batches/' + code,
+        path: '/batch/' + code,
         query: {
           page: 1
         }

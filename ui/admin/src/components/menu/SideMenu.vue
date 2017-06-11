@@ -12,8 +12,8 @@
         </router-link>
       </md-list-item>
       <md-list-item>
-        <router-link to="/batches">
-          <span class="link-label">batches</span>
+        <router-link to="/batch-history">
+          <span class="link-label">history</span>
         </router-link>
       </md-list-item>
     </md-list>

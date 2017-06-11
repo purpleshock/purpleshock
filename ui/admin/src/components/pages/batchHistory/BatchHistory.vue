@@ -31,7 +31,7 @@ export default {
   methods: {
     onFind (formData) {
       this.$router.push({
-        path: '/batches',
+        path: '/batch-history',
         query: formatRequest({
           ...formData,
           page: 1
