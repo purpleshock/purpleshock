@@ -6,7 +6,8 @@ const httpError = require('../utils/httpError')
 async function getAdminScopes (admin) {
   // find permissions by adminId
   return {
-    batches: ['find', 'create']
+    batches: ['find', 'create'],
+    vouchers: ['find']
   }
 }
 

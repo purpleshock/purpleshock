@@ -8,5 +8,6 @@ api.use('/players', require('./players'))
 api.use(permission.getCheckTokenMiddleware())
 api.use('/me', require('./me'))
 api.use('/batches', require('./batches'))
+api.use('/vouchers', require('./vouchers'))
 
 module.exports = api
