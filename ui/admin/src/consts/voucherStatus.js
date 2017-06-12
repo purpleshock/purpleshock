@@ -1,0 +1,6 @@
+export const INITIALIZED = 'Initialized'
+export const ACTIVATED = 'Activated'
+export const DEACTIVATED = 'Deactivated'
+export const CONSIGNED = 'Consigned'
+export const SOLD = 'Sold'
+export const APPLIED = 'Applied'
