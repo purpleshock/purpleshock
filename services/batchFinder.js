@@ -59,7 +59,23 @@ async function findBetweenValidTime (validAt, expiredAt, pagination) {
   }
 }
 
+async function findById (batchId) {
+  const batch = await Batch.findById(batchId)
+  return batch && batch.toJSON()
+}
+
+async function findByCode (code) {
+  const batch = await Batch.find({
+    where: {
+      code
+    }
+  })
+  return batch && batch.toJSON()
+}
+
 module.exports = {
   findByCreationTime,
-  findBetweenValidTime
+  findBetweenValidTime,
+  findById,
+  findByCode
 }

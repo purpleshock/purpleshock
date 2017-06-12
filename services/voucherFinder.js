@@ -13,6 +13,16 @@ async function findByCodeTerm (term, size) {
   return vouchers.map(voucher => voucher.toJSON())
 }
 
+async function findByCode (code) {
+  const voucher = await Voucher.find({
+    where: {
+      code
+    }
+  })
+  return voucher && voucher.toJSON()
+}
+
 module.exports = {
-  findByCodeTerm
+  findByCodeTerm,
+  findByCode
 }

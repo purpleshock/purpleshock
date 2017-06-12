@@ -1,5 +1,13 @@
 const joi = require('./joi')
 
+const batchResponse = joi.object().keys({
+  code: joi.string(),
+  description: [joi.equal(null).strip(), joi.string()],
+  createdAt: [joi.equal(null).strip(), joi.unix().optional()],
+  validAt: [joi.equal(null).strip(), joi.unix().optional()],
+  expiredAt: [joi.equal(null).strip(), joi.unix().optional()]
+})
+
 const findBatchesQuery = joi.object().keys({
   page: joi.number().integer().positive().required(),
   size: joi.number().integer().positive().required(),
@@ -9,15 +17,7 @@ const findBatchesQuery = joi.object().keys({
 
 const findBatchesResponse = joi.object().keys({
   numTotal: joi.number().integer(),
-  batches: joi.array().items(
-    joi.object().keys({
-      code: joi.string(),
-      description: [joi.equal(null).strip(), joi.string()],
-      createdAt: [joi.equal(null).strip(), joi.unix().optional()],
-      validAt: [joi.equal(null).strip(), joi.unix().optional()],
-      expiredAt: [joi.equal(null).strip(), joi.unix().optional()]
-    })
-  )
+  batches: joi.array().items(batchResponse)
 })
 
 const createBatchBody = joi.object().keys({
@@ -33,6 +33,7 @@ const createBatchResponse = joi.object().keys({
 })
 
 module.exports = {
+  batchResponse,
   findBatchesQuery,
   findBatchesResponse,
   createBatchBody,

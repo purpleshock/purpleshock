@@ -2,7 +2,13 @@ const express = require('express')
 const wrap = require('../wrap')
 const { permission, batch, batchFinder } = require('../../services')
 const formatters = require('../formatters')
-const { createBatchBody, createBatchResponse, findBatchesQuery, findBatchesResponse } = require('../formatters/batches')
+const {
+  batchResponse,
+  createBatchBody,
+  createBatchResponse,
+  findBatchesQuery,
+  findBatchesResponse
+} = require('../formatters/batches')
 
 const batches = express.Router()
 
@@ -26,6 +32,15 @@ batches.post('/',
   wrap(async (req, res, next) => {
     const createdBatch = await batch.createBatch(req.user.adminId, req.body)
     const response = await formatters.validate(createdBatch, createBatchResponse)
+    res.json(response)
+  })
+)
+
+batches.get('/:code',
+  permission.getCheckScopesMiddleware(['batches.find']),
+  wrap(async (req, res, next) => {
+    const foundBatch = await batchFinder.findByCode(req.params.code)
+    const response = await formatters.validate(foundBatch, batchResponse)
     res.json(response)
   })
 )
