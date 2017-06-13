@@ -1,13 +1,13 @@
 <template>
   <div>
     <h1>Voucher</h1>
-    <voucher-info v-if="showVoucher" :voucher="voucher"></voucher-info>
+    <voucher-info v-if="showVoucher" :voucher="voucher" :batch="batch"></voucher-info>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
 import VoucherInfo from './VoucherInfo'
+import { FIND_VOUCHER } from '@/store/modules/vouchers'
 
 export default {
   components: {
@@ -15,24 +15,20 @@ export default {
   },
   data () {
     return {
-      voucher: {
-        code: 'xxxx-xxxx-xxxx-xxxx',
-        status: 'Initialized',
-        createdAt: moment(),
-        expiredAt: moment()
-      }
+      voucher: null,
+      batch: null
     }
-  },
-  beforeRouteEnter (to, from, next) {
-    next(vm => vm.queryVoucher(to.query))
-  },
-  beforeRouteUpdate (to, from, next) {
-    this.queryVoucher(to.query).then(next)
   },
   computed: {
     showVoucher () {
-      return !!this.$route.params.voucherCode
+      return this.voucher && this.batch
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => vm.queryVoucher(to.params.voucherCode))
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.queryVoucher(to.params.voucherCode).then(next)
   },
   methods: {
     onFind (code) {
@@ -40,7 +36,13 @@ export default {
         path: `/voucher/${code}`
       })
     },
-    queryVoucher (query) {
+    queryVoucher (code) {
+      this.$store.dispatch(FIND_VOUCHER, { code })
+      .then(() => {
+        const { voucherCode } = this.$route.params
+        this.voucher = this.$store.state.vouchers.instances[voucherCode]
+        this.batch = this.$store.state.batches.instances[this.voucher.batchCode]
+      })
     }
   }
 }

@@ -1,21 +1,20 @@
-import moment from 'moment'
 import { fetchJSON } from './fetch'
 import formatRequest from '../utils/formatRequest'
+import { getResponseFormatter } from '../utils/formatResponse'
+
+const resonseFormatter = getResponseFormatter('createdAt', 'validAt', 'expiredAt')
 
 export function createBatch (formData) {
   return fetchJSON('/api/v1/batches', {
     method: 'POST',
     body: formatRequest(formData)
   })
-  .then(response => {
-    const { createdAt, validAt, expiredAt } = response
-    return {
-      ...response,
-      createdAt: createdAt && moment.unix(createdAt),
-      validAt: validAt && moment.unix(validAt),
-      expiredAt: expiredAt && moment.unix(expiredAt)
-    }
-  })
+  .then(response => resonseFormatter(response))
+}
+
+export function getBatch (code) {
+  return fetchJSON(`/api/v1/batches/${code}`)
+  .then(response => resonseFormatter(response))
 }
 
 export function getBatches (validAt, expiredAt, page, size) {
@@ -30,15 +29,7 @@ export function getBatches (validAt, expiredAt, page, size) {
   .then(response => {
     return {
       ...response,
-      batches: response.batches.map(batch => {
-        const { createdAt, validAt, expiredAt } = batch
-        return {
-          ...batch,
-          createdAt: createdAt && moment.unix(createdAt),
-          validAt: validAt && moment.unix(validAt),
-          expiredAt: expiredAt && moment.unix(expiredAt)
-        }
-      })
+      batches: response.batches.map(batch => resonseFormatter(batch))
     }
   })
 }

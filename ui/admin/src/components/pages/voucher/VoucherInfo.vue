@@ -16,22 +16,22 @@
       </md-card-header>
       <md-card-content>
         <md-list>
-          <md-list-item v-if="voucher.createdAt">
+          <md-list-item v-if="batch.createdAt">
             <div class="md-list-text-container">
               <span>creation time</span>
-              <span>{{voucher.createdAt.format('YYYY-MM-DD')}}</span>
+              <span>{{batch.createdAt.format('YYYY-MM-DD')}}</span>
             </div>
           </md-list-item>
-          <md-list-item v-if="voucher.validAt">
+          <md-list-item v-if="batch.validAt">
             <div class="md-list-text-container">
               <span>valid time</span>
-              <span>{{voucher.validAt.format('YYYY-MM-DD')}}</span>
+              <span>{{batch.validAt.format('YYYY-MM-DD')}}</span>
             </div>
           </md-list-item>
-          <md-list-item v-if="voucher.expiredAt">
+          <md-list-item v-if="batch.expiredAt">
             <div class="md-list-text-container">
               <span>expired time</span>
-              <span>{{voucher.expiredAt.format('YYYY-MM-DD')}}</span>
+              <span>{{batch.expiredAt.format('YYYY-MM-DD')}}</span>
             </div>
           </md-list-item>
         </md-list>
@@ -53,7 +53,8 @@ export default {
     VoucherInfo
   },
   props: {
-    voucher: Object
+    voucher: Object,
+    batch: Object
   },
   data () {
     return {
