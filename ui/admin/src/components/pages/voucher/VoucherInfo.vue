@@ -2,35 +2,43 @@
   <md-card class="voucher-info">
     <form novalidate @submit.stop.prevent>
       <md-card-header>
-        <h2 class="md-title">{{voucher.code}}</h2>
+        <h2 class="md-title voucher-code">{{voucher.code}}</h2>
         <md-input-container>
-          <label for="voucher-status">status</label>
+          <label class="item-title" for="voucher-status">status</label>
           <md-select name="country" id="voucher-status" v-model="editStatus">
             <md-option v-for="status in allStatus" :value="status" :key="status">{{status}}</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
-          <label>amount</label>
+          <label class="item-title">amount</label>
           <md-input v-model="editAmount"></md-input>
         </md-input-container>
       </md-card-header>
       <md-card-content>
         <md-list>
+          <md-list-item>
+            <div class="md-list-text-container">
+              <span class="item-title">batch</span>
+              <router-link class="bactch-code" :to="`/batch/${batch.code}`">
+                {{batch.code}}
+              </router-link>
+            </div>
+          </md-list-item>
           <md-list-item v-if="batch.createdAt">
             <div class="md-list-text-container">
-              <span>creation time</span>
+              <span class="item-title">creation time</span>
               <span>{{batch.createdAt.format('YYYY-MM-DD')}}</span>
             </div>
           </md-list-item>
           <md-list-item v-if="batch.validAt">
             <div class="md-list-text-container">
-              <span>valid time</span>
+              <span class="item-title">valid time</span>
               <span>{{batch.validAt.format('YYYY-MM-DD')}}</span>
             </div>
           </md-list-item>
           <md-list-item v-if="batch.expiredAt">
             <div class="md-list-text-container">
-              <span>expired time</span>
+              <span class="item-title">expired time</span>
               <span>{{batch.expiredAt.format('YYYY-MM-DD')}}</span>
             </div>
           </md-list-item>
@@ -99,3 +107,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.voucher-code, .bactch-code {
+  text-transform: uppercase;
+}
+
+.item-title::first-letter {
+  text-transform: uppercase;
+}
+</style>
