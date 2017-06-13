@@ -43,7 +43,7 @@ test('GET /api/v1/vouchers/{code} to get voucher detail', async t => {
   })
   await Voucher.create({
     batchId: batch.batchId,
-    status: 'Initialized',
+    status: 0,
     amount: 100,
     code: voucherCode
   })
@@ -55,4 +55,5 @@ test('GET /api/v1/vouchers/{code} to get voucher detail', async t => {
   t.is(foundVoucherResponse.status, 200)
   t.is(foundVoucherResponse.body.code, voucherCode)
   t.is(foundVoucherResponse.body.batchCode, batchCode)
+  t.is(foundVoucherResponse.body.status, 'INITIALIZED')
 })
