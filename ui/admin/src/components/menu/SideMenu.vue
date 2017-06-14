@@ -12,8 +12,8 @@
         </router-link>
       </md-list-item>
       <md-list-item>
-        <router-link to="/batch-history">
-          <span class="link-label">history</span>
+        <router-link to="/find-voucher">
+          <span class="link-label">vouchers</span>
         </router-link>
       </md-list-item>
     </md-list>

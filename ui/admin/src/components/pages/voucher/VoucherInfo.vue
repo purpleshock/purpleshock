@@ -19,9 +19,7 @@
           <md-list-item>
             <div class="md-list-text-container">
               <span class="item-title">batch</span>
-              <router-link class="bactch-code" :to="`/batch/${batch.code}`">
-                {{batch.code}}
-              </router-link>
+              <span class="bactch-code">{{batch.code}}</span>
             </div>
           </md-list-item>
           <md-list-item v-if="batch.createdAt">

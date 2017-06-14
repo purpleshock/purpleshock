@@ -8,8 +8,11 @@ export const ON_FIND_VOUCHER = 'voucher/onFindVoucher'
 export const UPDATE_VOUCHER = 'voucher/updateVoucher'
 export const ON_UPDATE_VOUCHER = 'voucher/updateVoucher'
 
+export const GET_VOUCHER_SUGGEST = 'voucher/getVoucherSuggest'
+
 export default {
   state: {
+    list: null,
     instances: {}
   },
   mutations: {
@@ -25,6 +28,9 @@ export default {
         ...state.instances[code],
         ...other
       }
+    },
+    [GET_VOUCHER_SUGGEST] (state, payload) {
+      state.list = payload.codes
     }
   },
   actions: {
@@ -42,6 +48,10 @@ export default {
       const { code, ...other } = payload
       await vouchers.updateVoucher(code, other)
       context.commit(ON_UPDATE_VOUCHER, payload)
+    },
+    async [GET_VOUCHER_SUGGEST] (context, payload) {
+      const codes = await vouchers.getCodes(payload.term, payload.size)
+      context.commit(GET_VOUCHER_SUGGEST, { codes })
     }
   }
 }
