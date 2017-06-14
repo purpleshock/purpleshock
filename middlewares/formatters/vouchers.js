@@ -7,6 +7,21 @@ const voucherResponse = joi.object().keys({
   amount: joi.number()
 })
 
+const findVouchersQuery = joi.object().keys({
+  term: joi.string(),
+  size: joi.number()
+})
+
+const findVouchersResponse = joi.array().items(
+  joi.object().keys({
+    code: joi.string(),
+    status: joi.voucherStatus(),
+    amount: joi.number()
+  })
+)
+
 module.exports = {
-  voucherResponse
+  voucherResponse,
+  findVouchersQuery,
+  findVouchersResponse
 }

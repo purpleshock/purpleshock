@@ -30,7 +30,7 @@ export default {
     onFindCode (formData) {
       this.getVoucherSuggest({
         term: formData.term,
-        size: 5
+        size: 10
       })
     }
   }

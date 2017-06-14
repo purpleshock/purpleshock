@@ -30,7 +30,10 @@ export default {
       }
     },
     [GET_VOUCHER_SUGGEST] (state, payload) {
-      state.list = payload.codes
+      state.list = payload.vouchers.map(voucher => voucher.code)
+      payload.vouchers.forEach(voucher => {
+        Vue.set(state.instances, voucher.code, voucher)
+      })
     }
   },
   actions: {
@@ -50,8 +53,10 @@ export default {
       context.commit(ON_UPDATE_VOUCHER, payload)
     },
     async [GET_VOUCHER_SUGGEST] (context, payload) {
-      const codes = await vouchers.getCodes(payload.term, payload.size)
-      context.commit(GET_VOUCHER_SUGGEST, { codes })
+      const foundVouchers = await vouchers.getVoucherSuggest(payload.term, payload.size)
+      context.commit(GET_VOUCHER_SUGGEST, {
+        vouchers: foundVouchers
+      })
     }
   }
 }

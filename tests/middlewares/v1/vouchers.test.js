@@ -8,6 +8,14 @@ let createAdminResponse
 test.before(async t => {
   await sequelize.sync({ force: true })
 
+  await Promise.all([
+    Voucher.create({ code: 'xxxx-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
+    Voucher.create({ code: 'xxxy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
+    Voucher.create({ code: 'xxyy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
+    Voucher.create({ code: 'xyyy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
+    Voucher.create({ code: 'yyyy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 })
+  ])
+
   createAdminResponse = await request(app)
     .post('/api/v1/admins')
     .send({
@@ -16,15 +24,18 @@ test.before(async t => {
     })
 })
 
-test('GET /api/v1/vouchers/codes to get voucher codes by terms', async t => {
-  await Promise.all([
-    Voucher.create({ code: 'xxxx-xxxx-xxxx-xxxx-xxxx' }),
-    Voucher.create({ code: 'xxxy-xxxx-xxxx-xxxx-xxxx' }),
-    Voucher.create({ code: 'xxyy-xxxx-xxxx-xxxx-xxxx' }),
-    Voucher.create({ code: 'xyyy-xxxx-xxxx-xxxx-xxxx' }),
-    Voucher.create({ code: 'yyyy-xxxx-xxxx-xxxx-xxxx' })
-  ])
+test('GET /api/v1/vouchers to get vouchers by terms', async t => {
+  const foundVouchersResponse = await request(app)
+    .get('/api/v1/vouchers?term=xxx&size=5')
+    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
 
+  t.is(foundVouchersResponse.status, 200)
+  t.is(foundVouchersResponse.body.length, 2)
+  t.is(foundVouchersResponse.body[0].code, 'xxxx-xxxx-xxxx-xxxx-xxxx')
+  t.is(foundVouchersResponse.body[1].code, 'xxxy-xxxx-xxxx-xxxx-xxxx')
+})
+
+test('GET /api/v1/vouchers/codes to get voucher codes by terms', async t => {
   const foundVouchersResponse = await request(app)
     .get('/api/v1/vouchers/codes?term=xxx&size=5')
     .set('Authorization', `JWT ${createAdminResponse.body.token}`)

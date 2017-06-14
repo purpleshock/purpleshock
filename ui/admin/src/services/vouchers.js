@@ -5,8 +5,8 @@ export function getVoucher (code) {
   return fetchJSON(`/api/v1/vouchers/${code}`)
 }
 
-export function getCodes (term, size) {
-  return fetchJSON('/api/v1/vouchers/codes', {
+export function getVoucherSuggest (term, size) {
+  return fetchJSON('/api/v1/vouchers', {
     query: formatRequest({
       term,
       size

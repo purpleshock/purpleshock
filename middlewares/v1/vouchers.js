@@ -2,7 +2,7 @@ const express = require('express')
 const wrap = require('../wrap')
 const { voucherFinder, batchFinder, permission } = require('../../services')
 const formatters = require('../formatters')
-const { voucherResponse } = require('../formatters/vouchers')
+const { voucherResponse, findVouchersQuery, findVouchersResponse } = require('../formatters/vouchers')
 const { findCodesQuery, findCodesResponse } = require('../formatters/codeTerm')
 const httpError = require('../../utils/httpError')
 
@@ -15,6 +15,16 @@ vouchers.get('/codes',
     const foundVouchers = await voucherFinder.findByCodeTerm(req.query.term, req.query.size)
     const codes = foundVouchers.map(voucher => voucher.code)
     const response = await formatters.validate(codes, findCodesResponse)
+    res.json(response)
+  })
+)
+
+vouchers.get('/',
+  permission.getCheckScopesMiddleware(['vouchers.find']),
+  formatters.validateQuery(findVouchersQuery),
+  wrap(async (req, res, next) => {
+    const foundVouchers = await voucherFinder.findByCodeTerm(req.query.term, req.query.size)
+    const response = await formatters.validate(foundVouchers, findVouchersResponse)
     res.json(response)
   })
 )
