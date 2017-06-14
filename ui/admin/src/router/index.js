@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { Layout } from '../components/layouts'
-import { Login, Dashboard, BatchHistory, Voucher } from '../components/pages'
+import { Login, Dashboard, BatchHistory, Voucher, Batch } from '../components/pages'
 import { needAnnoymous, needLogin } from './hooks'
 
 Vue.use(Router)
@@ -29,7 +29,12 @@ const router = new Router({
           component: BatchHistory
         },
         {
-          path: '/voucher/:voucherCode?',
+          path: '/batch/:batchCode',
+          beforeEnter: needLogin,
+          component: Batch
+        },
+        {
+          path: '/voucher/:voucherCode',
           beforeEnter: needLogin,
           component: Voucher
         }

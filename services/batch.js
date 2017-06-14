@@ -1,4 +1,3 @@
-const uuid = require('uuid')
 const { Batch } = require('../models')
 const voucher = require('./voucher')
 const codeGenerate = require('./codeGenerate')
