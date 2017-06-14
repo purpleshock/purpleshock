@@ -73,9 +73,23 @@ async function findByCode (code) {
   return batch && batch.toJSON()
 }
 
+async function findByCodeTerm (term, size) {
+  const batches = await Batch.findAll({
+    where: {
+      code: {
+        $like: term + '%'
+      }
+    },
+    limit: size
+  })
+
+  return batches.map(batch => batch.toJSON())
+}
+
 module.exports = {
   findByCreationTime,
   findBetweenValidTime,
   findById,
-  findByCode
+  findByCode,
+  findByCodeTerm
 }

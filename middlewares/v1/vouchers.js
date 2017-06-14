@@ -2,18 +2,19 @@ const express = require('express')
 const wrap = require('../wrap')
 const { voucherFinder, batchFinder, permission } = require('../../services')
 const formatters = require('../formatters')
-const { voucherResponse, findVoucherCodesQuery, findVoucherCodesResponse } = require('../formatters/vouchers')
+const { voucherResponse } = require('../formatters/vouchers')
+const { findCodesQuery, findCodesResponse } = require('../formatters/codeTerm')
 const httpError = require('../../utils/httpError')
 
 const vouchers = express.Router()
 
 vouchers.get('/codes',
   permission.getCheckScopesMiddleware(['vouchers.find']),
-  formatters.validateQuery(findVoucherCodesQuery),
+  formatters.validateQuery(findCodesQuery),
   wrap(async (req, res, next) => {
     const foundVouchers = await voucherFinder.findByCodeTerm(req.query.term, req.query.size)
     const codes = foundVouchers.map(voucher => voucher.code)
-    const response = await formatters.validate(codes, findVoucherCodesResponse)
+    const response = await formatters.validate(codes, findCodesResponse)
     res.json(response)
   })
 )
