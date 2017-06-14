@@ -1,13 +1,14 @@
 const uuid = require('uuid')
 const { Voucher } = require('../models')
 const voucerStatus = require('../consts/voucherStatus')
+const codeGenerate = require('./codeGenerate')
 
-async function createBatch (batchId, createdCount, amount) {
+async function createVouchers (batchId, createdCount, amount) {
   const vouchers = []
   for (let i = 0; i < createdCount; i++) {
     vouchers[i] = {
       batchId,
-      code: uuid.v4(),
+      code: codeGenerate.getCode(),
       amount,
       status: voucerStatus.INITIALIZED
     }
@@ -16,5 +17,5 @@ async function createBatch (batchId, createdCount, amount) {
 }
 
 module.exports = {
-  createBatch
+  createVouchers
 }

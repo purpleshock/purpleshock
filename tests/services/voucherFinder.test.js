@@ -2,13 +2,8 @@ const test = require('ava')
 const { sequelize, Voucher } = require('../../models')
 const { voucherFinder } = require('../../services')
 
-// let admin
-
 test.before(async t => {
   await sequelize.sync({ force: true })
-  // const mail = 'admin@purpleshock.org'
-  // const password = 'pass2vv0rd'
-  // admin = await registration.registerAdmin(mail, password)
 })
 
 test('#findByCodeTerm', async t => {
