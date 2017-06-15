@@ -33,3 +33,12 @@ export function getBatches (validAt, expiredAt, page, size) {
     }
   })
 }
+
+export function getBelongedVouchers (batchCode, page, size) {
+  return fetchJSON(`/api/v1/batches/${batchCode}/vouchers`, {
+    query: formatRequest({
+      page,
+      size
+    })
+  })
+}

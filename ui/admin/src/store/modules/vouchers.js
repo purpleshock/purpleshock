@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { vouchers } from '../../services'
-import { FIND_BATCH } from './batches'
+import { FIND_BATCH, FIND_BELONGED_VOUCHERS } from './batches'
 
 export const FIND_VOUCHER = 'voucher/findVoucher'
 export const ON_FIND_VOUCHER = 'voucher/onFindVoucher'
@@ -31,6 +31,11 @@ export default {
     },
     [GET_VOUCHER_SUGGEST] (state, payload) {
       state.list = payload.vouchers.map(voucher => voucher.code)
+      payload.vouchers.forEach(voucher => {
+        Vue.set(state.instances, voucher.code, voucher)
+      })
+    },
+    [FIND_BELONGED_VOUCHERS] (state, payload) {
       payload.vouchers.forEach(voucher => {
         Vue.set(state.instances, voucher.code, voucher)
       })
