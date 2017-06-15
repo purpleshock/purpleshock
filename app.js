@@ -2,11 +2,10 @@ const express = require('express')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const { NODE_ENV } = require('./config/env')
 
 const app = express()
 
-if (NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test') {
   app.use(logger('dev'))
 }
 
@@ -28,7 +27,7 @@ app.use((err, req, res, next) => {
     err.status = 400
   }
   res.status(err.status || 500)
-  if (NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     res.end()
   } else {
     res.json({

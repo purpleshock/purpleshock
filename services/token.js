@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const config = require('../config')
 
 function sign (payload, secret) {
   return new Promise((resolve, reject) => {
@@ -21,7 +20,7 @@ function grantPlayer (player) {
   const payload = {
     playerId: player.playerId
   }
-  return sign(payload, config.jwt.secret)
+  return sign(payload, process.env.JWT_SECRET)
 }
 
 function grantAdmin (admin, scopes) {
@@ -29,11 +28,11 @@ function grantAdmin (admin, scopes) {
     adminId: admin.adminId,
     scopes
   }
-  return sign(payload, config.jwt.secret)
+  return sign(payload, process.env.JWT_SECRET)
 }
 
 function extractToken (token) {
-  return verify(token, config.jwt.secret)
+  return verify(token, process.env.JWT_SECRET)
 }
 
 module.exports = {

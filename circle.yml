@@ -6,6 +6,10 @@ machine:
 
 dependencies:
   override:
-    - npm install
+    - yarn install
   cache_directories:
     - "./node_modules"
+
+test:
+  override:
+    - yarn test -- --verbose

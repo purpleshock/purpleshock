@@ -40,5 +40,5 @@ dist
 # bug reports
 reports
 
-# ignore config.ini
-config.ini
+# ignore .env
+.env
