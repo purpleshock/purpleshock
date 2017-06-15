@@ -1,27 +1,19 @@
 <template>
   <ul class="pagination">
     <li class="pagination-item">
-      <router-link :to="getPageLocation(1)">
-        <md-icon>first_page</md-icon>
-      </router-link>
+      <router-link :to="getPageLocation(1)">first</router-link>
     </li>
     <li class="pagination-item">
-      <router-link :to="getPageLocation(pages[0])">
-        <md-icon>chevron_left</md-icon>
-      </router-link>
+      <router-link :to="getPageLocation(pages[0])">foward</router-link>
     </li>
     <li v-for="page in pages" :key="page" class="pagination-item">
       <router-link :to="getPageLocation(page)">{{page}}</router-link>
     </li>
     <li class="pagination-item">
-      <router-link :to="getPageLocation(pages[numOffset - 1])">
-        <md-icon>chevron_right</md-icon>
-      </router-link>
+      <router-link :to="getPageLocation(pages[numOffset - 1])">backward</router-link>
     </li>
     <li class="pagination-item">
-      <router-link :to="getPageLocation(totalPages)">
-        <md-icon>last_page</md-icon>
-      </router-link>
+      <router-link :to="getPageLocation(totalPages)">last</router-link>
     </li>
   </ul>
 </template>

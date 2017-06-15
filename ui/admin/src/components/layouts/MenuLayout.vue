@@ -1,6 +1,6 @@
 <template>
   <div class="menu-layout">
-    <side-menu @create-batch="$refs.createBatch.open()"></side-menu>
+    <side-menu></side-menu>
     <div class="content">
       <router-view></router-view>
     </div>

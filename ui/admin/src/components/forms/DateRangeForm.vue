@@ -1,7 +1,7 @@
 <template>
   <form class="date-range-finder" novalidate @submit.stop.prevent="$emit('find', $data)">
     <date-range-picker @change="onChangeValidPeriod"></date-range-picker>
-    <md-button type="submit" class="md-primary">find</md-button>
+    <button type="submit">find</button>
   </form>
 </template>
 

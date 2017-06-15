@@ -1,22 +1,25 @@
 <template>
   <div class="side-menu">
-    <md-list>
-      <md-list-item>
-        <md-button
-          class="md-raised md-primary btn-create"
-          @click.native="$emit('create-batch')">create</md-button>
-      </md-list-item>
-      <md-list-item>
+    <ul>
+      <li>
+        <button type="button" @click="$modal.show('create-batch')">create</button>
+      </li>
+      <li>
         <router-link to="/dashboard">
           <span class="link-label">dashboard</span>
         </router-link>
-      </md-list-item>
-      <md-list-item>
+      </li>
+      <li>
         <router-link to="/find-voucher">
           <span class="link-label">vouchers</span>
         </router-link>
-      </md-list-item>
-    </md-list>
+      </li>
+      <li>
+        <router-link to="/voucher-history">
+          <span class="link-label">history</span>
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 

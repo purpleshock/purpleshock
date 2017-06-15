@@ -1,53 +1,41 @@
 <template>
-  <md-card class="voucher-info">
+  <div class="voucher-info">
     <form novalidate @submit.stop.prevent>
-      <md-card-header>
-        <h2 class="md-title voucher-code">{{voucher.code}}</h2>
-        <md-input-container>
-          <label class="item-title" for="voucher-status">status</label>
-          <md-select name="country" id="voucher-status" v-model="editStatus">
-            <md-option v-for="status in allStatus" :value="status" :key="status">{{status}}</md-option>
-          </md-select>
-        </md-input-container>
-        <md-input-container>
-          <label class="item-title">amount</label>
-          <md-input v-model="editAmount"></md-input>
-        </md-input-container>
-      </md-card-header>
-      <md-card-content>
-        <md-list>
-          <md-list-item>
-            <div class="md-list-text-container">
-              <span class="item-title">batch</span>
-              <span class="bactch-code">{{batch.code}}</span>
-            </div>
-          </md-list-item>
-          <md-list-item v-if="batch.createdAt">
-            <div class="md-list-text-container">
-              <span class="item-title">creation time</span>
-              <span>{{batch.createdAt.format('YYYY-MM-DD')}}</span>
-            </div>
-          </md-list-item>
-          <md-list-item v-if="batch.validAt">
-            <div class="md-list-text-container">
-              <span class="item-title">valid time</span>
-              <span>{{batch.validAt.format('YYYY-MM-DD')}}</span>
-            </div>
-          </md-list-item>
-          <md-list-item v-if="batch.expiredAt">
-            <div class="md-list-text-container">
-              <span class="item-title">expired time</span>
-              <span>{{batch.expiredAt.format('YYYY-MM-DD')}}</span>
-            </div>
-          </md-list-item>
-        </md-list>
-      </md-card-content>
-      <md-card-actions>
-        <md-button :disabled="isClean" @click.native="reset">reset</md-button>
-        <md-button type="submit" class="md-primary" :disabled="isClean">submit</md-button>
-      </md-card-actions>
+      <h2 class="voucher-code">{{voucher.code}}</h2>
+      <label class="item-title" for="voucher-status">
+        <span>status</span>
+        <select name="country" id="voucher-status" v-model="editStatus">
+          <option v-for="status in allStatus" :value="status" :key="status">{{status}}</option>
+        </select>
+      </label>
+      <label class="item-title">
+        <span>amount</span>
+        <input v-model="editAmount"></input>
+      </label>
+      <ul>
+        <li>
+          <span class="item-title">batch</span>
+          <span class="bactch-code">{{batch.code}}</span>
+        </li>
+        <li v-if="batch.createdAt">
+          <span class="item-title">creation time</span>
+          <span>{{batch.createdAt.format('YYYY-MM-DD')}}</span>
+        </li>
+        <li v-if="batch.validAt">
+          <span class="item-title">valid time</span>
+          <span>{{batch.validAt.format('YYYY-MM-DD')}}</span>
+        </li>
+        <li v-if="batch.expiredAt">
+          <span class="item-title">expired time</span>
+          <span>{{batch.expiredAt.format('YYYY-MM-DD')}}</span>
+        </li>
+      </ul>
+      <div>
+        <button type="reset" :disabled="isClean" @click="onReset">reset</button>
+        <button type="submit" :disabled="isClean">submit</button>
+      </div>
     </form>
-  </md-card>
+  </div>
 </template>
 
 <script>
@@ -98,7 +86,7 @@ export default {
     },
     queryVoucher (query) {
     },
-    reset () {
+    onReset () {
       this.editStatus = this.voucher.status
       this.editAmount = this.voucher.amount
     }

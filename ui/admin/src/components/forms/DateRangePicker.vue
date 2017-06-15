@@ -1,19 +1,10 @@
 <template>
   <div class="date-range-picker">
-    <div class="picker">
-      <md-subheader class="label">from</md-subheader>
-      <date-picker :date="start" :option="startOption" @change="onChangeStart" @cancel=""></date-picker>
-      <md-button class="md-icon-button md-dense" @click.native="onClear('startTime')">
-        <md-icon>clear</md-icon>
-      </md-button>
-    </div>
-    <div class="picker">
-      <md-subheader class="label">to</md-subheader>
-      <date-picker :date="end" :option="endOption" @change="onChangeEnd"></date-picker>
-      <md-button class="md-icon-button md-dense" @click.native="onClear('endTime')">
-        <md-icon>clear</md-icon>
-      </md-button>
-    </div>
+    <label class="label">from</label>
+    <date-picker :date="start" :option="startOption" @change="onChangeStart"></date-picker>
+    <label class="label">to</label>
+    <date-picker :date="end" :option="endOption" @change="onChangeEnd"></date-picker>
+    <button type="reset" @click="onClear">clear</button>
   </div>
 </template>
 
@@ -79,8 +70,9 @@ export default {
       this.endTime = newEndTime
       this.$emit('change', this.startTime, this.endTime)
     },
-    onClear (target) {
-      this[target] = ''
+    onClear () {
+      this.startTime = ''
+      this.endTime = ''
       this.$emit('change', this.startTime, this.endTime)
     }
   }

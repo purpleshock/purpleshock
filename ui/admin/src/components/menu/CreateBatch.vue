@@ -1,34 +1,25 @@
 <template>
-  <md-dialog
-    ref="dialog"
-    :md-click-outside-to-close="!isSubmit"
-    :md-esc-to-close="!isSubmit"
-    @close="onClose">
-    <md-dialog-title>Create batch of vouchers</md-dialog-title>
+  <modal name="create-batch" @closed="onClosed">
     <form novalidate @submit.stop.prevent="onSubmit">
-      <md-dialog-content>
-        <md-input-container>
-          <label>Number of vouchers</label>
-          <md-input type="number" v-model="formData.num"></md-input>
-        </md-input-container>
-        <md-input-container>
-          <label>Voucher amount</label>
-          <md-input type="number" v-model="formData.amount"></md-input>
-        </md-input-container>
-        <md-input-container>
-          <label>Description</label>
-          <md-textarea v-model="formData.description"></md-textarea>
-        </md-input-container>
-        <div>
-          <date-range-picker @change="onChangeValidDates"></date-range-picker>
-        </div>
-      </md-dialog-content>
-      <md-dialog-actions>
-        <md-button :disabled="isSubmit" @click.native="close()">cancel</md-button>
-        <md-button type="submit" class="md-primary">create</md-button>
-      </md-dialog-actions>
+      <label class="form-label">
+        <span>Number of vouchers</span>
+        <input type="number" v-model="formData.num"></input>
+      </label>
+      <label class="form-label">
+        <span>Voucher amount</span>
+        <input type="number" v-model="formData.amount"></input>
+      </label>
+      <label class="form-label">
+        <span>Description</span>
+        <textarea v-model="formData.description"></textarea>
+      </label>
+      <div>
+        <date-range-picker @change="onChangeValidDates"></date-range-picker>
+        <button type="button" :disabled="isSubmit" @click="$modal.hide('create-batch')">cancel</button>
+        <button type="submit">create</button>
+      </div>
     </form>
-  </md-dialog>
+  </modal>
 </template>
 
 <script>
@@ -55,13 +46,7 @@ export default {
       this.formData.validAt = start
       this.formData.expiredAt = end
     },
-    open () {
-      this.$refs.dialog.open()
-    },
-    close () {
-      this.$refs.dialog.close()
-    },
-    onClose () {
+    onClosed () {
       Object.assign(this.$data, this.$options.data())
     },
     onSubmit () {
@@ -71,3 +56,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.form-label {
+  display: block;
+}
+</style>

@@ -1,17 +1,13 @@
 <template>
-  <md-card class="login-form">
+  <div class="login-form">
     <form novalidate @submit.stop.prevent="$emit('login', { mail, password })">
-      <md-input-container>
-        <label>Mail</label>
-        <md-input type="mail" v-model="mail"></md-input>
-      </md-input-container>
-      <md-input-container md-has-password>
-        <label>Password</label>
-        <md-input type="password" v-model="password"></md-input>
-      </md-input-container>
-      <md-button class="md-primary" type="submit" :disabled="invalidForm">login</md-button>
+      <label>Mail</label>
+      <input type="mail" v-model="mail"></input>
+      <label>Password</label>
+      <input type="password" v-model="password"></input>
+      <button type="submit" :disabled="invalidForm">login</button>
     </form>
-  </md-card>
+  </div>
 </template>
 
 <script>
@@ -34,6 +30,5 @@ export default {
 .login-form {
   padding: 10px 30px 20px 30px;
   text-align: center;
-  width: 300px;
 }
 </style>
