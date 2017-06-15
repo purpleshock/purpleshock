@@ -7,6 +7,8 @@ import router from './router'
 import store from './store'
 import vmodal from 'vue-js-modal'
 
+import 'reset-css/reset.css'
+
 Vue.config.productionTip = false
 
 Vue.use(vmodal)
