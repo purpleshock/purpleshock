@@ -1,4 +1,4 @@
 # PurpleShock
-[![Build Status](https://travis-ci.org/purpleshock/purpleshock.svg?branch=master)](https://travis-ci.org/purpleshock/purpleshock)
+[![CircleCI](https://circleci.com/gh/purpleshock/purpleshock.svg?style=svg)](https://circleci.com/gh/purpleshock/purpleshock)
 
 ## still under construction...
