@@ -5,7 +5,8 @@ const { permission } = require('../../services')
 const req = {
   user: {
     scopes: {
-      voucher: ['create', 'remove']
+      voucher: ['create', 'remove'],
+      batch: ['create']
     }
   }
 }
@@ -18,6 +19,12 @@ test.beforeEach(() => {
 
 test('#getCheckScopesMiddleware', t => {
   permission.getCheckScopesMiddleware(['voucher.create', 'voucher.remove'])(req, res, next)
+  t.true(next.calledOnce)
+  t.is(next.args[0].length, 0)
+})
+
+test('#getCheckScopesMiddleware with different permission group', t => {
+  permission.getCheckScopesMiddleware(['voucher.create', 'batch.create'])(req, res, next)
   t.true(next.calledOnce)
   t.is(next.args[0].length, 0)
 })

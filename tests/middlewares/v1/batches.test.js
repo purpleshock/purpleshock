@@ -57,3 +57,31 @@ test('GET /api/v1/batches/codes to get batch codes by terms', async t => {
   t.is(foundCodesResponse.body[0], 'xxxx-xxxx-xxxx-xxxx-xxxx')
   t.is(foundCodesResponse.body[1], 'xxxy-xxxx-xxxx-xxxx-xxxx')
 })
+
+test('GET /api/v1/batches/{batchCode}/vouchers to get vouchers belongs to the batch', async t => {
+  const [batchResponse1, batchResponse2] = await Promise.all([
+    request(app)
+      .post('/api/v1/batches')
+      .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+      .send({ num: 10, amount: 100 }),
+    request(app)
+      .post('/api/v1/batches')
+      .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+      .send({ num: 5, amount: 100 })
+  ])
+
+  const [vouchersResponse1, vouchersResponse2] = await Promise.all([
+    request(app)
+      .get(`/api/v1/batches/${batchResponse1.body.code}/vouchers?page=1&size=10`)
+      .set('Authorization', `JWT ${createAdminResponse.body.token}`),
+    request(app)
+      .get(`/api/v1/batches/${batchResponse2.body.code}/vouchers?page=1&size=10`)
+      .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+  ])
+
+  t.is(vouchersResponse1.status, 200)
+  t.is(vouchersResponse1.body.length, 10)
+
+  t.is(vouchersResponse2.status, 200)
+  t.is(vouchersResponse2.body.length, 5)
+})

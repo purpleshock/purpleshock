@@ -1,4 +1,4 @@
-const { Voucher } = require('../models')
+const { Batch, Voucher } = require('../models')
 
 async function findByCodeTerm (term, size) {
   const vouchers = await Voucher.findAll({
@@ -22,7 +22,25 @@ async function findByCode (code) {
   return voucher && voucher.toJSON()
 }
 
+async function findByBatchCode (batchCode, page, size) {
+  const batch = await Batch.find({
+    where: { code: batchCode }
+  })
+  if (!batch) {
+    return null
+  }
+
+  const vouchers = await Voucher.findAll({
+    where: { batchId: batch.batchId },
+    limit: size,
+    offset: (page - 1) * size
+  })
+
+  return vouchers.map(voucher => voucher.toJSON())
+}
+
 module.exports = {
   findByCodeTerm,
-  findByCode
+  findByCode,
+  findByBatchCode
 }

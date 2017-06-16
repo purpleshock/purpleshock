@@ -1,6 +1,6 @@
 const express = require('express')
 const wrap = require('../wrap')
-const { permission, batch, batchFinder } = require('../../services')
+const { permission, batch, batchFinder, voucherFinder } = require('../../services')
 const formatters = require('../formatters')
 const {
   batchResponse,
@@ -9,7 +9,10 @@ const {
   findBatchesQuery,
   findBatchesResponse
 } = require('../formatters/batches')
+const { findVouchersResponse } = require('../formatters/vouchers')
 const { findCodesQuery, findCodesResponse } = require('../formatters/codeTerm')
+const { paginationQuery } = require('../formatters/pagination')
+const httpError = require('../../utils/httpError')
 
 const batches = express.Router()
 
@@ -53,6 +56,20 @@ batches.get('/:code',
   wrap(async (req, res, next) => {
     const foundBatch = await batchFinder.findByCode(req.params.code)
     const response = await formatters.validate(foundBatch, batchResponse)
+    res.json(response)
+  })
+)
+
+batches.get('/:code/vouchers',
+  permission.getCheckScopesMiddleware(['batches.find', 'vouchers.find']),
+  formatters.validateQuery(paginationQuery),
+  wrap(async (req, res, next) => {
+    const foundVouchers = await voucherFinder.findByBatchCode(req.params.code, req.query.page, req.query.size)
+    if (!foundVouchers || foundVouchers.length === 0) {
+      throw httpError(404)
+    }
+
+    const response = await formatters.validate(foundVouchers, findVouchersResponse)
     res.json(response)
   })
 )
