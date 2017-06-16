@@ -40,7 +40,7 @@ export default {
       this.$store.dispatch(FIND_VOUCHER, { code })
       .then(() => {
         const { voucherCode } = this.$route.params
-        this.voucher = this.$store.state.vouchers.instances[voucherCode]
+        this.voucher = this.$store.state.vouchers[voucherCode]
         this.batch = this.$store.state.batches.instances[this.voucher.batchCode]
       })
     }

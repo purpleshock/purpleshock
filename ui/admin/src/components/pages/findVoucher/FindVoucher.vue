@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import { GET_VOUCHER_SUGGEST } from '@/store/modules/vouchers'
 import { CodeSuggestForm } from '@/components/forms'
 import VoucherList from './VoucherList'
@@ -16,22 +16,21 @@ export default {
     CodeSuggestForm,
     VoucherList
   },
-  computed: {
-    ...mapState({
-      size: state => state.vouchers.pageOffset,
-      codes: state => state.vouchers.list,
-      totalPages: state => state.vouchers.totalPages
-    })
+  data () {
+    return {
+      codes: []
+    }
   },
   methods: {
     ...mapActions({
       getVoucherSuggest: GET_VOUCHER_SUGGEST
     }),
-    onFindCode (formData) {
-      this.getVoucherSuggest({
+    async onFindCode (formData) {
+      const vouchers = await this.getVoucherSuggest({
         term: formData.term,
         size: 10
       })
+      this.codes = vouchers.map(voucher => voucher.code)
     }
   }
 }

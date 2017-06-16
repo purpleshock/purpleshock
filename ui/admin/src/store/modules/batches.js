@@ -61,7 +61,7 @@ export default {
         ? Math.floor(numTotal / vouchers.length) + 1
         : 1
       const foundVouchers = await batches.getBelongedVouchers(payload.code, page, pagination)
-      this.commit(FIND_BELONGED_VOUCHERS, {
+      context.commit(FIND_BELONGED_VOUCHERS, {
         code: payload.code,
         page,
         pagination,
