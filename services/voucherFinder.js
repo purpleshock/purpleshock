@@ -39,8 +39,15 @@ async function findByBatchCode (batchCode, page, size) {
   return vouchers.map(voucher => voucher.toJSON())
 }
 
+function countByBatchId (batchId) {
+  return Voucher.count({
+    where: { batchId }
+  })
+}
+
 module.exports = {
   findByCodeTerm,
   findByCode,
-  findByBatchCode
+  findByBatchCode,
+  countByBatchId
 }

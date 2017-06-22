@@ -85,3 +85,12 @@ test('GET /api/v1/batches/{batchCode}/vouchers to get vouchers belongs to the ba
   t.is(vouchersResponse2.status, 200)
   t.is(vouchersResponse2.body.length, 5)
 })
+
+test('GET /api/v1/batches/{batchCode}/vouchers/count to get voucher counts under batch', async t => {
+  const countResponse = await request(app)
+    .get(`/api/v1/batches/${createBatchResponse.body.code}/vouchers/count`)
+    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+
+  t.is(countResponse.status, 200)
+  t.is(countResponse.body, 10)
+})

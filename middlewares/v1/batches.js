@@ -74,4 +74,17 @@ batches.get('/:code/vouchers',
   })
 )
 
+batches.get('/:code/vouchers/count',
+  permission.getCheckScopesMiddleware(['batches.find', 'vouchers.find']),
+  wrap(async (req, res, next) => {
+    const batch = await batchFinder.findByCode(req.params.code)
+    if (!batch) {
+      throw httpError(404)
+    }
+
+    const count = await voucherFinder.countByBatchId(batch.batchId)
+    res.json(count)
+  })
+)
+
 module.exports = batches
