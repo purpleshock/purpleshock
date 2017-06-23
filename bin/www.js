@@ -4,7 +4,7 @@ const app = require('../app')
 const debug = require('debug')('api:server')
 const http = require('http')
 
-const port = normalizePort(process.env.PORT || '8081')
+const port = normalizePort(process.env.PORT || '7070')
 app.set('port', port)
 
 const server = http.createServer(app)

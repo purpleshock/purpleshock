@@ -41,7 +41,7 @@ export default {
       .then(() => {
         const { voucherCode } = this.$route.params
         this.voucher = this.$store.state.vouchers[voucherCode]
-        this.batch = this.$store.state.batches.instances[this.voucher.batchCode]
+        this.batch = this.$store.state.batches[this.voucher.batchCode]
       })
     }
   }

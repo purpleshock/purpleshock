@@ -42,3 +42,7 @@ export function getBelongedVouchers (batchCode, page, size) {
     })
   })
 }
+
+export function getVouchersCount (batchCode) {
+  return fetchJSON(`/api/v1/batches/${batchCode}/vouchers/count`)
+}

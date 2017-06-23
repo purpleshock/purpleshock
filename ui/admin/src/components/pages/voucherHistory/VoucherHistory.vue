@@ -9,7 +9,7 @@
 import { mapActions, mapState } from 'vuex'
 import BatchList from './BatchList'
 import DateRangeForm from '@/components/forms/DateRangeForm'
-import { FIND_BATCHES, FIND_BELONGED_VOUCHERS } from '@/store/modules/batches'
+import { FIND_HISTORY, FIND_BELONGED_VOUCHERS } from '@/store/modules/voucherHistory'
 import formatRequest from '@/utils/formatRequest'
 
 export default {
@@ -20,20 +20,18 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if (to.query.page) {
-        vm.findBatches(to.query)
+        vm.findHistory(to.query)
       }
     })
   },
   computed: {
     ...mapState({
-      batches: state => state.batches.list.map(code => {
-        return state.batches.instances[code]
-      })
+      batches: state => state.voucherHistory.batches
     })
   },
   methods: {
     ...mapActions({
-      findBatches: FIND_BATCHES,
+      findHistory: FIND_HISTORY,
       findBelongedVouchers: FIND_BELONGED_VOUCHERS
     }),
     onFindDateRange (formData) {
@@ -42,7 +40,7 @@ export default {
         page: 1
       }
       this.$router.push({ query })
-      this.findBatches(query)
+      this.findHistory(query)
     }
   }
 }

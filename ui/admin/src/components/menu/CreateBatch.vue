@@ -52,6 +52,9 @@ export default {
     onSubmit () {
       this.isSubmit = true
       this.$emit('create', this.formData)
+    },
+    close () {
+      this.$modal.hide('create-batch')
     }
   }
 }

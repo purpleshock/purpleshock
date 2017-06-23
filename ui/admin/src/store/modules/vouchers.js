@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { vouchers } from '../../services'
-import { FIND_BATCH, FIND_BELONGED_VOUCHERS } from './batches'
+import { FIND_BATCH } from './batches'
+import { FIND_BELONGED_VOUCHERS } from './voucherHistory'
 
 export const FIND_VOUCHER = 'vouchers/findVoucher'
 export const GET_VOUCHER_SUGGEST = 'vouchers/getVoucherSuggest'
