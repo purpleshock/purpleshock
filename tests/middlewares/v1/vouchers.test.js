@@ -1,6 +1,6 @@
 const test = require('ava')
 const request = require('supertest')
-const { sequelize, Voucher, Batch } = require('../../../models')
+const { sequelize, Voucher, Batch } = require('../../../models/dao')
 const app = require('../../../app')
 
 let createAdminResponse

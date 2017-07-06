@@ -1,4 +1,4 @@
-const { Batch } = require('../models')
+const { Batch } = require('../models/dao')
 
 async function findByCreationTime (from, to, pagination) {
   from = from && from.toDate()

@@ -32,8 +32,31 @@ module.exports = {
         onDelete: 'cascade'
       }
     })
+
+    await queryInterface.createTable('Wallets', {
+      walletId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      balance: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+      },
+      playerId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Players',
+          key: 'playerId'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      }
+    })
   },
   async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('Wallets')
     await queryInterface.dropTable('UUIdIdentities')
     await queryInterface.dropTable('Players')
   }

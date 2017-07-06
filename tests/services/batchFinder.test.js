@@ -1,6 +1,6 @@
 const test = require('ava')
 const moment = require('moment')
-const { sequelize } = require('../../models')
+const { sequelize } = require('../../models/dao')
 const { registration, batch, batchFinder } = require('../../services')
 
 let admin

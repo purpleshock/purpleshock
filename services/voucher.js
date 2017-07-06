@@ -1,4 +1,4 @@
-const { Voucher } = require('../models')
+const { Voucher } = require('../models/dao')
 const voucerStatus = require('../consts/voucherStatus')
 const codeGenerate = require('./codeGenerate')
 

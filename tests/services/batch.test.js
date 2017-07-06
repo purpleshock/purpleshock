@@ -1,5 +1,5 @@
 const test = require('ava')
-const { sequelize } = require('../../models')
+const { sequelize } = require('../../models/dao')
 const { registration, batch } = require('../../services')
 
 let admin

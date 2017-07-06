@@ -1,4 +1,4 @@
-const { Admin, Player, UUIdIdentity } = require('../models')
+const { Admin, Player, UUIdIdentity } = require('../models/dao')
 
 async function findAdminByMail (mail, password) {
   const admin = await Admin.findOne({

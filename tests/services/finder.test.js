@@ -1,5 +1,5 @@
 const test = require('ava')
-const { sequelize } = require('../../models')
+const { sequelize } = require('../../models/dao')
 const { finder, registration } = require('../../services')
 
 const mail = 'admin@purpleshock.org'

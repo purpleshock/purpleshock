@@ -1,4 +1,4 @@
-const { Batch, Voucher } = require('../models')
+const { Batch, Voucher } = require('../models/dao')
 
 async function findByCodeTerm (term, size) {
   const vouchers = await Voucher.findAll({

@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const { Admin, Player, UUIdIdentity } = require('../models')
+const { Admin, Player, UUIdIdentity } = require('../models/dao')
 
 async function registerAdmin (mail, password) {
   const now = new Date()

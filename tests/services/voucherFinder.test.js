@@ -1,5 +1,5 @@
 const test = require('ava')
-const { sequelize, Voucher } = require('../../models')
+const { sequelize, Voucher } = require('../../models/dao')
 const { voucherFinder } = require('../../services')
 
 test.before(async t => {

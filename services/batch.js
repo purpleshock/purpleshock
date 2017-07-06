@@ -1,4 +1,4 @@
-const { Batch } = require('../models')
+const { Batch } = require('../models/dao')
 const voucher = require('./voucher')
 const codeGenerate = require('./codeGenerate')
 

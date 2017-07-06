@@ -17,8 +17,11 @@ module.exports = (sequelize, Sequelize) => sequelize.define('Player', {
   timestamps: false,
   classMethods: {
     associate (models) {
-      const { Player, UUIdIdentity } = models
+      const { Player, UUIdIdentity, Wallet } = models
       Player.hasOne(UUIdIdentity, {
+        foreignKey: 'playerId'
+      })
+      Player.hasOne(Wallet, {
         foreignKey: 'playerId'
       })
     }

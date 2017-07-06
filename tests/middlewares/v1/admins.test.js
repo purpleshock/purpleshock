@@ -1,6 +1,6 @@
 const test = require('ava')
 const request = require('supertest')
-const { sequelize } = require('../../../models')
+const { sequelize } = require('../../../models/dao')
 const app = require('../../../app')
 
 const mail = 'admin@purpleshock.org'
