@@ -1,9 +1,9 @@
 const StateMachine = require('javascript-state-machine')
 
 function VoucherStatus (status) {
-  if (status >= VoucherStatus.INITIALIZED && status <= VoucherStatus.APPLIED) {
+  if (typeof VoucherStatus[status.toUpperCase()] === 'string') {
     this._fsm()
-    this.goto(status)
+    this.resetTo(status)
   } else {
     throw new Error('Invalid voucher status: ' + status)
   }
@@ -44,13 +44,10 @@ StateMachine.factory(VoucherStatus, {
       to: VoucherStatus.APPLIED
     },
     {
-      name: 'goto',
+      name: 'resetTo',
       from: '*',
       to (nextStatus) {
-        if (this.cannot(status)) {
-          throw new Error(`It's illegal to switch voucher state from ${this.state} to ${status}.`)
-        }
-        return status
+        return nextStatus
       }
     }
   ]

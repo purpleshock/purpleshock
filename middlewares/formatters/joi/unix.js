@@ -8,15 +8,20 @@ module.exports = joi => {
         return value.unix()
       } else if (moment.isDate(value)) {
         return moment(value).unix()
-      } else if (typeof value === 'string') {
+      } else {
+        const sec = parseInt(value)
+        if (!Number.isNaN(sec)) {
+          // treat as unix time
+          return moment.unix(sec)
+        }
+
+        // string format
         const m = moment(value)
         if (m.isValid()) {
           return m.unix()
         } else {
           return null
         }
-      } else {
-        return null
       }
     }
   }

@@ -1,5 +1,5 @@
 const { Voucher } = require('../models/dao')
-const voucerStatus = require('../consts/voucherStatus')
+const { VoucherStatus } = require('../models')
 const codeGenerate = require('./codeGenerate')
 
 async function createVouchers (batchId, createdCount, amount) {
@@ -9,7 +9,7 @@ async function createVouchers (batchId, createdCount, amount) {
       batchId,
       code: codeGenerate.getCode(),
       amount,
-      status: voucerStatus.INITIALIZED
+      status: VoucherStatus.INITIALIZED
     }
   }
   await Voucher.bulkCreate(vouchers)

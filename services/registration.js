@@ -1,5 +1,7 @@
 const uuid = require('uuid')
 const { Admin, Player, UUIdIdentity } = require('../models/dao')
+const tokenService = require('./token')
+const walletService = require('./wallet')
 
 async function registerAdmin (mail, password) {
   const now = new Date()
@@ -14,6 +16,7 @@ async function registerAdmin (mail, password) {
 }
 
 async function registerUUIdPlayer (playerInfo) {
+  // create player and identity
   const now = new Date()
   const player = await Player.create({
     createdAt: now,
@@ -25,7 +28,15 @@ async function registerUUIdPlayer (playerInfo) {
   })
   await player.setUUIdIdentity(uuidIdentity)
 
+  // create token
+  const token = await tokenService.grantPlayer(player.playerId)
+
+  // link a default wallet
+  const walletDto = await walletService.attachNewWallet(player.playerId)
+
   return Object.assign(player.toJSON(), {
+    token,
+    wallet: walletDto,
     identity: {
       uuid: uuidIdentity.toJSON()
     }

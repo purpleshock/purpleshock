@@ -16,11 +16,10 @@ players.use('/:loginMethod', (req, res, next) => {
 })
 
 players.post('/uuid', wrap(async (req, res) => {
-  const player = await registration.registerUUIdPlayer(req.body)
-  const playerToken = await token.grantPlayer(player)
+  const playerDto = await registration.registerUUIdPlayer(req.body)
   res.json({
-    uuid: player.identity.uuid.uuid,
-    token: playerToken
+    uuid: playerDto.identity.uuid.uuid,
+    token: playerDto.token
   })
 }))
 

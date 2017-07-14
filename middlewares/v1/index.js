@@ -9,5 +9,6 @@ api.use(permission.getCheckTokenMiddleware())
 api.use('/me', require('./me'))
 api.use('/batches', require('./batches'))
 api.use('/vouchers', require('./vouchers'))
+api.use('/deposit', require('./deposit'))
 
 module.exports = api

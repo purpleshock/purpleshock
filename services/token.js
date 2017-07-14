@@ -16,9 +16,9 @@ function verify (token, secret) {
   })
 }
 
-function grantPlayer (player) {
+function grantPlayer (playerId) {
   const payload = {
-    playerId: player.playerId
+    playerId
   }
   return sign(payload, process.env.JWT_SECRET)
 }

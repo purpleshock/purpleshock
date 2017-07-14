@@ -23,10 +23,7 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  if (err.name === 'ValidationError') {
-    err.status = 400
-  }
-  res.status(err.status || 500)
+  res.status(err.status)
   if (process.env.NODE_ENV === 'production') {
     res.end()
   } else {

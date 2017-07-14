@@ -3,10 +3,10 @@ const { token } = require('../../services')
 
 test('#grantPlayer', async t => {
   const player = {
-    id: 'playerId',
+    playerId: 'playerId',
     displayName: 'player'
   }
-  const secretToken = await token.grantPlayer(player)
+  const secretToken = await token.grantPlayer(player.playerId)
   const extractPlayer = await token.extractToken(secretToken)
   t.is(typeof secretToken, 'string')
   t.is(extractPlayer.playerId, player.playerId)
