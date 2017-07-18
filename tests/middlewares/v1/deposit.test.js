@@ -39,8 +39,10 @@ test.serial('POST /api/v1/deposit for making deposit voucher into wallet', async
       code: 'voucher-that-is-ready-for-deposit'
     })
 
+  t.deepEqual(depositResponse.body, {
+    balance: 100
+  })
   t.is(depositResponse.status, 200)
-  t.is(depositResponse.body.balance, 100)
 })
 
 test.serial('POST /api/v1/deposit for making deposit voucher with the same voucher', async t => {
@@ -63,10 +65,10 @@ test.serial('GET /api/v1/deposit for retrieving deposit history', async t => {
     .get(`/api/v1/deposit?from=${from}&to=${to}&page=1&pagination=10`)
     .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
 
-  t.is(depositHistoryResponse.status, 200)
   t.is(depositHistoryResponse.body.length, 1)
   t.is(depositHistoryResponse.body[0].code, 'voucher-that-is-ready-for-deposit')
   t.is(depositHistoryResponse.body[0].amount, 100)
+  t.is(depositHistoryResponse.status, 200)
 })
 
 test.serial('GET /api/v1/deposit for retrieving not existed deposit history', async t => {

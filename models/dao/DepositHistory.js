@@ -6,11 +6,12 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
+    },
+    createdAt: {
+      type: Sequelize.TIME
     }
   }, {
-    timestamps: true,
-    updatedAt: false,
-    deletedAt: false,
+    timestamps: false,
     classMethods: {
       associate ({
         DepositHistory,
@@ -22,6 +23,13 @@ module.exports = (sequelize, Sequelize) => {
         })
         DepositHistory.belongsTo(Player, {
           foreignKey: 'playerId'
+        })
+      },
+      createRecord (playerId, voucherId) {
+        return DepositHistory.create({
+          playerId,
+          voucherId,
+          createdAt: moment().format('YYYY-MM-DD HH:mm:ss')
         })
       }
     }

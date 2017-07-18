@@ -1,13 +1,10 @@
+const moment = require('moment')
 const { DepositHistory } = require('../models/dao')
 
 const NO_HISTORY = 'no_history_in_range'
 
 async function insertNewRecord (playerId, voucherId) {
-  const history = await DepositHistory.create({
-    playerId,
-    voucherId
-  })
-
+  const history = await DepositHistory.createRecord(playerId, voucherId)
   return history.toJSON()
 }
 
