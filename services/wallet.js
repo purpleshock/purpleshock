@@ -44,10 +44,6 @@ async function deposit (playerId, code) {
   return wallet.toJSON()
 }
 
-async function withdraw (playerId, srcWalletId, toWalletId, amount) {
-
-}
-
 module.exports = {
   INVALID_WALLET,
   INVALID_VOUCHER,

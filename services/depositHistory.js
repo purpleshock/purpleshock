@@ -1,4 +1,3 @@
-const moment = require('moment')
 const { DepositHistory } = require('../models/dao')
 
 const NO_HISTORY = 'no_history_in_range'
