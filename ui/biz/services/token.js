@@ -11,13 +11,21 @@ export function isValid (token) {
   .catch(err => Promise.resolve(false))
 }
 
-export function getToken (mail, password) {
+export function exchangeToken (mail, password) {
   return axios.post('/login', {
     mail,
     password
   })
   .then(response => {
-    window.localStorage.setItem('token', response.data.token)
+    setToken(response.data.token)
     return response.data.token
   })
+}
+
+export function setToken (token) {
+  window.localStorage.setItem('token', token)
+}
+
+export function getToken () {
+  window.localStorage.getItem('token')
 }
