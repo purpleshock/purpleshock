@@ -8,8 +8,7 @@ export default function reducer (state = {}, action) {
 }
 
 export function login (mail, password) {
-  return async dispatch => {
-    const token = await tokenApi.getToken(mail, password)
-    console.log(token)
+  return dispatch => {
+    return tokenApi.exchangeToken(mail, password)
   }
 }

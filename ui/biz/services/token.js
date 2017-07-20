@@ -27,5 +27,5 @@ export function setToken (token) {
 }
 
 export function getToken () {
-  window.localStorage.getItem('token')
+  return window.localStorage.getItem('token')
 }
