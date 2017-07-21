@@ -1,4 +1,4 @@
-const joi = require('./joi')
+const joi = require('../joi')
 
 const voucherResponse = joi.object().keys({
   code: joi.string(),

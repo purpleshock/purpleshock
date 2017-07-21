@@ -1,5 +1,5 @@
 const express = require('express')
-const joi = require('../formatters/joi')
+const joi = require('./joi')
 const wrapper = require('../wrapper')
 const wallet = require('../../services/wallet')
 const depositHistory = require('../../services/depositHistory')

@@ -1,4 +1,4 @@
-const joi = require('./joi')
+const joi = require('../joi')
 
 const batchResponse = joi.object().keys({
   code: joi.string(),

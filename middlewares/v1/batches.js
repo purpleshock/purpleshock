@@ -1,18 +1,18 @@
 const express = require('express')
-const joi = require('../formatters/joi')
+const joi = require('./joi')
 const wrap = require('../wrap')
 const wrapper = require('../wrapper')
 const { permission, batchFinder, voucherFinder } = require('../../services')
 const batch = require('../../services/batch')
-const formatters = require('../formatters')
+const formatters = require('./formatters')
 const {
   batchResponse,
   findBatchesQuery,
   findBatchesResponse
-} = require('../formatters/batches')
-const { findVouchersResponse } = require('../formatters/vouchers')
-const { findCodesQuery, findCodesResponse } = require('../formatters/codeTerm')
-const { paginationQuery } = require('../formatters/pagination')
+} = require('./formatters/batches')
+const { findVouchersResponse } = require('./formatters/vouchers')
+const { findCodesQuery, findCodesResponse } = require('./formatters/codeTerm')
+const { paginationQuery } = require('./formatters/pagination')
 const httpError = require('../../utils/httpError')
 
 const batches = express.Router()
