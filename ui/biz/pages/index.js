@@ -2,16 +2,18 @@ import React, { PureComponent } from 'react'
 import Router from 'next/router'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
-import axios from 'axios'
 import { initStore } from '../store'
 import * as userActions from '../store/user'
+import Layout from '../components/Layout'
 import LoginForm from '../components/LoginForm'
 import * as token from '../services/token'
 
 class Index extends PureComponent {
   render () {
     return (
-      <LoginForm onLogin={this.props.login} />
+      <Layout>
+        <LoginForm onLogin={this.props.login} />
+      </Layout>
     )
   }
 }
