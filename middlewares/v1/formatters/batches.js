@@ -1,6 +1,6 @@
 const joi = require('../joi')
 
-const batchResponse = joi.object().keys({
+const getBatchResponse = joi.object().keys({
   code: joi.string(),
   description: [joi.equal(null).strip(), joi.string()],
   createdAt: [joi.equal(null).strip(), joi.unix().optional()],
@@ -8,16 +8,16 @@ const batchResponse = joi.object().keys({
   expiredAt: [joi.equal(null).strip(), joi.unix().optional()]
 })
 
-const findBatchesQuery = joi.object().keys({
+const searchByTimeQuery = joi.object().keys({
   page: joi.number().integer().positive().required(),
   size: joi.number().integer().positive().required(),
   validAt: joi.moment().optional(),
   expiredAt: joi.moment().optional()
 })
 
-const findBatchesResponse = joi.object().keys({
+const searchByTimeResponse = joi.object().keys({
   numTotal: joi.number().integer(),
-  batches: joi.array().items(batchResponse)
+  batches: joi.array().items(getBatchResponse)
 })
 
 const createBatchBody = joi.object().keys({
@@ -32,10 +32,36 @@ const createBatchResponse = joi.object().keys({
   code: joi.string()
 })
 
+const getCodeSuggestionQuery = joi.object().keys({
+  term: joi.string(),
+  size: joi.number().integer().positive().required()
+})
+
+const getCodeSuggestionResponse = joi.array().items(
+  joi.string()
+)
+
+const getBelongedVouchersQuery = joi.object().keys({
+  page: joi.number().integer().positive().required(),
+  size: joi.number().integer().positive().required()
+})
+
+const getBelongedVouchersResponse = joi.array().items(
+  joi.object().keys({
+    code: joi.string(),
+    status: joi.voucherStatus(),
+    amount: joi.number()
+  })
+)
+
 module.exports = {
-  batchResponse,
-  findBatchesQuery,
-  findBatchesResponse,
+  getBatchResponse,
+  searchByTimeQuery,
+  searchByTimeResponse,
   createBatchBody,
-  createBatchResponse
+  createBatchResponse,
+  getCodeSuggestionQuery,
+  getCodeSuggestionResponse,
+  getBelongedVouchersQuery,
+  getBelongedVouchersResponse
 }
