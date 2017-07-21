@@ -1,11 +1,12 @@
 const express = require('express')
+const joi = require('../formatters/joi')
 const wrap = require('../wrap')
-const { permission, batch, batchFinder, voucherFinder } = require('../../services')
+const wrapper = require('../wrapper')
+const { permission, batchFinder, voucherFinder } = require('../../services')
+const batch = require('../../services/batch')
 const formatters = require('../formatters')
 const {
   batchResponse,
-  createBatchBody,
-  createBatchResponse,
   findBatchesQuery,
   findBatchesResponse
 } = require('../formatters/batches')
@@ -30,15 +31,21 @@ batches.get('/',
   })
 )
 
-batches.post('/',
-  permission.getCheckScopesMiddleware(['batches.create']),
-  formatters.valdateBody(createBatchBody),
-  wrap(async (req, res, next) => {
-    const createdBatch = await batch.createBatch(req.user.adminId, req.body)
-    const response = await formatters.validate(createdBatch, createBatchResponse)
-    res.json(response)
-  })
-)
+batches.post('/', permission.getCheckScopesMiddleware(['batches.create']), wrapper({
+  body: joi.object().keys({
+    num: joi.number().integer().min(1).required(),
+    amount: joi.number().integer().min(1).required(),
+    description: joi.string().trim().min(2).max(50).optional(),
+    validAt: joi.moment().optional(),
+    expiredAt: joi.moment().optional()
+  }),
+  response: joi.object().keys({
+    code: joi.string()
+  }),
+  handler (req, res) {
+    return batch.createBatch(req.user.adminId, req.body)
+  }
+}))
 
 batches.get('/codes',
   permission.getCheckScopesMiddleware(['batches.find']),

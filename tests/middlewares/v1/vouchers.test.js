@@ -1,6 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
 const { sequelize, Voucher, Batch } = require('../../../models/dao')
+const VoucherStatus = require('../../../models/VoucherStatus')
 const app = require('../../../app')
 
 let createAdminResponse
@@ -9,11 +10,31 @@ test.before(async t => {
   await sequelize.sync({ force: true })
 
   await Promise.all([
-    Voucher.create({ code: 'xxxx-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
-    Voucher.create({ code: 'xxxy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
-    Voucher.create({ code: 'xxyy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
-    Voucher.create({ code: 'xyyy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 }),
-    Voucher.create({ code: 'yyyy-xxxx-xxxx-xxxx-xxxx', status: 'INITIAILIZED', amount: 100 })
+    Voucher.create({
+      code: 'xxxx-xxxx-xxxx-xxxx-xxxx',
+      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      amount: 100
+    }),
+    Voucher.create({
+      code: 'xxxy-xxxx-xxxx-xxxx-xxxx',
+      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      amount: 100
+    }),
+    Voucher.create({
+      code: 'xxyy-xxxx-xxxx-xxxx-xxxx',
+      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      amount: 100
+    }),
+    Voucher.create({
+      code: 'xyyy-xxxx-xxxx-xxxx-xxxx',
+      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      amount: 100
+    }),
+    Voucher.create({
+      code: 'yyyy-xxxx-xxxx-xxxx-xxxx',
+      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      amount: 100
+    })
   ])
 
   createAdminResponse = await request(app)

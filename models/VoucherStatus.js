@@ -16,6 +16,17 @@ VoucherStatus.CONSIGNED = 'Consigned'
 VoucherStatus.SOLD = 'Sold'
 VoucherStatus.APPLIED = 'Applied'
 
+VoucherStatus.getStatusValue = function (value) {
+  return {
+    [VoucherStatus.INITIALIZED]: 0,
+    [VoucherStatus.ACTIVATED]: 1,
+    [VoucherStatus.DEACTIVATED]: 2,
+    [VoucherStatus.CONSIGNED]: 3,
+    [VoucherStatus.SOLD]: 4,
+    [VoucherStatus.APPLIED]: 5
+  }[value]
+}
+
 StateMachine.factory(VoucherStatus, {
   transitions: [
     {
