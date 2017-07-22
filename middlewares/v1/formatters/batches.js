@@ -41,6 +41,13 @@ const getCodeSuggestionResponse = joi.array().items(
   joi.string()
 )
 
+const countQuery = joi.object().keys({
+  validAt: joi.moment().optional(),
+  expiredAt: joi.moment().optional()
+})
+
+const countReponse = joi.number()
+
 const getBelongedVouchersQuery = joi.object().keys({
   page: joi.number().integer().positive().required(),
   size: joi.number().integer().positive().required()
@@ -62,6 +69,8 @@ module.exports = {
   createBatchResponse,
   getCodeSuggestionQuery,
   getCodeSuggestionResponse,
+  countQuery,
+  countReponse,
   getBelongedVouchersQuery,
   getBelongedVouchersResponse
 }

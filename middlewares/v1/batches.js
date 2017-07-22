@@ -3,6 +3,7 @@ const wrapper = require('../wrapper')
 const permission = require('../../services/permission')
 const batchFinder = require('../../services/batchFinder')
 const voucherFinder = require('../../services/voucherFinder')
+const batchDuration = require('../../services/batchDuration')
 const batch = require('../../services/batch')
 const formatters = require('./formatters/batches')
 const httpError = require('../../utils/httpError')
@@ -35,6 +36,15 @@ batches.get('/codes', permission.getCheckScopesMiddleware(['batches.find']), wra
   async handler (req, res) {
     const foundBatches = await batchFinder.findByCodeTerm(req.query.term, req.query.size)
     return foundBatches.map(batch => batch.code)
+  }
+}))
+
+batches.get('/count', permission.getCheckScopesMiddleware(['batches.find']), wrapper({
+  query: formatters.countQuery,
+  response: formatters.countReponse,
+  handler (req, res) {
+    const { validAt, expiredAt } = req.query
+    return batchDuration.countByValidDuration(validAt, expiredAt)
   }
 }))
 

@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
         return DepositHistory.create({
           playerId,
           voucherId,
-          createdAt: moment().format('YYYY-MM-DD HH:mm:ss')
+          createdAt: moment().formatSQL()
         })
       }
     }
