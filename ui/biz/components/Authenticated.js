@@ -1,23 +1,28 @@
 import React, { PureComponent } from 'react'
 import Router from 'next/router'
+import axios from 'axios'
 import * as tokenApi from '../services/token'
 
 export default ComposedComponent => class Authenticated extends PureComponent {
   static async getInitialProps (context) {
     const { req, res } = context
+    const isServer = req && res
 
     // Check if token is valid
-    const token = context.req ? req.cookies.token : tokenApi.getToken()
+    const token = isServer ? req.cookies.token : tokenApi.getToken()
     let isValid = token !== null && token !== undefined && token !== ''
     if (isValid) {
       isValid = await tokenApi.isValid(token)
     }
 
-    // redirect if token is invalid
-    if (!isValid) {
-      if (context.res) {
-        context.res.redirect('/')
-        context.res.finished = true
+    if (isValid) {
+      // set axios header
+      axios.defaults.headers.common.Authorization = `JWT ${token}`
+    } else {
+      // redirect if token is invalid
+      if (isServer) {
+        res.redirect('/')
+        res.finished = true
       } else {
         Router.replace('/')
       }

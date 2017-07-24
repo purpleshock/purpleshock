@@ -3,9 +3,13 @@ import thunkMiddleware from 'redux-thunk'
 import window from 'global/window'
 import reduxLogger from 'redux-logger'
 import user from './user'
+import voucherHistory from './voucherHistory'
+import voucherHistoryPagination from './voucherHistoryPagination'
 
 const reducers = combineReducers({
-  user
+  user,
+  voucherHistory,
+  voucherHistoryPagination
 })
 
 export function initStore () {

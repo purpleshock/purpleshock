@@ -7,7 +7,7 @@ export default function reducer (state = {}, action) {
   return state
 }
 
-export function createVoucher (formData) {
+export function createVouchers (formData) {
   return dispatch => {
     return voucherApi.createVouchers(formData)
     .then(response => {
