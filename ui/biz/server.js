@@ -51,7 +51,7 @@ app.prepare()
   })
 
   server.get('/voucher-management', (req, res) => {
-    app.render(req, res, '/voucher-management')
+    app.render(req, res, '/voucher-management', req.query)
   })
 
   server.get('/voucher-management/:voucherId', (req, res) => {

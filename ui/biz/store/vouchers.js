@@ -11,7 +11,7 @@ export function createVouchers (formData) {
   return dispatch => {
     return voucherApi.createVouchers(formData)
     .then(response => {
-      console.log(response)
+      // console.log(response)
     })
   }
 }

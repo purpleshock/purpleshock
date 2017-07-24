@@ -25,7 +25,22 @@ module.exports = {
     return webpackMerge(config, {
       plugins: [
         definePlugin
-      ]
+      ],
+      module: {
+        rules: [
+          {
+            test: /\.(css|scss)/,
+            loader: 'emit-file-loader',
+            options: {
+              name: 'dist/[path][name].[ext]'
+            }
+          },
+          {
+            test: /\.css$/,
+            loader: 'babel-loader!raw-loader'
+          }
+        ]
+      }
     })
   }
 }

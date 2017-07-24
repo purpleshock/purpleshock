@@ -12,12 +12,12 @@ const reducers = combineReducers({
   voucherHistoryPagination
 })
 
-export function initStore () {
+export function initStore (initialState = {}) {
   const middleware = process.env.NODE_ENV === 'production'
     ? createProdMiddleware()
     : createDevMiddleware()
 
-  return createStore(reducers, middleware)
+  return createStore(reducers, initialState, middleware)
 }
 
 function createProdMiddleware () {
