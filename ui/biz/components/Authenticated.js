@@ -35,6 +35,13 @@ export default ComposedComponent => class Authenticated extends PureComponent {
     }
   }
 
+  componentDidMount () {
+    const token = tokenApi.getToken()
+    if (token) {
+      axios.defaults.headers.common.Authorization = `JWT ${token}`
+    }
+  }
+
   render () {
     return (
       <ComposedComponent {...this.props} />
