@@ -1,5 +1,3 @@
-const moment = require('moment')
-
 module.exports = (sequelize, Sequelize) => sequelize.define('Batch', {
   batchId: {
     type: Sequelize.INTEGER,
