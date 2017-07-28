@@ -5,6 +5,7 @@ const csurf = require('csurf')
 const axios = require('axios')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
+const cache = require('./utils/cache')
 
 const port = process.env.PORT || 7071
 process.env.AP = process.env.AP || 'http://localhost:7070'
@@ -12,6 +13,7 @@ const secret = process.env.SECRET || 'secret'
 const clientMaxAge = process.env.CLIENT_MAX_AGE || 60000
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' })
+const renderWithCache = cache(app)
 const handle = app.getRequestHandler()
 
 app.prepare()
@@ -47,15 +49,15 @@ app.prepare()
   })
 
   server.get('/', (req, res) => {
-    app.render(req, res, '/', req.query)
+    renderWithCache(req, res, '/', req.query)
   })
 
   server.get('/voucher-management', (req, res) => {
-    app.render(req, res, '/voucher-management', req.query)
+    renderWithCache(req, res, '/voucher-management', req.query)
   })
 
   server.get('/voucher-management/:voucherId', (req, res) => {
-    app.render(req, res, '/voucher-management', req.params)
+    renderWithCache(req, res, '/voucher-management', req.params)
   })
 
   server.get('*', (req, res) => {
