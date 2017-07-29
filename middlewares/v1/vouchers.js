@@ -1,48 +1,37 @@
 const express = require('express')
-const wrap = require('../wrap')
-const { voucherFinder, batchFinder, permission } = require('../../services')
-const { voucherResponse, findVouchersQuery, findVouchersResponse } = require('./formatters/vouchers')
-const { findCodesQuery, findCodesResponse } = require('./formatters/codeTerm')
+const wrapper = require('../wrapper')
+const voucherFinder = require('../../services/voucherFinder')
+const batchFinder = require('../../services/batchFinder')
+const permission = require('../../services/permission')
+const formatters = require('./formatters/vouchers')
 const httpError = require('../../utils/httpError')
-const formatters = require('./formatters')
 
 const vouchers = express.Router()
 
-vouchers.get('/codes',
-  permission.getCheckScopesMiddleware(['vouchers.find']),
-  formatters.validateQuery(findCodesQuery),
-  wrap(async (req, res, next) => {
-    const foundVouchers = await voucherFinder.findByCodeTerm(req.query.term, req.query.size)
-    const codes = foundVouchers.map(voucher => voucher.code)
-    const response = await formatters.validate(codes, findCodesResponse)
-    res.json(response)
-  })
-)
+vouchers.get('/codes', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
+  query: formatters.findCodesQuery,
+  response: formatters.findCodesResponse,
+  async handler (req, res) {
+    const { term, size } = req.query
+    const foundedVouchers = await voucherFinder.findByCodeTerm(term, size)
+    return foundedVouchers.map(voucher => voucher.code)
+  }
+}))
 
-vouchers.get('/',
-  permission.getCheckScopesMiddleware(['vouchers.find']),
-  formatters.validateQuery(findVouchersQuery),
-  wrap(async (req, res, next) => {
-    const foundVouchers = await voucherFinder.findByCodeTerm(req.query.term, req.query.size)
-    const response = await formatters.validate(foundVouchers, findVouchersResponse)
-    res.json(response)
-  })
-)
+vouchers.get('/:code', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
+  async handler (req, res) {
+    const { code } = req.params
 
-vouchers.get('/:code',
-  permission.getCheckScopesMiddleware(['vouchers.find']),
-  wrap(async (req, res, next) => {
-    const voucher = await voucherFinder.findByCode(req.params.code)
+    const voucher = await voucherFinder.findByCode(code)
     if (!voucher) {
       throw httpError(404)
     }
 
     const batch = await batchFinder.findById(voucher.batchId)
-    const response = await formatters.validate(Object.assign(voucher, {
-      batchCode: batch.code
-    }), voucherResponse)
-    res.json(response)
-  })
-)
+    return Object.assign(voucher, {
+      batch: batch.code
+    })
+  }
+}))
 
 module.exports = vouchers
