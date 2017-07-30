@@ -33,5 +33,21 @@ module.exports = (sequelize, Sequelize) => {
     })
   }
 
+  Voucher.findCodeLike = function (term, size) {
+    return Voucher.findAll({
+      attributes: ['code', 'amount'],
+      where: {
+        code: {
+          $like: term + '%'
+        }
+      },
+      include: {
+        model: sequelize.models.Batch,
+        attributes: ['code']
+      },
+      limit: size
+    })
+  }
+
   return Voucher
 }

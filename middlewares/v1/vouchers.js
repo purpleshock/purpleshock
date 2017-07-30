@@ -8,13 +8,12 @@ const httpError = require('../../utils/httpError')
 
 const vouchers = express.Router()
 
-vouchers.get('/codes', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
+vouchers.get('/', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
   query: formatters.findCodesQuery,
   response: formatters.findCodesResponse,
-  async handler (req, res) {
+  handler (req, res) {
     const { term, size } = req.query
-    const foundedVouchers = await voucherFinder.findByCodeTerm(term, size)
-    return foundedVouchers.map(voucher => voucher.code)
+    return voucherFinder.findByCodeTerm(term, size)
   }
 }))
 

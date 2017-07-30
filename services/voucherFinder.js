@@ -1,16 +1,15 @@
 const { Batch, Voucher } = require('../models/dao')
+const VoucherStatus = require('../models/VoucherStatus')
 
 async function findByCodeTerm (term, size) {
-  const vouchers = await Voucher.findAll({
-    where: {
-      code: {
-        $like: term + '%'
-      }
-    },
-    limit: size
-  })
+  const vouchers = await Voucher.findCodeLike(term, size)
 
-  return vouchers.map(voucher => voucher.toJSON())
+  return vouchers.map(voucherModel => {
+    const voucher = voucherModel.toJSON()
+    return Object.assign(voucher, {
+      status: VoucherStatus.getStatusValue(voucher.status)
+    })
+  })
 }
 
 async function findByCode (code) {

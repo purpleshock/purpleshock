@@ -45,15 +45,15 @@ test.before(async t => {
     })
 })
 
-test('GET /api/v1/vouchers/codes to get voucher codes by terms', async t => {
+test('GET /api/v1/vouchers to get vouchers by terms', async t => {
   const foundVouchersResponse = await request(app)
-    .get('/api/v1/vouchers/codes?term=xxx&size=5')
+    .get('/api/v1/vouchers?term=xxx&size=5')
     .set('Authorization', `JWT ${createAdminResponse.body.token}`)
 
   t.is(foundVouchersResponse.status, 200)
   t.is(foundVouchersResponse.body.length, 2)
-  t.is(foundVouchersResponse.body[0], 'xxxx-xxxx-xxxx-xxxx-xxxx')
-  t.is(foundVouchersResponse.body[1], 'xxxy-xxxx-xxxx-xxxx-xxxx')
+  t.is(foundVouchersResponse.body[0].code, 'xxxx-xxxx-xxxx-xxxx-xxxx')
+  t.is(foundVouchersResponse.body[1].code, 'xxxy-xxxx-xxxx-xxxx-xxxx')
 })
 
 test('GET /api/v1/vouchers/{code} to get voucher detail', async t => {
