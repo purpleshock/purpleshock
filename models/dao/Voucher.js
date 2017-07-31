@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
 
   Voucher.findCodeLike = function (term, size) {
     return Voucher.findAll({
-      attributes: ['code', 'amount'],
+      attributes: ['code', 'amount', 'status'],
       where: {
         code: {
           $like: term + '%'

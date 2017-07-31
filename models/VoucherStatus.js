@@ -17,14 +17,14 @@ VoucherStatus.SOLD = 'Sold'
 VoucherStatus.APPLIED = 'Applied'
 
 VoucherStatus.getStatusValue = function (value) {
-  return {
-    [VoucherStatus.INITIALIZED]: 0,
-    [VoucherStatus.ACTIVATED]: 1,
-    [VoucherStatus.DEACTIVATED]: 2,
-    [VoucherStatus.CONSIGNED]: 3,
-    [VoucherStatus.SOLD]: 4,
-    [VoucherStatus.APPLIED]: 5
-  }[value]
+  return [
+    VoucherStatus.INITIALIZED,
+    VoucherStatus.ACTIVATED,
+    VoucherStatus.DEACTIVATED,
+    VoucherStatus.CONSIGNED,
+    VoucherStatus.SOLD,
+    VoucherStatus.APPLIED
+  ][value]
 }
 
 StateMachine.factory(VoucherStatus, {

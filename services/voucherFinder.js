@@ -6,9 +6,13 @@ async function findByCodeTerm (term, size) {
 
   return vouchers.map(voucherModel => {
     const voucher = voucherModel.toJSON()
-    return Object.assign(voucher, {
+    const { code, amount } = voucher
+    return {
+      code,
+      batch: voucher.Batch.code,
+      amount,
       status: VoucherStatus.getStatusValue(voucher.status)
-    })
+    }
   })
 }
 
