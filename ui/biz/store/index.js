@@ -5,19 +5,30 @@ import reduxLogger from 'redux-logger'
 import user from './user'
 import voucherHistory from './voucherHistory'
 import voucherHistoryPagination from './voucherHistoryPagination'
+import environment from './environment'
+import codeFinder from './codeFinder'
 
 const reducers = combineReducers({
   user,
+  codeFinder,
   voucherHistory,
-  voucherHistoryPagination
+  voucherHistoryPagination,
+  environment
 })
 
-export function initStore (initialState = {}) {
+export function initStore (initialState = {}, options) {
   const middleware = process.env.NODE_ENV === 'production'
     ? createProdMiddleware()
     : createDevMiddleware()
 
-  return createStore(reducers, initialState, middleware)
+  const preloadState = {
+    ...initialState,
+    environment: {
+      isServer: options.isServer
+    }
+  }
+
+  return createStore(reducers, preloadState, middleware)
 }
 
 function createProdMiddleware () {

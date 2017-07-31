@@ -1,74 +1,47 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 import { Card } from 'semantic-ui-react'
 import styled from 'styled-components'
 import * as voucherStatus from '../consts/voucherStatus'
 
-const TimeList = styled.ul`
-  color: #666;
-  font-size: 8px;
-  line-height: 20px;
-  list-style-type: none;
-  padding: 0;
+const Code = styled.a`
+  flex: 1;
+  font-size: 12px;
+  text-transform: uppercase;
 `
 
-const DescriptionBody = styled.p`
-  color: #333;
-  font-size: 13px;
-`
 const BaseStatus = styled.span`
-  border: 1px solid #A0A0A0;
   border-radius: 5px;
-  color: #A0A0A0;
-  font-size: 8px;
-  padding: 0 5px;
+  border: 1px solid;
+  border-color: #333;
+  color: #333;
+  font-size: 10px;
+  padding: 0 3px;
   text-transform: lowercase;
 `
 
-const Activated = BaseStatus.extend`
-  border: 1px solid #32CD32;
-  color: #32CD32;
-`
-
 const Deactivated = BaseStatus.extend`
-  border: 1px solid #B03060;
-  color: #B03060;
+  border-color: #B03060;
+  color: #B03060
 `
 
-const HeaderWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+const Activated = BaseStatus.extend`
+  border-color: #008080;
+  color: #008080
 `
 
-export class Voucher extends PureComponent {
-  render () {
-    return (
-      <Card>
-        <Card.Content>
-          <Card.Header>
-            <HeaderWrapper>
-              {this.props.code}
-              {this.renderStatusMeta()}
-            </HeaderWrapper>
-          </Card.Header>
-        </Card.Content>
-      </Card>
-    )
-  }
+const Amount = styled.span`
+  color: #666;
+  font-size: 10px;
+`
 
-  renderStatusMeta () {
-    const { status } = this.props
-    switch (status) {
-      case voucherStatus.ACTIVATED:
-        return <Activated>{status}</Activated>
-      case voucherStatus.DEACTIVATED:
-        return <Deactivated>{status}</Deactivated>
-      default:
-        return <BaseStatus>{status}</BaseStatus>
-    }
-  }
-}
+const HistoryLink = styled.a`
+  color: #666;
+  display: block;
+  font-size: 10px;
+  text-align: right;
+`
 
 export default class VoucherList extends PureComponent {
   static propTypes = {
@@ -83,9 +56,34 @@ export default class VoucherList extends PureComponent {
     return (
       <Card.Group>
         {this.props.vouchers.map(voucher =>
-          <Voucher key={voucher.code} {...voucher} />
+          <Card key={voucher.code}>
+            <Card.Content>
+              <Card.Header>
+                <Link href={`/voucher/${voucher.code}`}>
+                  <Code>{voucher.code}</Code>
+                </Link>
+              </Card.Header>
+              <Card.Description>
+                {this.renderStatus(voucher.status)}
+                <Amount>{voucher.amount}</Amount>
+                <Link href={`/voucher-history/${voucher.batch}`}>
+                  <HistoryLink>other vouchers ...</HistoryLink>
+                </Link>
+              </Card.Description>
+            </Card.Content>
+          </Card>
         )}
       </Card.Group>
     )
+  }
+
+  renderStatus (status) {
+    if (status === voucherStatus.ACTIVATED) {
+      return <Activated>{status}</Activated>
+    } else if (status === voucherStatus.DEACTIVATED) {
+      return <Deactivated>{status}</Deactivated>
+    } else {
+      return <BaseStatus>{status}</BaseStatus>
+    }
   }
 }
