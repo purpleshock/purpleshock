@@ -1,4 +1,3 @@
-import moment from 'moment'
 import * as voucherHistoryActions from '../actions/voucherHistory'
 
 export default function reducer (state = { size: 10 }, action) {

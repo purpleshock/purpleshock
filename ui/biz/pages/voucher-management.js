@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import Router from 'next/router'
 import withRedux from 'next-redux-wrapper'
-import { Container } from 'semantic-ui-react'
 import Authenticated from '../components/Authenticated'
 import Layout from '../components/Layout'
 import { initStore } from '../store'
@@ -14,6 +14,10 @@ import FindVoucher from '../components/FindVoucher'
 @Authenticated
 @withRedux(initStore, mapStateToProps, mapDispatchToProps)
 export default class VoucherManagement extends PureComponent {
+  static propTypes = {
+    onCreateVouchers: PropTypes.func.isRequired
+  }
+
   static async getInitialProps ({ isServer, store, query }) {
     const prefetch = query && query.page && (query.validAt || query.expiredAt)
     const props = {

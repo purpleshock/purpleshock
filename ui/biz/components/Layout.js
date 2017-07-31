@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { Container } from 'semantic-ui-react'
 
 export default class Layout extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node
+  }
+
   render () {
     return (
       <Container>

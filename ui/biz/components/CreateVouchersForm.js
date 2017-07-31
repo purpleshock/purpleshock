@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import DateRangePicker from 'react-daterange-picker'
 import { Form, Button } from 'semantic-ui-react'
 
 export default class CreateVouchersForm extends PureComponent {

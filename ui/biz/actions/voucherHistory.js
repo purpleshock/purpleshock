@@ -1,4 +1,3 @@
-import moment from 'moment'
 import * as voucherHistoryApi from '../services/voucherHistory'
 
 export const SEARCH_HISTORY = 'ps-biz/voucherHistory/SEARCH_HISTORY'

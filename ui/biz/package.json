@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "eslint": "eslint ."
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -33,9 +34,13 @@
     "validator": "^8.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-styled-components": "^1.1.7",
     "css-loader": "^0.28.4",
+    "eslint": "^4.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-react": "^7.1.0",
     "nodemon": "^1.11.0",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.18.2",

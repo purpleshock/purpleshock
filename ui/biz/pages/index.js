@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
@@ -6,9 +7,12 @@ import { initStore } from '../store'
 import * as userActions from '../store/user'
 import Layout from '../components/Layout'
 import LoginForm from '../components/LoginForm'
-import * as token from '../services/token'
 
 class Index extends PureComponent {
+  static propTypes = {
+    login: PropTypes.func.isRequired
+  }
+
   render () {
     return (
       <Layout>

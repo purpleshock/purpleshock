@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Head from 'next/head'
 import DateRangePicker from 'react-daterange-picker'
 import { Form } from 'semantic-ui-react'
 import moment from 'moment'

@@ -1,7 +1,6 @@
 const express = require('express')
 const next = require('next')
 const bodyParser = require('body-parser')
-const csurf = require('csurf')
 const axios = require('axios')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
@@ -10,7 +9,6 @@ const cache = require('./utils/cache')
 const port = process.env.PORT || 7071
 process.env.AP = process.env.AP || 'http://localhost:7070'
 const secret = process.env.SECRET || 'secret'
-const clientMaxAge = process.env.CLIENT_MAX_AGE || 60000
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' })
 const renderWithCache = cache(app)
