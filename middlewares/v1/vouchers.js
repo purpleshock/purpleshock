@@ -5,8 +5,15 @@ const batchFinder = require('../../services/batchFinder')
 const permission = require('../../services/permission')
 const formatters = require('./formatters/vouchers')
 const httpError = require('../../utils/httpError')
+const VoucherStatus = require('../../models/VoucherStatus')
 
 const vouchers = express.Router()
+
+vouchers.get('/status', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
+  handler (req, res) {
+    return VoucherStatus.getAvailableStatus()
+  }
+}))
 
 vouchers.get('/', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
   query: formatters.findCodesQuery,

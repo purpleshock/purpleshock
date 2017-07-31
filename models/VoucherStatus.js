@@ -30,6 +30,7 @@ availableStatus.forEach(status => {
 
 VoucherStatus.fromIndexToStatus = index => availableStatus[index]
 VoucherStatus.fromStatusToIndex = status => availableStatus.indexOf(status)
+VoucherStatus.getAvailableStatus = () => availableStatus.slice()
 
 StateMachine.factory(VoucherStatus, {
   transitions: [
