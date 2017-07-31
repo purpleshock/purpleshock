@@ -11,7 +11,7 @@ async function findByCodeTerm (term, size) {
       code,
       batch: voucher.Batch.code,
       amount,
-      status: VoucherStatus.getStatusValue(voucher.status)
+      status: VoucherStatus.fromIndexToStatus(voucher.status)
     }
   })
 }

@@ -9,30 +9,39 @@ let createAdminResponse
 test.before(async t => {
   await sequelize.sync({ force: true })
 
+  const batch = await Batch.create({
+    code: 'uuid-code-for-batch'
+  })
+
   await Promise.all([
     Voucher.create({
+      batchId: batch.batchId,
       code: 'xxxx-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
       amount: 100
     }),
     Voucher.create({
+      batchId: batch.batchId,
       code: 'xxxy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
       amount: 100
     }),
     Voucher.create({
+      batchId: batch.batchId,
       code: 'xxyy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
       amount: 100
     }),
     Voucher.create({
+      batchId: batch.batchId,
       code: 'xyyy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
       amount: 100
     }),
     Voucher.create({
+      batchId: batch.batchId,
       code: 'yyyy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
       amount: 100
     })
   ])

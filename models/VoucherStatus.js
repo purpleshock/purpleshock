@@ -1,7 +1,22 @@
 const StateMachine = require('javascript-state-machine')
 
+const availableStatus = [
+  // 初始化
+  'INITIALIZED',
+  // 已生效
+  'ACTIVATED',
+  // 已失效
+  'DEACTIVATED',
+  // 已到貨
+  'CONSIGNED',
+  // 已售出
+  'SOLD',
+  // 已註冊
+  'APPLIED'
+]
+
 function VoucherStatus (status) {
-  if (typeof VoucherStatus[status.toUpperCase()] === 'string') {
+  if (typeof VoucherStatus[status] === 'string') {
     this._fsm()
     this.resetTo(status)
   } else {
@@ -9,23 +24,12 @@ function VoucherStatus (status) {
   }
 }
 
-VoucherStatus.INITIALIZED = 'Initialized'
-VoucherStatus.ACTIVATED = 'Activated'
-VoucherStatus.DEACTIVATED = 'Deactivated'
-VoucherStatus.CONSIGNED = 'Consigned'
-VoucherStatus.SOLD = 'Sold'
-VoucherStatus.APPLIED = 'Applied'
+availableStatus.forEach(status => {
+  VoucherStatus[status] = status
+})
 
-VoucherStatus.getStatusValue = function (value) {
-  return [
-    VoucherStatus.INITIALIZED,
-    VoucherStatus.ACTIVATED,
-    VoucherStatus.DEACTIVATED,
-    VoucherStatus.CONSIGNED,
-    VoucherStatus.SOLD,
-    VoucherStatus.APPLIED
-  ][value]
-}
+VoucherStatus.fromIndexToStatus = index => availableStatus[index]
+VoucherStatus.fromStatusToIndex = status => availableStatus.indexOf(status)
 
 StateMachine.factory(VoucherStatus, {
   transitions: [

@@ -9,7 +9,7 @@ async function createVouchers (batchId, createdCount, amount) {
       batchId,
       code: codeGenerate.getCode(),
       amount,
-      status: VoucherStatus.getStatusValue(VoucherStatus.INITIALIZED)
+      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED)
     }
   }
   await Voucher.bulkCreate(vouchers)
