@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { Card } from 'semantic-ui-react'
 import styled from 'styled-components'
-import * as voucherStatus from '../consts/voucherStatus'
 
 const Code = styled.a`
   flex: 1;
@@ -45,7 +44,11 @@ const HistoryLink = styled.a`
 
 export default class VoucherList extends PureComponent {
   static propTypes = {
-    vouchers: PropTypes.array
+    vouchers: PropTypes.array,
+    availableStatus: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.bool
+    ])
   }
 
   static defaultProps = {
@@ -78,9 +81,10 @@ export default class VoucherList extends PureComponent {
   }
 
   renderStatus (status) {
-    if (status === voucherStatus.ACTIVATED) {
+    const { availableStatus } = this.props
+    if (status === availableStatus.ACTIVATED) {
       return <Activated>{status}</Activated>
-    } else if (status === voucherStatus.DEACTIVATED) {
+    } else if (status === availableStatus.DEACTIVATED) {
       return <Deactivated>{status}</Deactivated>
     } else {
       return <BaseStatus>{status}</BaseStatus>

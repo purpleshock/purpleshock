@@ -18,3 +18,8 @@ export function findVouchersByTerm (term, size = 5) {
   return axios.get(`${process.env.AP}/api/v1/vouchers?${query}`)
   .then(response => response.data)
 }
+
+export function getAvailableStatus () {
+  return axios.get(`${process.env.AP}/api/v1/vouchers/status`)
+  .then(response => response.data)
+}

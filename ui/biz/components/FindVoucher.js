@@ -9,6 +9,7 @@ import * as suggestActions from '../actions/suggest'
 
 function mapStateToProps (state) {
   return {
+    availableStatus: state.voucherAvailableStatus,
     results: state.codeFinder.vouchers,
     isLoading: state.codeFinder.isLoading
   }
@@ -25,6 +26,10 @@ function mapDispatchToProps (dispatch) {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class FindVoucher extends PureComponent {
   static propTypes = {
+    availableStatus: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.bool
+    ]).isRequired,
     results: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     delay: PropTypes.number.isRequired,
@@ -50,6 +55,7 @@ export default class FindVoucher extends PureComponent {
           onChange={this.onSearchChange}
         />
         <VoucherList
+          availableStatus={this.props.availableStatus}
           vouchers={this.props.results}
         />
       </div>
