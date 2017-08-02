@@ -23,3 +23,8 @@ export function getAvailableStatus () {
   return axios.get(`${process.env.AP}/api/v1/vouchers/status`)
   .then(response => response.data)
 }
+
+export function queryVoucher (code) {
+  return axios.get(`${process.env.AP}/api/v1/vouchers/${code}`)
+  .then(response => response.data)
+}

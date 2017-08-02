@@ -50,6 +50,10 @@ app.prepare()
     renderWithCache(req, res, '/', req.query)
   })
 
+  server.get('/voucher/:voucherCode', (req, res) => {
+    renderWithCache(req, res, '/voucher', req.params)
+  })
+
   server.get('/voucher-management', (req, res) => {
     renderWithCache(req, res, '/voucher-management', req.query)
   })
