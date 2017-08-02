@@ -55,7 +55,9 @@ module.exports = function wrapper ({
       }
       res.json(result)
     } catch (err) {
-      err.status = errors[err.message] || 500
+      if (!err.hasOwnProperty('status')) {
+        err.status = errors[err.message] || 500
+      }
       next(err)
     }
   }
