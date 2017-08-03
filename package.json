@@ -1,0 +1,55 @@
+{
+  "name": "purpleshock",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "eslint": "eslint .",
+    "prestart": "yarn eslint",
+    "dev": "nodemon -i ./ui --exec \"yarn start\"",
+    "start": "DEBUG=api:* node -r dotenv/config bin/www",
+    "test": "NODE_ENV=test ava",
+    "db:up": "sequelize db:migrate",
+    "db:down": "sequelize db:migrate:undo:all",
+    "db:seed": "sequelize db:seed:all",
+    "db:reset": "yarn db:down && yarn db:up && yarn db:seed"
+  },
+  "engines": {
+    "node": "7.6.0"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "express-jwt": "^5.3.0",
+    "javascript-state-machine": "^3.0.1",
+    "joi": "^10.5.0",
+    "jsonwebtoken": "^7.4.1",
+    "moment": "^2.18.1",
+    "morgan": "^1.8.2",
+    "mysql": "^2.13.0",
+    "sequelize": "^3.30.4",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "nodemon": "^1.11.0",
+    "sequelize-cli": "^2.7.0",
+    "sinon": "^2.3.2",
+    "sqlite3": "^3.1.8",
+    "supertest": "^3.0.0"
+  },
+  "ava": {
+    "require": [
+      "./tests/_pre.js"
+    ]
+  }
+}

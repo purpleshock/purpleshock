@@ -1,0 +1,1 @@
+exports.VoucherStatus = require('./VoucherStatus')
