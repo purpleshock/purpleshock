@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 import { Card } from 'semantic-ui-react'
 import styled from 'styled-components'
+import StyleableLink from './StyleableLink'
 
-const Code = styled.a`
+const Code = styled(StyleableLink)`
   flex: 1;
   font-size: 12px;
   text-transform: uppercase;
@@ -35,7 +35,7 @@ const Amount = styled.span`
   font-size: 10px;
 `
 
-const HistoryLink = styled.a`
+const HistoryLink = styled(StyleableLink)`
   color: #666;
   display: block;
   font-size: 10px;
@@ -62,16 +62,12 @@ export default class VoucherList extends PureComponent {
           <Card key={voucher.code}>
             <Card.Content>
               <Card.Header>
-                <Link href={`/voucher/${voucher.code}`}>
-                  <Code>{voucher.code}</Code>
-                </Link>
+                <Code href={`/voucher/${voucher.code}`}>{voucher.code}</Code>
               </Card.Header>
               <Card.Description>
                 {this.renderStatus(voucher.status)}
                 <Amount>{voucher.amount}</Amount>
-                <Link href={`/voucher-history/${voucher.batch}`}>
-                  <HistoryLink>other vouchers ...</HistoryLink>
-                </Link>
+                <HistoryLink href={`/voucher-history/${voucher.batch}`}>other vouchers ...</HistoryLink>
               </Card.Description>
             </Card.Content>
           </Card>
