@@ -1,4 +1,4 @@
-const joi = require('../joi')
+const joi = require('../../../joi')
 
 const registerAdminBody = joi.object({
   mail: joi.string().email().required(),

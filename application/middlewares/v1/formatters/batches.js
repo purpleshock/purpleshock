@@ -1,4 +1,4 @@
-const joi = require('../joi')
+const joi = require('../../../joi')
 
 const getBatchResponse = joi.object().keys({
   code: joi.string(),
@@ -54,7 +54,7 @@ const getBelongedVouchersQuery = joi.object().keys({
 })
 
 const getBelongedVouchersResponse = joi.array().items(
-  joi.object().keys({
+  joi.object({
     code: joi.string(),
     status: joi.voucherStatus(),
     amount: joi.number()

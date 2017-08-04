@@ -1,4 +1,4 @@
-const joi = require('../joi')
+const joi = require('../../../joi')
 
 const findCodesQuery = joi.object().keys({
   term: [joi.equal(null).strip(), joi.string()],

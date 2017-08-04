@@ -1,18 +1,14 @@
 const express = require('express')
-const joi = require('./joi')
 const wrapper = require('../wrapper')
 const wallet = require('../../services/wallet')
 const depositHistory = require('../../services/depositHistory')
+const formatters = require('./formatters/deposit')
 
 const deposit = express.Router()
 
 deposit.post('/', wrapper({
-  body: joi.object().keys({
-    code: joi.string().required()
-  }),
-  response: joi.object().keys({
-    balance: joi.number().required()
-  }),
+  body: formatters.depositBody,
+  response: formatters.depositResponse,
   errors: {
     [wallet.ILLEGAL_STATUS_OPERATION]: 400,
     [wallet.INVALID_WALLET]: 400,
@@ -26,19 +22,8 @@ deposit.post('/', wrapper({
 }))
 
 deposit.get('/', wrapper({
-  query: joi.object().keys({
-    from: joi.unix().required(),
-    to: joi.unix().required(),
-    page: joi.number().required(),
-    pagination: joi.number().required()
-  }),
-  response: joi.array().items(
-    joi.object().keys({
-      createdAt: joi.unix(),
-      code: joi.string(),
-      amount: joi.number()
-    })
-  ),
+  query: formatters.getDepositHistoryQuery,
+  response: formatters.getDepositHistoryResponse,
   errors: {
     [depositHistory.NO_HISTORY]: 404
   },

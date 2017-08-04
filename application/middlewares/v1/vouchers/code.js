@@ -1,5 +1,6 @@
 const express = require('express')
 const wrapper = require('../../wrapper')
+const voucher = require('../../../services/voucher')
 const voucherFinder = require('../../../services/voucherFinder')
 const batchFinder = require('../../../services/batchFinder')
 const permission = require('../../../services/permission')
@@ -21,12 +22,23 @@ router.use(permission.getCheckScopesMiddleware(['vouchers.find']), async (req, r
 })
 
 router.get('/', wrapper({
-  async handler(req, res) {
+  async handler (req, res) {
     const { voucher } = res.locals
     const batch = await batchFinder.findById(voucher.batchId)
     return Object.assign(voucher, {
       batch: batch.code
     })
+  }
+}))
+
+router.put('/', permission.getCheckScopesMiddleware(['vouchers.modify']), wrapper({
+  body: formatters.editVoucherBody,
+  errors: {
+    [voucher.ILLEGAL_OPERATION]: 403,
+    [voucher.ILLEGAL_STATUS_OPERATION]: 405
+  },
+  handler (req, res) {
+    return voucher.updateVoucher(res.locals.voucher, req.body)
   }
 }))
 

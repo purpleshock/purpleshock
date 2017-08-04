@@ -1,5 +1,5 @@
 const joi = require('joi')
-const exportDir = require('../../../utils/exportDir')
+const exportDir = require('../utils/exportDir')
 
 const plugins = Object.values(exportDir(__dirname))
 let enhancedJoi = joi

@@ -1,4 +1,4 @@
-const joi = require('../joi')
+const joi = require('../../../joi')
 
 const voucherEntity = joi.object({
   code: joi.string(),
@@ -12,10 +12,16 @@ const findCodesQuery = joi.object({
   size: joi.number().integer().positive().required()
 })
 
+const editVoucherBody = joi.object({
+  status: joi.voucherStatus(),
+  amount: joi.number()
+})
+
 const findCodesResponse = joi.array().items(voucherEntity)
 
 module.exports = {
   voucherEntity,
   findCodesQuery,
-  findCodesResponse
+  findCodesResponse,
+  editVoucherBody
 }
