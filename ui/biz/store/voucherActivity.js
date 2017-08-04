@@ -7,11 +7,18 @@ const initialState = {
 export default function reducer (state = {}, action) {
   switch (action.type) {
     case voucherActions.GET_VOUCHER:
-      return initialState
+      return getVoucher(state, action)
     case voucherActions.ON_GET_VOUCHER:
       return onGetVoucher(state, action)
     default:
       return state
+  }
+}
+
+function getVoucher(state, action) {
+  return {
+    ...state,
+    isLoading: true
   }
 }
 

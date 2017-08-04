@@ -22,6 +22,7 @@ export default class Voucher extends PureComponent {
       <Layout>
         <VoucherInfo
           {...this.props.voucherInfo}
+          processing={this.props.isVoucherLoading}
           availableStatus={this.props.availableStatus}
           onSubmit={this.props.modifyVoucher}
         />
@@ -33,6 +34,7 @@ export default class Voucher extends PureComponent {
 function mapStateToProps (state) {
   return {
     availableStatus: state.voucherAvailableStatus,
+    isVoucherLoading: state.voucherActivity.isLoading,
     voucherInfo: state.voucherActivity.voucher
   }
 }
@@ -42,6 +44,7 @@ function mapDispatchToProps (dispatch, ownProps) {
   return {
     modifyVoucher (formData) {
       dispatch(modifyVoucher(voucherCode, formData))
+      .then(() => dispatch(searchVoucher(voucherCode)))
     }
   }
 }

@@ -23,7 +23,7 @@ export default class VoucherInfo extends PureComponent {
         <Card.Content>
           <Card.Header>{this.props.code}</Card.Header>
           <Card.Content>
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit} loading={this.props.processing}>
               <Form.Field
                 label='Status'
                 control='select'
