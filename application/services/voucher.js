@@ -42,9 +42,15 @@ async function updateVoucher (from, to) {
   await Voucher.updateByCode(from.code, modifyBody)
 }
 
+function getAvailableStatus (status) {
+  const allStatus = VoucherStatus.getAvailableStatus()
+  return allStatus.filter(testStatus => VoucherStatus.canMakeTransition(status, testStatus))
+}
+
 module.exports = {
   ILLEGAL_OPERATION,
   ILLEGAL_STATUS_OPERATION,
   createVouchers,
-  updateVoucher
+  updateVoucher,
+  getAvailableStatus
 }
