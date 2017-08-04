@@ -1,5 +1,4 @@
 const { Batch, Voucher } = require('../models/dao')
-const VoucherStatus = require('../models/VoucherStatus')
 
 async function findByCodeTerm (term, size) {
   const vouchers = await Voucher.findCodeLike(term, size)
