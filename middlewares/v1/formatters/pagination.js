@@ -1,4 +1,4 @@
-const joi = require('../joi')
+const joi = require('../../../joi')
 
 const paginationQuery = joi.object().keys({
   page: joi.number().integer().positive().required(),
