@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER
     },
     status: {
-      type: Sequelize.INTEGER
+      type: Sequelize.STRING
     }
   }, {
     timestamps: false,
@@ -26,6 +26,13 @@ module.exports = (sequelize, Sequelize) => {
       }
     }
   })
+
+  Voucher.updateByCode = function (code, body) {
+    return Voucher.update(body, {
+      where: { code },
+      logging: console.log
+    })
+  }
 
   Voucher.findByCode = function (code) {
     return Voucher.findOne({

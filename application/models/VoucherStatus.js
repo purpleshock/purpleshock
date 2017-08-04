@@ -28,9 +28,24 @@ availableStatus.forEach(status => {
   VoucherStatus[status] = status
 })
 
-VoucherStatus.fromIndexToStatus = index => availableStatus[index]
-VoucherStatus.fromStatusToIndex = status => availableStatus.indexOf(status)
 VoucherStatus.getAvailableStatus = () => availableStatus.slice()
+VoucherStatus.canMakeTransition = (fromStatus, toStatus) => {
+  const machine = new VoucherStatus(fromStatus)
+  switch (toStatus) {
+    case VoucherStatus.DEACTIVATED:
+      return machine.can('deactivate')
+    case VoucherStatus.ACTIVATED:
+      return machine.can('activate')
+    case VoucherStatus.CONSIGNED:
+      return machine.can('consign')
+    case VoucherStatus.SOLD:
+      return machine.can('sell')
+    case VoucherStatus.APPLIED:
+      return machine.can('apply')
+    default:
+      return false
+  }
+}
 
 StateMachine.factory(VoucherStatus, {
   transitions: [
