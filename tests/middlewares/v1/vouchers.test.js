@@ -17,31 +17,31 @@ test.before(async t => {
     Voucher.create({
       batchId: batch.batchId,
       code: 'xxxx-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.INITIALIZED,
       amount: 100
     }),
     Voucher.create({
       batchId: batch.batchId,
       code: 'xxxy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.INITIALIZED,
       amount: 100
     }),
     Voucher.create({
       batchId: batch.batchId,
       code: 'xxyy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.INITIALIZED,
       amount: 100
     }),
     Voucher.create({
       batchId: batch.batchId,
       code: 'xyyy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.INITIALIZED,
       amount: 100
     }),
     Voucher.create({
       batchId: batch.batchId,
       code: 'yyyy-xxxx-xxxx-xxxx-xxxx',
-      status: VoucherStatus.fromStatusToIndex(VoucherStatus.INITIALIZED),
+      status: VoucherStatus.INITIALIZED,
       amount: 100
     })
   ])
@@ -82,17 +82,15 @@ test('GET /api/v1/vouchers/{code} to get voucher detail', async t => {
     .get(`/api/v1/vouchers/${voucherCode}`)
     .set('Authorization', `JWT ${createAdminResponse.body.token}`)
 
-  t.is(foundVoucherResponse.status, 200)
   t.is(foundVoucherResponse.body.code, voucherCode)
   t.is(foundVoucherResponse.body.batch, batchCode)
+  t.is(foundVoucherResponse.status, 200)
 })
-
 test('GET /api/v1/vouchers/status to get all vouchers available status', async t => {
   const statusResponse = await request(app)
     .get('/api/v1/vouchers/status')
     .set('Authorization', `JWT ${createAdminResponse.body.token}`)
 
-  t.is(statusResponse.status, 200)
   t.deepEqual(statusResponse.body, [
     'INITIALIZED',
     'ACTIVATED',
@@ -101,4 +99,5 @@ test('GET /api/v1/vouchers/status to get all vouchers available status', async t
     'SOLD',
     'APPLIED'
   ])
+  t.is(statusResponse.status, 200)
 })
