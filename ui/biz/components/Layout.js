@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Container } from 'semantic-ui-react'
+import { Container, Menu, SideBar, Icon } from 'semantic-ui-react'
+import Link from './Link'
 
 export default class Layout extends PureComponent {
   static propTypes = {
@@ -9,9 +10,21 @@ export default class Layout extends PureComponent {
 
   render () {
     return (
-      <Container>
-        {this.props.children}
-      </Container>
+      <div>
+        <Menu attached='top'>
+          <Menu.Item as={Link} href='/dashboard'>
+            <Icon name='dashboard' />
+            Dashboard
+          </Menu.Item>
+          <Menu.Item as={Link} href='/voucher-management'>
+            <Icon name='tasks' />
+            Management
+          </Menu.Item>
+        </Menu>
+        <Container>
+          {this.props.children}
+        </Container>
+      </div>
     )
   }
 }
