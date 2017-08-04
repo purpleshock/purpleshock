@@ -16,8 +16,12 @@ export default function reducer (state = {}, action) {
 }
 
 function onGetVoucher (state, action) {
+  const { code, voucher } = action.payload
   return {
     isLoading: false,
-    voucher: action.payload
+    voucher: {
+      ...voucher,
+      code
+    }
   }
 }

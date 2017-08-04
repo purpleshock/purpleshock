@@ -31,6 +31,16 @@ export function searchVoucher (code) {
     }
 
     const voucher = await voucherApi.queryVoucher(code)
-    dispatch(onGetVoucher(code, voucher))
+    const voucherAvailableStatus = await voucherApi.queryVoucherAvailableStatus(code)
+    dispatch(onGetVoucher(code, {
+      ...voucher,
+      statusOptions: voucherAvailableStatus
+    }))
+  }
+}
+
+export function modifyVoucher(code, formData) {
+  return async dispatch => {
+    await voucherApi.updateVoucher(code, formData)
   }
 }

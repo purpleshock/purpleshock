@@ -6,11 +6,11 @@ import withRedux from 'next-redux-wrapper'
 import Authenticated from '../components/Authenticated'
 import Layout from '../components/Layout'
 import { initStore } from '../store'
-import { searchVoucher } from '../actions/voucher'
+import { searchVoucher, modifyVoucher } from '../actions/voucher'
 import VoucherInfo from '../components/VoucherInfo'
 
 @Authenticated
-@withRedux(initStore, mapStateToProps)
+@withRedux(initStore, mapStateToProps, mapDispatchToProps)
 export default class Voucher extends PureComponent {
   static async getInitialProps ({ isServer, store, query }) {
     await store.dispatch(searchVoucher(query.voucherCode))
@@ -21,8 +21,9 @@ export default class Voucher extends PureComponent {
     return (
       <Layout>
         <VoucherInfo
-          availableStatus={this.props.availableStatus}
           {...this.props.voucherInfo}
+          availableStatus={this.props.availableStatus}
+          onSubmit={this.props.modifyVoucher}
         />
       </Layout>
     )
@@ -33,5 +34,14 @@ function mapStateToProps (state) {
   return {
     availableStatus: state.voucherAvailableStatus,
     voucherInfo: state.voucherActivity.voucher
+  }
+}
+
+function mapDispatchToProps (dispatch, ownProps) {
+  const { voucherCode } = ownProps.url.query
+  return {
+    modifyVoucher (formData) {
+      dispatch(modifyVoucher(voucherCode, formData))
+    }
   }
 }

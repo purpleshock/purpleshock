@@ -28,3 +28,12 @@ export function queryVoucher (code) {
   return axios.get(`${process.env.AP}/api/v1/vouchers/${code}`)
   .then(response => response.data)
 }
+
+export function queryVoucherAvailableStatus (code) {
+  return axios.get(`${process.env.AP}/api/v1/vouchers/${code}/available-status`)
+  .then(response => response.data)
+}
+
+export function updateVoucher (code, formData) {
+  return axios.put(`${process.env.AP}/api/v1/vouchers/${code}`, formData)
+}
