@@ -34,7 +34,6 @@ router.get('/', wrapper({
 router.put('/', permission.getCheckScopesMiddleware(['vouchers.modify']), wrapper({
   body: formatters.editVoucherBody,
   errors: {
-    [voucher.ILLEGAL_OPERATION]: 403,
     [voucher.ILLEGAL_STATUS_OPERATION]: 405
   },
   handler (req, res) {

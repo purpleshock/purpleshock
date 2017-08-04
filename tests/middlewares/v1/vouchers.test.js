@@ -86,6 +86,70 @@ test('GET /api/v1/vouchers/{code} to get voucher detail', async t => {
   t.is(foundVoucherResponse.body.batch, batchCode)
   t.is(foundVoucherResponse.status, 200)
 })
+
+test('PUT /api/v1/vouchers/{code} to modify voucher fields', async t => {
+  const voucherCode = 'voucher-to-be-modified'
+  const newAmount = 1000
+  const newStatus = VoucherStatus.ACTIVATED
+  await Voucher.create({
+    status: VoucherStatus.INITIALIZED,
+    amount: 100,
+    code: voucherCode
+  })
+
+  const editVoucherResponse = await request(app)
+    .put(`/api/v1/vouchers/${voucherCode}`)
+    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+    .send({
+      status: newStatus,
+      amount: newAmount
+    })
+  const modifiedVoucher = await Voucher.findByCode(voucherCode)
+
+  t.is(editVoucherResponse.status, 200)
+  t.is(modifiedVoucher.amount, newAmount)
+  t.is(modifiedVoucher.status, VoucherStatus.ACTIVATED)
+})
+
+test('PUT /api/v1/vouchers/{code} to modify voucher code is illegal', async t => {
+  const voucherCode = 'voucher-to-be-modified-illegally'
+  await Voucher.create({
+    status: VoucherStatus.INITIALIZED,
+    amount: 100,
+    code: voucherCode
+  })
+
+  await request(app)
+    .put(`/api/v1/vouchers/${voucherCode}`)
+    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+    .send({
+      code: 'voucher-code-cannot-be-modified'
+    })
+  const modifiedVoucher = await Voucher.findByCode(voucherCode)
+
+  t.is(modifiedVoucher.code, voucherCode)
+})
+
+test('PUT /api/v1/vouchers/{code} to perform illegal voucher status operation', async t => {
+  const voucherCode = 'voucher-to-be-modified-on-illegal-status'
+  const originStatus = VoucherStatus.ACTIVATED
+  await Voucher.create({
+    status: originStatus,
+    code: voucherCode
+  })
+
+  const editVoucherResponse = await request(app)
+    .put(`/api/v1/vouchers/${voucherCode}`)
+    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+    .send({
+      status: VoucherStatus.INITIALIZED
+    })
+  const modifiedVoucher = await Voucher.findByCode(voucherCode)
+
+  t.is(editVoucherResponse.status, 405)
+  t.is(modifiedVoucher.status, originStatus)
+})
+
 test('GET /api/v1/vouchers/status to get all vouchers available status', async t => {
   const statusResponse = await request(app)
     .get('/api/v1/vouchers/status')

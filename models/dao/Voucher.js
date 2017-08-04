@@ -29,8 +29,7 @@ module.exports = (sequelize, Sequelize) => {
 
   Voucher.updateByCode = function (code, body) {
     return Voucher.update(body, {
-      where: { code },
-      logging: console.log
+      where: { code }
     })
   }
 
