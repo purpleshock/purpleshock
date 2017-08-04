@@ -150,18 +150,35 @@ test('PUT /api/v1/vouchers/{code} to perform illegal voucher status operation', 
   t.is(modifiedVoucher.status, originStatus)
 })
 
+test('GET /api/v1/vouchers/{code}/available-status to get all vouchers available status', async t => {
+  const voucher = await Voucher.create({
+    code: 'voucher-to-be-test-with-getting-available-status',
+    status: VoucherStatus.INITIALIZED
+  })
+
+  const availableStatusResponse = await request(app)
+    .get(`/api/v1/vouchers/${voucher.code}/available-status`)
+    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+
+  t.deepEqual(availableStatusResponse.body, [
+    VoucherStatus.ACTIVATED,
+    VoucherStatus.DEACTIVATED
+  ])
+  t.is(availableStatusResponse.status, 200)
+})
+
 test('GET /api/v1/vouchers/status to get all vouchers available status', async t => {
   const statusResponse = await request(app)
     .get('/api/v1/vouchers/status')
     .set('Authorization', `JWT ${createAdminResponse.body.token}`)
 
   t.deepEqual(statusResponse.body, [
-    'INITIALIZED',
-    'ACTIVATED',
-    'DEACTIVATED',
-    'CONSIGNED',
-    'SOLD',
-    'APPLIED'
+    VoucherStatus.INITIALIZED,
+    VoucherStatus.ACTIVATED,
+    VoucherStatus.DEACTIVATED,
+    VoucherStatus.CONSIGNED,
+    VoucherStatus.SOLD,
+    VoucherStatus.APPLIED
   ])
   t.is(statusResponse.status, 200)
 })

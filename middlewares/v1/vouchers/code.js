@@ -41,4 +41,9 @@ router.put('/', permission.getCheckScopesMiddleware(['vouchers.modify']), wrappe
   }
 }))
 
+router.get('/available-status', (req, res) => {
+  const availableStatus = voucher.getAvailableStatus(res.locals.voucher.status)
+  res.json(availableStatus)
+})
+
 module.exports = router
