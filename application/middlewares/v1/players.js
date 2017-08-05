@@ -22,10 +22,10 @@ players.post('/uuid', wrapper({
   body: formatter.registerUUIdPlayerBody,
   response: formatter.registerUUIdPlayerResponse,
   async handler (req, res) {
-    const playerDto = await registration.registerUUIdPlayer(req.body)
+    const { uuid, token } = await registration.registerUUIdPlayer(req.body)
     return {
-      uuid: playerDto.identity.uuid.uuid,
-      token: playerDto.token
+      uuid,
+      token
     }
   }
 }))
@@ -33,15 +33,11 @@ players.post('/uuid', wrapper({
 players.post('/uuid/session', wrapper({
   body: formatter.exchangeTokenBody,
   response: formatter.exchangeTokenResponse,
-  async handler (req, res) {
-    const player = await finder.findUUIdPlayer(req.body.uuid)
-    if (!player) {
-      throw httpError(404)
-    }
-    const playerToken = await token.grantPlayer(player)
-    return {
-      token: playerToken
-    }
+  errors: {
+    [finder.UUID_NOT_EXIST]: 404
+  },
+  handler (req, res) {
+    return finder.loginUUIdPlayer(req.body.uuid)
   }
 }))
 
