@@ -1,6 +1,6 @@
 const test = require('ava')
 const request = require('supertest')
-const { sequelize } = require('../../../models/dao')
+const knex = require('../../../models/knex')
 const app = require('../../../app')
 
 const mail = 'admin@purpleshock.org'
@@ -9,9 +9,7 @@ const password = 'pas2vv0rd'
 let createResponse
 
 test.before('POST /api/v1/admins for new admin account', async t => {
-  await sequelize.sync({
-    force: true
-  })
+  await knex.migrate.latest()
 
   createResponse = await request(app)
     .post('/api/v1/admins')
@@ -20,8 +18,8 @@ test.before('POST /api/v1/admins for new admin account', async t => {
       password
     })
 
-  t.is(createResponse.status, 200)
   t.is(typeof createResponse.body.token, 'string')
+  t.is(createResponse.status, 200)
 })
 
 test('POST /api/v1/admins/session for login', async t => {
@@ -32,8 +30,8 @@ test('POST /api/v1/admins/session for login', async t => {
       password
     })
 
-  t.is(loginResponse.status, 200)
   t.is(typeof loginResponse.body.token, 'string')
+  t.is(loginResponse.status, 200)
 })
 
 test('GET /api/v1/admins/token for token check', async t => {
