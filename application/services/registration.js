@@ -1,18 +1,27 @@
 const uuid = require('uuid')
 const { Admin, Player, UUIdIdentity } = require('../models/dao')
+const admins = require('../models/admins')
+const encrypt = require('../models/encrypt')
+const permission = require('./permission')
 const tokenService = require('./token')
 const walletService = require('./wallet')
 
-async function registerAdmin (mail, password) {
-  const now = new Date()
-  const admin = Admin.build({
-    createdAt: now,
-    loginAt: now,
-    mail
-  })
-  await admin.setPlainPassword(password)
-  await admin.save()
-  return admin.toJSON()
+const MAIL_EXIST = 'MAIL_EXIST'
+
+async function registerAdmin (mail, plainPassword) {
+  // check if mail exist
+  const existUser = await admins.findByMail(mail)
+  if (existUser) {
+    throw new Error(MAIL_EXIST)
+  }
+
+  const hashPassword = await encrypt.generateHash(plainPassword)
+  const userId = await admins.create(mail, hashPassword)
+  const scopes = await permission.getAdminScopes(userId)
+  const adminToken = await tokenService.grantAdmin(userId, scopes)
+  return {
+    token: adminToken
+  }
 }
 
 async function registerUUIdPlayer (playerInfo) {
@@ -44,6 +53,7 @@ async function registerUUIdPlayer (playerInfo) {
 }
 
 module.exports = {
+  MAIL_EXIST,
   registerUUIdPlayer,
   registerAdmin
 }

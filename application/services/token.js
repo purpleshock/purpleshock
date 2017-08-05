@@ -23,9 +23,9 @@ function grantPlayer (playerId) {
   return sign(payload, process.env.JWT_SECRET)
 }
 
-function grantAdmin (admin, scopes) {
+function grantAdmin (adminId, scopes) {
   const payload = {
-    adminId: admin.adminId,
+    adminId,
     scopes
   }
   return sign(payload, process.env.JWT_SECRET)

@@ -2,7 +2,7 @@ const _ = require('lodash')
 const jwt = require('express-jwt')
 const httpError = require('../utils/httpError')
 
-async function getAdminScopes (admin) {
+async function getAdminScopes (adminId) {
   // find permissions by adminId
   return {
     batches: ['find', 'create'],
