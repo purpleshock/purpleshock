@@ -8,7 +8,7 @@ exports.up = async knex => {
 
   await knex.schema.createTable('uuidIdentities', table => {
     table.string('uuid').primary()
-    table.integer('playerId').references('playerId').inTable('players')
+    table.integer('playerId').notNullable().references('playerId').inTable('players')
   })
 
   await knex.schema.createTable('wallets', table => {

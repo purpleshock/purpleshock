@@ -1,17 +1,15 @@
 const { Wallet, Voucher } = require('../models/dao')
 const { VoucherStatus } = require('../models')
+const wallets = require('../models/wallets')
 const depositHistory = require('./depositHistory')
 
 const INVALID_WALLET = 'invalid_wallet'
 const INVALID_VOUCHER = 'invalid_voucher'
 const ILLEGAL_STATUS_OPERATION = 'illegal_status_operation'
 
-async function attachNewWallet (playerId, balance = 0) {
-  const wallet = await Wallet.create({
-    playerId,
-    balance
-  })
-  return wallet.toJSON()
+function attachNewWallet (playerId, balance = 0) {
+  balance = Math.max(balance, 0)
+  return wallets.create(playerId, balance)
 }
 
 async function deposit (playerId, code) {

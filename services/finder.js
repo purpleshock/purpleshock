@@ -1,11 +1,13 @@
 const { Admin, Player, UUIdIdentity } = require('../models/dao')
 const admins = require('../models/admins')
+const players = require('../models/players')
 const encrypt = require('../models/encrypt')
 const permission = require('./permission')
 const token = require('./token')
 
 const MAIL_NOT_EXIST = 'MAIL_NOT_EXIST'
 const INVALID_PASSWORD = 'INVALID_PASSWORD'
+const UUID_NOT_EXIST = 'UUID_NOT_EXIST'
 
 async function loginAdmin (mail, plainPassword) {
   // find user and check password
@@ -25,19 +27,15 @@ async function loginAdmin (mail, plainPassword) {
   }
 }
 
-async function findAdminByMail (mail, password) {
-  const user = await admins.findByMail(mail)
-
+async function loginUUIdPlayer (uuid) {
+  const user = await players.findByUUId(uuid)
   if (!user) {
-    return null
+    throw new Error(UUID_NOT_EXIST)
   }
 
-
-
-  if (admin && (await admin.comparePlainPassword(password))) {
-    return admin.toJSON()
-  } else {
-    return null
+  const playerToken = await token.grantPlayer(user.playerId)
+  return {
+    token: playerToken
   }
 }
 
@@ -65,9 +63,10 @@ async function findPlayerByPlayerId (playerId) {
 
 module.exports = {
   MAIL_NOT_EXIST,
+  UUID_NOT_EXIST,
   INVALID_PASSWORD,
   loginAdmin,
-  findAdminByMail,
+  loginUUIdPlayer,
   findUUIdPlayer,
   findPlayerByPlayerId
 }
