@@ -1,6 +1,6 @@
-const { Wallet, Voucher } = require('../models/dao')
 const { VoucherStatus } = require('../models')
 const wallets = require('../models/wallets')
+const vouchers = require('../models/vouchers')
 const depositHistory = require('./depositHistory')
 
 const INVALID_WALLET = 'invalid_wallet'
@@ -14,32 +14,30 @@ function attachNewWallet (playerId, balance = 0) {
 
 async function deposit (playerId, code) {
   const [wallet, voucher] = await Promise.all([
-    Wallet.findByOwner(playerId),
-    Voucher.findByCode(code)
+    wallets.findByOwner(playerId),
+    vouchers.findByCode(code)
   ])
 
   if (!wallet) {
     throw new Error(INVALID_WALLET)
   } else if (!voucher) {
     throw new Error(INVALID_VOUCHER)
-  } else {
-    // check if voucher can be applied
-    const voucherStatus = new VoucherStatus(voucher.status)
-    if (voucherStatus.cannot('apply')) {
-      throw new Error(ILLEGAL_STATUS_OPERATION)
-    }
+  } else if (!VoucherStatus.canMakeTransition(voucher.status, VoucherStatus.APPLIED)){
+    throw new Error(ILLEGAL_STATUS_OPERATION)
   }
 
-  wallet.balance += voucher.amount
-  voucher.status = VoucherStatus.APPLIED
-  await Promise.all([
-    wallet.save(),
-    voucher.save()
+  const [updatedWallet, updatedVoucher] = await Promise.all([
+    wallets.update(wallet.walletId, {
+      balance: wallet.balance + voucher.amount
+    }),
+    vouchers.update(voucher.code, {
+      status: VoucherStatus.APPLIED
+    })
   ])
 
   await depositHistory.insertNewRecord(playerId, voucher.voucherId)
 
-  return wallet.toJSON()
+  return updatedWallet
 }
 
 module.exports = {

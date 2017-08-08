@@ -1,40 +1,31 @@
 const test = require('ava')
 const request = require('supertest')
 const moment = require('moment')
-const { sequelize } = require('../../../models/dao')
+const knex = require('../../../models/knex')
+const batches = require('../../../models/batches')
+const vouchers = require('../../../models/vouchers')
+const VoucherStatus = require('../../../models/VoucherStatus')
+const registration = require('../../../services/registration')
 const app = require('../../../app')
-const { Voucher } = require('../../../models/dao')
-const { VoucherStatus } = require('../../../models')
 
-let createPlayerResponse
+let player
 
 test.before(async t => {
-  await sequelize.sync({ force: true })
+  await knex.migrate.latest()
 
-  createPlayerResponse = await request(app)
-    .post('/api/v1/players/uuid')
-    .send({
-      displayName: 'Somebody'
-    })
-
+  player = await registration.registerUUIdPlayer()
+  const admin = await registration.registerAdmin('admin@mail.com', 'pas2vv0rd')
+  const batch = await batches.create(admin.adminId, 'uuid-code-for-batch')
   await Promise.all([
-    Voucher.create({
-      code: 'voucher-that-is-not-ready-for-deposit',
-      status: VoucherStatus.INITIALIZED,
-      amount: 100
-    }),
-    Voucher.create({
-      code: 'voucher-that-is-ready-for-deposit',
-      status: VoucherStatus.SOLD,
-      amount: 100
-    })
+    vouchers.create(batch.batchId, 'voucher-that-is-not-ready-for-deposit', 100, VoucherStatus.INITIALIZED),
+    vouchers.create(batch.batchId, 'voucher-that-is-ready-for-deposit', 100, VoucherStatus.SOLD)
   ])
 })
 
 test.serial('POST /api/v1/deposit for making deposit voucher into wallet', async t => {
   const depositResponse = await request(app)
     .post('/api/v1/deposit')
-    .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
+    .set('Authorization', `JWT ${player.token}`)
     .send({
       code: 'voucher-that-is-ready-for-deposit'
     })
@@ -48,7 +39,7 @@ test.serial('POST /api/v1/deposit for making deposit voucher into wallet', async
 test.serial('POST /api/v1/deposit for making deposit voucher with the same voucher', async t => {
   const depositResponse = await request(app)
     .post('/api/v1/deposit')
-    .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
+    .set('Authorization', `JWT ${player.token}`)
     .send({
       code: 'voucher-that-is-ready-for-deposit'
     })
@@ -63,7 +54,7 @@ test.serial('GET /api/v1/deposit for retrieving deposit history', async t => {
 
   const depositHistoryResponse = await request(app)
     .get(`/api/v1/deposit?from=${from}&to=${to}&page=1&pagination=10`)
-    .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
+    .set('Authorization', `JWT ${player.token}`)
 
   t.is(depositHistoryResponse.body.length, 1)
   t.is(depositHistoryResponse.body[0].code, 'voucher-that-is-ready-for-deposit')
@@ -78,7 +69,7 @@ test.serial('GET /api/v1/deposit for retrieving not existed deposit history', as
 
   const depositHistoryResponse = await request(app)
     .get(`/api/v1/deposit?from=${from}&to=${to}&page=1&pagination=10`)
-    .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
+    .set('Authorization', `JWT ${player.token}`)
 
   t.is(depositHistoryResponse.status, 404)
 })
@@ -86,7 +77,7 @@ test.serial('GET /api/v1/deposit for retrieving not existed deposit history', as
 test('POST /api/v1/deposit for making deposit with invalid voucher', async t => {
   const depositResponse = await request(app)
     .post('/api/v1/deposit')
-    .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
+    .set('Authorization', `JWT ${player.token}`)
     .send({
       code: 'voucher-that-is-not-ready-for-deposit'
     })
@@ -97,7 +88,7 @@ test('POST /api/v1/deposit for making deposit with invalid voucher', async t => 
 test('POST /api/v1/deposit for making deposit with not existed voucher', async t => {
   const depositResponse = await request(app)
     .post('/api/v1/deposit')
-    .set('Authorization', `JWT ${createPlayerResponse.body.token}`)
+    .set('Authorization', `JWT ${player.token}`)
     .send({
       code: 'voucher-that-is-not-even-exist'
     })

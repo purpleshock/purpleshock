@@ -1,55 +1,32 @@
-const { Batch, Voucher } = require('../models/dao')
+const vouchers = require('../models/vouchers')
 
-async function findByCodeTerm (term, size) {
-  const vouchers = await Voucher.findCodeLike(term, size)
+const CODE_NOT_EXIST = 'CODE_NOT_EXIST'
 
-  return vouchers.map(voucherModel => {
-    const voucher = voucherModel.toJSON()
-    const { code, amount, status } = voucher
-    return {
-      code,
-      batch: voucher.Batch.code,
-      amount,
-      status
-    }
-  })
+function findByCodeTerm (term, size) {
+  return vouchers.findByCodeTerm(term, size)
 }
 
 async function findByCode (code) {
-  const voucher = await Voucher.find({
-    where: {
-      code
-    }
-  })
-  return voucher && voucher.toJSON()
-}
-
-async function findByBatchCode (batchCode, page, size) {
-  const batch = await Batch.find({
-    where: { code: batchCode }
-  })
-  if (!batch) {
-    return null
+  const voucher = await vouchers.findByCode(code)
+  if (!voucher) {
+    throw new Error(CODE_NOT_EXIST)
   }
-
-  const vouchers = await Voucher.findAll({
-    where: { batchId: batch.batchId },
-    limit: size,
-    offset: (page - 1) * size
-  })
-
-  return vouchers.map(voucher => voucher.toJSON())
+  return voucher
 }
 
-function countByBatchId (batchId) {
-  return Voucher.count({
-    where: { batchId }
-  })
+async function findByBatch (batchCode, page, size) {
+  const offset = (page - 1) * size
+  return vouchers.findByBatch(batchCode, offset, size)
+}
+
+function countByBatch (batchCode) {
+  return vouchers.countByBatch(batchCode)
 }
 
 module.exports = {
+  CODE_NOT_EXIST,
   findByCodeTerm,
   findByCode,
-  findByBatchCode,
-  countByBatchId
+  findByBatch,
+  countByBatch
 }

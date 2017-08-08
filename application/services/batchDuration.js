@@ -1,12 +1,12 @@
-const { Batch } = require('../models/dao')
+const batches = require('../models/batches')
 
 function countByValidDuration (validAt, expiredAt) {
   if (validAt && expiredAt) {
-    return Batch.countBetweenValidDuration(validAt, expiredAt)
+    return batches.countBetweenValidDuration(validAt, expiredAt)
   } else if (validAt) {
-    return Batch.countAfterValidTime(validAt)
+    return batches.countAfterValidTime(validAt)
   } else if (expiredAt) {
-    return Batch.countBeforeExpiredTime(expiredAt)
+    return batches.countBeforeExpiredTime(expiredAt)
   } else {
     throw new Error(`should provide validAt or expiredAt`)
   }

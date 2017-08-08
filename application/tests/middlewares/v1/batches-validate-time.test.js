@@ -1,46 +1,40 @@
 const test = require('ava')
 const request = require('supertest')
 const moment = require('moment')
-const { sequelize, Batch } = require('../../../models/dao')
+const knex = require('../../../models/knex')
+const batches = require('../../../models/batches')
+const registration = require('../../../services/registration')
 const app = require('../../../app')
 
 let createAdminResponse
+let admin
 const now = moment()
-const minusTwoDay = moment(now).subtract(2, 'day')
-const minusOneDay = moment(now).subtract(1, 'day')
-const plusOneDay = moment(now).add(1, 'day')
-const plusTwoDay = moment(now).add(2, 'day')
+const minusTwoDay = moment(now).subtract(2, 'day').millisecond(0)
+const minusOneDay = moment(now).subtract(1, 'day').millisecond(0)
+const plusOneDay = moment(now).add(1, 'day').millisecond(0)
+const plusTwoDay = moment(now).add(2, 'day').millisecond(0)
 
 test.before(async t => {
-  await sequelize.sync({ force: true })
+  await knex.migrate.latest()
 
-  createAdminResponse = await request(app)
-    .post('/api/v1/admins')
-    .send({
-      mail: 'admin@purpleshock.org',
-      password: 'pas2vv0rd'
-    })
+  admin = await registration.registerAdmin('admin@purpleshock.org', 'pas2vv0rd')
 
   await Promise.all([
-    Batch.create({
-      code: '-2_day_to_-1_day',
-      validAt: minusTwoDay.formatSQL(),
-      expiredAt: minusOneDay.formatSQL()
+    batches.create(admin.adminId, '-2_day_to_-1_day', {
+      validAt: minusTwoDay.toDate(),
+      expiredAt: minusOneDay.toDate()
     }),
-    Batch.create({
-      code: '-1_day_to_+0_day',
-      validAt: minusOneDay.formatSQL(),
-      expiredAt: now.formatSQL()
+    batches.create(admin.adminId, '-1_day_to_+0_day', {
+      validAt: minusOneDay.toDate(),
+      expiredAt: now.toDate()
     }),
-    Batch.create({
-      code: '+0_day_to_+1_day',
-      validAt: now.formatSQL(),
-      expiredAt: plusOneDay.formatSQL()
+    batches.create(admin.adminId, '+0_day_to_+1_day', {
+      validAt: now.toDate(),
+      expiredAt: plusOneDay.toDate()
     }),
-    Batch.create({
-      code: '+1_day_to_+2_day',
-      validAt: plusOneDay.formatSQL(),
-      expiredAt: plusTwoDay.formatSQL()
+    batches.create(admin.adminId, '+1_day_to_+2_day', {
+      validAt: plusOneDay.toDate(),
+      expiredAt: plusTwoDay.toDate()
     })
   ])
 })
@@ -51,10 +45,10 @@ test('GET /api/v1/batches/count count between validate/expired', async t => {
   const expiredAt = plusOneDay.unix()
   const foundBatchesResponse = await request(app)
     .get(`/api/v1/batches/count?validAt=${validAt}&expiredAt=${expiredAt}`)
-    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+    .set('Authorization', `JWT ${admin.token}`)
 
-  t.is(foundBatchesResponse.status, 200)
   t.is(foundBatchesResponse.body, 2)
+  t.is(foundBatchesResponse.status, 200)
 })
 
 test('GET /api/v1/batches/count count by validate', async t => {
@@ -62,7 +56,7 @@ test('GET /api/v1/batches/count count by validate', async t => {
   const validAt = now.unix()
   const foundBatchesResponse = await request(app)
     .get(`/api/v1/batches/count?validAt=${validAt}`)
-    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+    .set('Authorization', `JWT ${admin.token}`)
 
   t.is(foundBatchesResponse.status, 200)
   t.is(foundBatchesResponse.body, 2)
@@ -73,7 +67,7 @@ test('GET /api/v1/batches/count count by expired', async t => {
   const expiredAt = plusOneDay.unix()
   const foundBatchesResponse = await request(app)
     .get(`/api/v1/batches/count?expiredAt=${expiredAt}`)
-    .set('Authorization', `JWT ${createAdminResponse.body.token}`)
+    .set('Authorization', `JWT ${admin.token}`)
 
   t.is(foundBatchesResponse.status, 200)
   t.is(foundBatchesResponse.body, 3)

@@ -1,14 +1,13 @@
-const { DepositHistory } = require('../models/dao')
+const deposits = require('../models/deposits')
 
 const NO_HISTORY = 'no_history_in_range'
 
 async function insertNewRecord (playerId, voucherId) {
-  const history = await DepositHistory.createRecord(playerId, voucherId)
-  return history.toJSON()
+  return deposits.create(playerId, voucherId)
 }
 
 async function findBetween (playerId, from, to, page, pagination) {
-  const histories = await DepositHistory.findByOwnerAndCreationTime(playerId, from, to, page - 1, pagination)
+  const histories = await deposits.findByOwnerAndCreationDuration(playerId, from, to, page - 1, pagination)
   if (histories.length === 0) {
     throw new Error(NO_HISTORY)
   }

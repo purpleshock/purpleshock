@@ -1,3 +1,5 @@
+const voucherStatus = require('../VoucherStatus')
+
 exports.up = async knex => {
   await knex.schema.createTable('batches', table => {
     table.increments('batchId').primary()
@@ -15,8 +17,8 @@ exports.up = async knex => {
     table.increments('voucherId').primary()
     table.integer('batchId').notNullable().references('batchId').inTable('batches')
     table.string('code')
-    table.string('string')
     table.integer('amount')
+    table.enum('status', voucherStatus.getAvailableStatus())
 
     table.unique('code')
   })

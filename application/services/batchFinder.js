@@ -1,95 +1,47 @@
-const { Batch } = require('../models/dao')
+const batches = require('../models/batches')
+const batchDuration = require('../services/batchDuration')
 
-async function findByCreationTime (from, to, pagination) {
-  from = from && from.toDate()
-  to = to && to.toDate()
+const MISSING_DURATION_QUERY = 'MISSING_DURATION_QUERY'
 
-  const where = {}
-  if (from && to) {
-    where.createdAt = { $between: [from, to] }
-  } else if (from) {
-    where.createdAt = { $gte: from }
-  } else if (to) {
-    where.createdAt = { $lte: to }
-  }
-
-  const numTotal = await Batch.count({
-    where
-  })
-
-  const batches = await Batch.findAll({
-    where,
-    limit: pagination.size,
-    offset: (pagination.page - 1) * pagination.size
-  })
-
-  return {
-    numTotal,
-    batches: batches.map(batch => batch.toJSON())
-  }
-}
-
-async function findBetweenValidTime (validAt, expiredAt, pagination) {
-  validAt = validAt && validAt.toDate()
-  expiredAt = expiredAt && expiredAt.toDate()
-
-  const where = {}
+async function findBetweenValidTime (validAt, expiredAt, page, pagination) {
+  let numTotal, found
+  const offset = (page - 1) * pagination
   if (validAt && expiredAt) {
-    where.validAt = { $gte: validAt }
-    where.expiredAt = { $lte: expiredAt }
+    [numTotal, found] = await Promise.all([
+      batches.countBetweenValidDuration(validAt, expiredAt),
+      batches.findBetweenValidDuration(validAt, expiredAt, offset, pagination)
+    ])
   } else if (validAt) {
-    where.validAt = { $gte: validAt }
+    [numTotal, found] = await Promise.all([
+      batches.countAfterValidTime(validAt),
+      batches.findAfterValidTime(validAt, offset, pagination)
+    ])
   } else if (expiredAt) {
-    where.expiredAt = { $lte: expiredAt }
+    [numTotal, found] = await Promise.all([
+      batches.countBeforeExpiredTime(expiredAt),
+      batches.findBeforeExpiredTime(expiredAt, offset, pagination)
+    ])
+  } else {
+    throw new Error(MISSING_DURATION_QUERY)
   }
-
-  const numTotal = await Batch.count({
-    where
-  })
-
-  const batches = await Batch.findAll({
-    where,
-    limit: pagination.size,
-    offset: (pagination.page - 1) * pagination.size
-  })
 
   return {
     numTotal,
-    batches: batches.map(batch => batch.toJSON())
+    batches: found
   }
 }
 
-async function findById (batchId) {
-  const batch = await Batch.findById(batchId)
-  return batch && batch.toJSON()
+function findByCode (code) {
+  return batches.findByCode(code)
 }
 
-async function findByCode (code) {
-  const batch = await Batch.find({
-    where: {
-      code
-    }
-  })
-  return batch && batch.toJSON()
-}
-
-async function findByCodeTerm (term, size) {
-  const batches = await Batch.findAll({
-    where: {
-      code: {
-        $like: term + '%'
-      }
-    },
-    limit: size
-  })
-
-  return batches.map(batch => batch.toJSON())
+function findByCodeTerm (term, size) {
+  return batches.findByCodeTerm(term, size)
 }
 
 module.exports = {
-  findByCreationTime,
+  MISSING_DURATION_QUERY,
   findBetweenValidTime,
-  findById,
   findByCode,
   findByCodeTerm
 }

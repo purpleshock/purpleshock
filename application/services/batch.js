@@ -1,14 +1,11 @@
-const { Batch } = require('../models/dao')
+const batches = require('../models/batches')
 const voucher = require('./voucher')
 const codeGenerate = require('./codeGenerate')
 
 async function createBatch (adminId, batchData) {
   const batchCount = batchData.batchCount || 100
   const { validAt, expiredAt, num, amount, description } = batchData
-  const batch = await Batch.create({
-    adminId,
-    code: codeGenerate.getCode(),
-    createdAt: new Date(),
+  const batch = await batches.create(adminId, codeGenerate.getCode(), {
     validAt: validAt && validAt.toDate(),
     expiredAt: expiredAt && expiredAt.toDate(),
     description
@@ -21,7 +18,7 @@ async function createBatch (adminId, batchData) {
     createdCount += n
   }
 
-  return batch.toJSON()
+  return batch
 }
 
 module.exports = {

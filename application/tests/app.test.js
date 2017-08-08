@@ -1,12 +1,12 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../app')
-const { sequelize } = require('../models/dao')
+const knex = require('../models/knex')
 
 let createAdminResponse, createPlayerResponse
 
 test.before(async t => {
-  await sequelize.sync({ force: true })
+  await knex.migrate.latest()
 
   createAdminResponse = await request(app)
     .post('/api/v1/admins')
@@ -30,7 +30,6 @@ test('admin login with uuid', t => {
       t.is(response.status, 200)
       t.truthy(response.body.adminId)
     })
-    .catch(err => console.log(err))
 })
 
 test('player login with uuid', t => {
@@ -43,7 +42,7 @@ test('player login with uuid', t => {
     })
 })
 
-test('login with wrong uuid', async t => {
+test('login with wrong uuid', t => {
   return request(app)
     .get('/api/v1/me')
     .set('Authorization', `JWT some-invalid-token`)

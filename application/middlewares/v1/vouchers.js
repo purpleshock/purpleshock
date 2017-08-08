@@ -16,6 +16,9 @@ vouchers.get('/status', permission.getCheckScopesMiddleware(['vouchers.find']), 
 vouchers.get('/', permission.getCheckScopesMiddleware(['vouchers.find']), wrapper({
   query: formatters.findCodesQuery,
   response: formatters.findCodesResponse,
+  errors: {
+    [voucherFinder.CODE_NOT_EXIST]: 404
+  },
   handler (req, res) {
     const { term, size } = req.query
     return voucherFinder.findByCodeTerm(term, size)

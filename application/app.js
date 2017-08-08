@@ -27,10 +27,10 @@ app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     res.end()
   } else {
-    res.json({
-      message: err.message,
-      stack: err.stack
-    })
+    res.end(`
+      ${err.message}
+      ${err.stack}
+    `)
   }
 })
 

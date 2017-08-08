@@ -1,45 +1,51 @@
-const { Voucher } = require('../models/dao')
 const VoucherStatus = require('../models/VoucherStatus')
+const vouchers = require('../models/vouchers')
 const codeGenerate = require('./codeGenerate')
+const { getPropertiesFilterFn } = require('../utils/purify')
 
 const ILLEGAL_OPERATION = 'illegalOperation'
 const ILLEGAL_STATUS_OPERATION = 'illegalStatusOperation'
 
-async function createVouchers (batchId, createdCount, amount) {
-  const vouchers = []
-  for (let i = 0; i < createdCount; i++) {
-    vouchers[i] = {
+function generateVoucherDatas (batchId, amount, num) {
+  const voucherDatas = []
+  for (let i = 0; i < num; i++) {
+    voucherDatas[i] = {
       batchId,
       amount,
       code: codeGenerate.getCode(),
       status: VoucherStatus.INITIALIZED
     }
   }
-  await Voucher.bulkCreate(vouchers)
+  return voucherDatas
 }
 
+async function createVouchers (batchId, numVouchers, amount) {
+  let created = []
+  const maxBatch = 100
+  while (created.length < numVouchers) {
+    const numCreate = Math.min(maxBatch, numVouchers - created.length)
+    const voucherDatas = generateVoucherDatas(batchId, amount, numCreate)
+    await vouchers.createMulti(voucherDatas)
+    created = created.concat(voucherDatas)
+  }
+  return created
+}
+
+const checkValidFields = getPropertiesFilterFn('amount', 'status')
+
 async function updateVoucher (from, to) {
-  if (to.hasOwnProperty('status') && !VoucherStatus.canMakeTransition(from.status, to.status)) {
-    throw new Error(ILLEGAL_STATUS_OPERATION)
+  // if change status, that's an illegal operation
+  if (to.hasOwnProperty('status')) {
+    const isValidOperation = VoucherStatus.canMakeTransition(from.status, to.status)
+    if (!isValidOperation) {
+      throw new Error(ILLEGAL_STATUS_OPERATION)
+    }
   }
 
-  const modifyBody = Object.entries(to)
-    .filter(([field, value]) => {
-      const isValidField = ['amount', 'status'].indexOf(field) > -1
-      const isValidValue = value !== null && value !== undefined
-      return isValidField && isValidValue
-    })
-    .reduce((reducedBody, [field, val]) => {
-      reducedBody[field] = val
-      return reducedBody
-    }, {})
-
-  if (Object.keys(modifyBody).length === 0) {
-    // not thing need to modify
-    return
+  const modifyBody = checkValidFields(to)
+  if (Object.keys(modifyBody).length > 0) {
+    await vouchers.update(from.code, modifyBody)
   }
-
-  await Voucher.updateByCode(from.code, modifyBody)
 }
 
 function getAvailableStatus (status) {
