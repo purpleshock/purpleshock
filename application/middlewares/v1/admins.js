@@ -1,5 +1,4 @@
 const express = require('express')
-const httpError = require('../../utils/httpError')
 const wrapper = require('../wrapper')
 const registration = require('../../services/registration')
 const finder = require('../../services/finder')

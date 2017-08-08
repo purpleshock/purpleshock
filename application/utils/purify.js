@@ -2,7 +2,7 @@ function diff (a, b) {
   return Object.entries(b)
   .filter(([key, val]) => {
     const containsKey = a.hasOwnProperty(key)
-    const isNotEqual = a[key] != val
+    const isNotEqual = a[key] !== val
     return containsKey && isNotEqual
   })
   .reduce((ret, [key, val]) => {

@@ -6,7 +6,6 @@ const batches = require('../../../models/batches')
 const registration = require('../../../services/registration')
 const app = require('../../../app')
 
-let createAdminResponse
 let admin
 const now = moment()
 const minusTwoDay = moment(now).subtract(2, 'day').millisecond(0)

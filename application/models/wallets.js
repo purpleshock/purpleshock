@@ -35,7 +35,8 @@ function update (walletId, nextData) {
     .where('walletId', walletId)
     .then(numRows => {
       if (numRows === 0) {
-        return Promise.reject('Update failed')
+        const err = new Error('Update failed')
+        return Promise.reject(err)
       } else {
         return Object.assign(nextData, {
           walletId

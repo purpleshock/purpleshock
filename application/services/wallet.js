@@ -22,11 +22,11 @@ async function deposit (playerId, code) {
     throw new Error(INVALID_WALLET)
   } else if (!voucher) {
     throw new Error(INVALID_VOUCHER)
-  } else if (!VoucherStatus.canMakeTransition(voucher.status, VoucherStatus.APPLIED)){
+  } else if (!VoucherStatus.canMakeTransition(voucher.status, VoucherStatus.APPLIED)) {
     throw new Error(ILLEGAL_STATUS_OPERATION)
   }
 
-  const [updatedWallet, updatedVoucher] = await Promise.all([
+  const [updatedWallet] = await Promise.all([
     wallets.update(wallet.walletId, {
       balance: wallet.balance + voucher.amount
     }),

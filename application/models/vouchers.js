@@ -35,7 +35,8 @@ function update (code, nextData) {
     .update(nextData)
     .then(numAffect => {
       if (numAffect === 0) {
-        return Promise.reject('Not rows affected')
+        const err = new Error('Not rows affected')
+        return Promise.reject(err)
       } else {
         return Object.assign(nextData, {
           code
