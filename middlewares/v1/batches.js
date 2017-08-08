@@ -61,7 +61,7 @@ batches.get('/:code/vouchers', permission.getCheckScopesMiddleware(['batches.fin
   async handler (req, res) {
     const { code } = req.params
     const { page, size } = req.query
-    const vouchers = await voucherFinder.findByBatchCode(code, page, size)
+    const vouchers = await voucherFinder.findByBatch(code, page, size)
     if (vouchers && vouchers.length > 0) {
       return vouchers
     } else {
@@ -72,12 +72,7 @@ batches.get('/:code/vouchers', permission.getCheckScopesMiddleware(['batches.fin
 
 batches.get('/:code/vouchers/count', permission.getCheckScopesMiddleware(['batches.find', 'vouchers.find']), wrapper({
   async handler (req, res) {
-    const batch = await batchFinder.findByCode(req.params.code)
-    if (batch) {
-      return voucherFinder.countByBatchId(batch.batchId)
-    } else {
-      throw httpError(404)
-    }
+    return voucherFinder.countByBatch(req.params.code)
   }
 }))
 

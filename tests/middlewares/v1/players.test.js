@@ -22,8 +22,8 @@ test('POST /api/v1/players/uuid for new uuid player, and POST /api/v1/players/uu
       uuid: createResponse.body.uuid
     })
 
-  t.is(loginResponse.status, 200)
   t.is(typeof loginResponse.body.token, 'string')
+  t.is(loginResponse.status, 200)
 
   const failLoginResponse = await request(app)
     .post('/api/v1/players/uuid/session')

@@ -1,4 +1,3 @@
-const { Admin, Player, UUIdIdentity } = require('../models/dao')
 const admins = require('../models/admins')
 const players = require('../models/players')
 const encrypt = require('../models/encrypt')
@@ -39,34 +38,10 @@ async function loginUUIdPlayer (uuid) {
   }
 }
 
-async function findUUIdPlayer (uuid) {
-  const uuidIdentity = await UUIdIdentity.findOne({
-    where: { uuid }
-  })
-
-  if (uuidIdentity) {
-    const player = await Player.findById(uuidIdentity.playerId)
-    return Object.assign(player.toJSON(), {
-      identity: {
-        uuid: uuidIdentity.toJSON()
-      }
-    })
-  } else {
-    return null
-  }
-}
-
-async function findPlayerByPlayerId (playerId) {
-  const player = await Player.findById(playerId)
-  return player ? player.toJSON() : null
-}
-
 module.exports = {
   MAIL_NOT_EXIST,
   UUID_NOT_EXIST,
   INVALID_PASSWORD,
   loginAdmin,
-  loginUUIdPlayer,
-  findUUIdPlayer,
-  findPlayerByPlayerId
+  loginUUIdPlayer
 }

@@ -2,7 +2,6 @@ const express = require('express')
 const wrapper = require('../../wrapper')
 const voucher = require('../../../services/voucher')
 const voucherFinder = require('../../../services/voucherFinder')
-const batchFinder = require('../../../services/batchFinder')
 const permission = require('../../../services/permission')
 const formatters = require('../formatters/vouchers')
 const httpError = require('../../../utils/httpError')
@@ -22,12 +21,8 @@ router.use(permission.getCheckScopesMiddleware(['vouchers.find']), async (req, r
 })
 
 router.get('/', wrapper({
-  async handler (req, res) {
-    const { voucher } = res.locals
-    const batch = await batchFinder.findById(voucher.batchId)
-    return Object.assign(voucher, {
-      batch: batch.code
-    })
+  handler (req, res) {
+    return res.locals.voucher
   }
 }))
 

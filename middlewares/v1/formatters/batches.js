@@ -42,13 +42,13 @@ const getCodeSuggestionResponse = joi.array().items(
 )
 
 const countQuery = joi.object().keys({
-  validAt: joi.moment().optional(),
-  expiredAt: joi.moment().optional()
+  validAt: joi.unix().optional(),
+  expiredAt: joi.unix().optional()
 })
 
 const countReponse = joi.number()
 
-const getBelongedVouchersQuery = joi.object().keys({
+const getBelongedVouchersQuery = joi.object({
   page: joi.number().integer().positive().required(),
   size: joi.number().integer().positive().required()
 })
@@ -57,7 +57,8 @@ const getBelongedVouchersResponse = joi.array().items(
   joi.object({
     code: joi.string(),
     status: joi.voucherStatus(),
-    amount: joi.number()
+    amount: joi.number(),
+    num: joi.number()
   })
 )
 

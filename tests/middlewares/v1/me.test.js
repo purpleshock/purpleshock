@@ -1,13 +1,13 @@
 const test = require('ava')
 const request = require('supertest')
-const { sequelize } = require('../../../models/dao')
+const knex = require('../../../models/knex')
 const app = require('../../../app')
 
 let createAdminResponse
 let createPlayerResponse
 
 test.before(async t => {
-  await sequelize.sync({ force: true })
+  await knex.migrate.latest()
 
   createAdminResponse = await request(app)
     .post('/api/v1/admins')

@@ -1,5 +1,4 @@
 const uuid = require('uuid')
-const { Admin, Player, UUIdIdentity } = require('../models/dao')
 const admins = require('../models/admins')
 const players = require('../models/players')
 const encrypt = require('../models/encrypt')
@@ -21,6 +20,7 @@ async function registerAdmin (mail, plainPassword) {
   const scopes = await permission.getAdminScopes(userId)
   const adminToken = await tokenService.grantAdmin(userId, scopes)
   return {
+    adminId: userId,
     token: adminToken
   }
 }
