@@ -1,4 +1,10 @@
 const path = require('path')
+require('dotenv').config({
+  path: path.resolve(__dirname, '../.env')
+})
+
+const migrationDir = path.resolve(__dirname, './migrations')
+const seedsDir = path.resolve(__dirname, './seeds')
 
 module.exports = {
   test: {
@@ -7,7 +13,7 @@ module.exports = {
       filename: ':memory:'
     },
     migrations: {
-      directory: './models/migrations'
+      directory: migrationDir
     },
     useNullAsDefault: true
   },
@@ -19,8 +25,11 @@ module.exports = {
       password: process.env.DB_PWD,
       database: process.env.DB_NAME
     },
+    seeds: {
+      directory: seedsDir
+    },
     migrations: {
-      directory: './models/migrations'
+      directory: migrationDir
     },
     pool: {
       min: 2,

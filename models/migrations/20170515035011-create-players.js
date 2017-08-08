@@ -8,18 +8,20 @@ exports.up = async knex => {
 
   await knex.schema.createTable('uuidIdentities', table => {
     table.string('uuid').primary()
-    table.integer('playerId').notNullable().references('playerId').inTable('players')
+    table.integer('playerId').unsigned()
+    table.foreign('playerId').references('players.playerId')
   })
 
   await knex.schema.createTable('wallets', table => {
     table.increments('walletId').primary()
     table.integer('balance').notNullable().defaultTo(0)
-    table.integer('playerId').notNullable().references('playerId').inTable('players')
+    table.integer('playerId').unsigned()
+    table.foreign('playerId').references('players.playerId')
   })
 }
 
 exports.down = async knex => {
-  await knex.schema.dropTableIfExists('players')
-  await knex.schema.dropTableIfExists('uuidIdentities')
   await knex.schema.dropTableIfExists('wallets')
+  await knex.schema.dropTableIfExists('uuidIdentities')
+  await knex.schema.dropTableIfExists('players')
 }

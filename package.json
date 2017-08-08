@@ -8,9 +8,9 @@
     "dev": "nodemon -i ./ui --exec \"yarn start\"",
     "start": "DEBUG=api:* node -r dotenv/config bin/www",
     "test": "NODE_ENV=test ava",
-    "db:up": "sequelize db:migrate",
-    "db:down": "sequelize db:migrate:undo:all",
-    "db:seed": "sequelize db:seed:all",
+    "db:up": "knex migrate:latest --knexfile ./models/knexfile.js",
+    "db:down": "knex migrate:rollback --knexfile ./models/knexfile.js",
+    "db:seed": "knex seed:run --knexfile ./models/knexfile.js",
     "db:reset": "yarn db:down && yarn db:up && yarn db:seed"
   },
   "engines": {
