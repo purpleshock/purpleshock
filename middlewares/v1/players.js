@@ -3,7 +3,6 @@ const httpError = require('../../utils/httpError')
 const wrapper = require('../wrapper')
 const registration = require('../../services/registration')
 const finder = require('../../services/finder')
-const token = require('../../services/token')
 const formatter = require('./formatters/players')
 
 const players = express.Router()

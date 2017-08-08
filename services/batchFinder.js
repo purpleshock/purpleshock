@@ -1,5 +1,4 @@
 const batches = require('../models/batches')
-const batchDuration = require('../services/batchDuration')
 
 const MISSING_DURATION_QUERY = 'MISSING_DURATION_QUERY'
 
