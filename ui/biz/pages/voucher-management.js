@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
-import Authenticated from '../components/Authenticated'
+import Authenticated from '../components/middleware/Authenticated'
 import Layout from '../components/Layout'
 import { initStore } from '../store'
 import { searchHistory } from '../actions/voucherHistory'

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import Authenticated from '../components/Authenticated'
+import Authenticated from '../components/middleware/Authenticated'
 import Layout from '../components/Layout'
 
 @Authenticated
