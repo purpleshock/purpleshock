@@ -44,3 +44,9 @@ export function modifyVoucher(code, formData) {
     await voucherApi.updateVoucher(code, formData)
   }
 }
+
+export function createVouchers (formData) {
+  return dispatch => {
+    return voucherApi.createVouchers(formData)
+  }
+}

@@ -1,29 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { Input } from 'semantic-ui-react'
-import { bindActionCreators } from 'redux'
 import window from 'global/window'
 import VoucherList from './VoucherList'
-import * as suggestActions from '../actions/suggest'
 
-function mapStateToProps (state) {
-  return {
-    availableStatus: state.voucherAvailableStatus,
-    results: state.codeFinder.vouchers,
-    isLoading: state.codeFinder.isLoading
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    ...bindActionCreators({
-      onSearch: suggestActions.searchCodes
-    }, dispatch)
-  }
-}
-
-@connect(mapStateToProps, mapDispatchToProps)
 export default class FindVoucher extends PureComponent {
   static propTypes = {
     availableStatus: PropTypes.oneOfType([

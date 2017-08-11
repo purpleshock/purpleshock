@@ -1,43 +1,49 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
 import Authenticated from '../components/Authenticated'
 import Layout from '../components/Layout'
 import { initStore } from '../store'
 import { searchHistory } from '../actions/voucherHistory'
-import { createVouchers } from '../store/vouchers'
+import * as voucherActions from '../actions/voucher'
+import * as suggestActions from '../actions/suggest'
 import CreateVouchersForm from '../components/CreateVouchersForm'
 import FindVoucher from '../components/FindVoucher'
 
-@Authenticated
-@withRedux(initStore, mapStateToProps, mapDispatchToProps)
-export default class VoucherManagement extends PureComponent {
-  static propTypes = {
-    onCreateVouchers: PropTypes.func.isRequired
-  }
-
-  render () {
-    return (
-      <Layout>
-        <CreateVouchersForm onCreate={this.props.onCreateVouchers} />
-        <FindVoucher />
-      </Layout>
-    )
-  }
-}
-
 function mapStateToProps (state) {
   return {
-    histories: state.voucherHistory.histories,
-    pagination: state.voucherHistoryPagination
+    availableStatus: state.voucherAvailableStatus,
+    suggestions: {
+      results: state.codeFinder.vouchers,
+      isLoading: state.codeFinder.isLoading
+    }
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     ...bindActionCreators({
-      onCreateVouchers: createVouchers
+      onCreateVouchers: voucherActions.createVouchers,
+      onSearchSuggest: suggestActions.searchCodes
     }, dispatch)
+  }
+}
+
+@Authenticated
+@withRedux(initStore, mapStateToProps, mapDispatchToProps)
+export default class VoucherManagement extends PureComponent {
+  render () {
+    return (
+      <Layout>
+        <CreateVouchersForm
+          onCreate={this.props.onCreateVouchers}
+        />
+        <FindVoucher
+          onSearch={this.props.onSearchSuggest}
+          availableStatus={this.props.availableStatus}
+          {...this.props.suggestions}
+        />
+      </Layout>
+    )
   }
 }

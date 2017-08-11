@@ -7,7 +7,6 @@ import Link from 'next/link'
 const MenuLink = styled.a`
   align-items: center;
   display: flex;
-  padding: 10px;
 `
 
 export default class Layout extends PureComponent {
@@ -19,15 +18,26 @@ export default class Layout extends PureComponent {
     return (
       <div>
         <Menu attached='top'>
-          <Menu.Item as={Link} href='/dashboard' passHref>
-            <MenuLink>
-              Dashboard
-            </MenuLink>
+          <Menu.Item>
+            <Link href='/dashboard' passHref>
+              <MenuLink>
+                Dashboard
+              </MenuLink>
+            </Link>
           </Menu.Item>
-          <Menu.Item as={Link} href='/voucher-management' passHref>
-            <MenuLink>
-              Management
-            </MenuLink>
+          <Menu.Item>
+            <Link href='/voucher-management' passHref>
+              <MenuLink>
+                Management
+              </MenuLink>
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link href='/voucher-history' passHref>
+              <MenuLink>
+                History
+              </MenuLink>
+            </Link>
           </Menu.Item>
         </Menu>
         <Container>

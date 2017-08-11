@@ -9,6 +9,24 @@ import { initStore } from '../store'
 import { searchVoucher, modifyVoucher } from '../actions/voucher'
 import VoucherInfo from '../components/VoucherInfo'
 
+function mapStateToProps (state) {
+  return {
+    availableStatus: state.voucherAvailableStatus,
+    isVoucherLoading: state.voucherActivity.isLoading,
+    voucherInfo: state.voucherActivity.voucher
+  }
+}
+
+function mapDispatchToProps (dispatch, ownProps) {
+  const { voucherCode } = ownProps.url.query
+  return {
+    modifyVoucher (formData) {
+      dispatch(modifyVoucher(voucherCode, formData))
+      .then(() => dispatch(searchVoucher(voucherCode)))
+    }
+  }
+}
+
 @Authenticated
 @withRedux(initStore, mapStateToProps, mapDispatchToProps)
 export default class Voucher extends PureComponent {
@@ -28,23 +46,5 @@ export default class Voucher extends PureComponent {
         />
       </Layout>
     )
-  }
-}
-
-function mapStateToProps (state) {
-  return {
-    availableStatus: state.voucherAvailableStatus,
-    isVoucherLoading: state.voucherActivity.isLoading,
-    voucherInfo: state.voucherActivity.voucher
-  }
-}
-
-function mapDispatchToProps (dispatch, ownProps) {
-  const { voucherCode } = ownProps.url.query
-  return {
-    modifyVoucher (formData) {
-      dispatch(modifyVoucher(voucherCode, formData))
-      .then(() => dispatch(searchVoucher(voucherCode)))
-    }
   }
 }

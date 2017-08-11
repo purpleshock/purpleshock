@@ -5,7 +5,6 @@ import reduxLogger from 'redux-logger'
 import user from './user'
 import voucherAvailableStatus from './voucherAvailableStatus'
 import voucherHistory from './voucherHistory'
-import voucherHistoryPagination from './voucherHistoryPagination'
 import environment from './environment'
 import codeFinder from './codeFinder'
 import voucherActivity from './voucherActivity'
@@ -16,7 +15,6 @@ const reducers = combineReducers({
   voucherActivity,
   voucherAvailableStatus,
   voucherHistory,
-  voucherHistoryPagination,
   environment
 })
 
