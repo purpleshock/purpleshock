@@ -1,3 +1,5 @@
+const joi = require('../joi')
+
 const validateOptions = {
   stripUnknown: true,
   convert: true
@@ -5,7 +7,7 @@ const validateOptions = {
 
 function validate (value, schema) {
   return new Promise((resolve, reject) => {
-    schema.validate(value, validateOptions, (err, value) => {
+    joi.validate(value, schema, validateOptions, (err, value) => {
       if (err) {
         reject(err)
       } else {

@@ -8,17 +8,22 @@ const getBatchResponse = joi.object().keys({
   expiredAt: [joi.equal(null).strip(), joi.unix().optional()]
 })
 
-const searchByTimeQuery = joi.object().keys({
-  page: joi.number().integer().positive().required(),
-  size: joi.number().integer().positive().required(),
-  validAt: joi.moment().optional(),
-  expiredAt: joi.moment().optional()
-})
+const searchByTimeQuery = joi.alternatives().try(
+  joi.object().keys({
+    page: joi.number().integer().positive().required(),
+    size: joi.number().integer().positive().required(),
+    validAt: joi.moment().required(),
+    expiredAt: joi.moment().required()
+  }),
+  joi.object().keys({
+    page: joi.number().integer().positive().required(),
+    size: joi.number().integer().positive().required(),
+    createDateFrom: joi.moment().required(),
+    createDateTo: joi.moment().required()
+  })
+)
 
-const searchByTimeResponse = joi.object().keys({
-  numTotal: joi.number().integer(),
-  batches: joi.array().items(getBatchResponse)
-})
+const searchByTimeResponse = joi.array().items(getBatchResponse)
 
 const createBatchBody = joi.object().keys({
   num: joi.number().integer().min(1).required(),

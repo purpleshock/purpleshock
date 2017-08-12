@@ -2,32 +2,14 @@ const batches = require('../models/batches')
 
 const MISSING_DURATION_QUERY = 'MISSING_DURATION_QUERY'
 
-async function findBetweenValidTime (validAt, expiredAt, page, pagination) {
-  let numTotal, found
+async function findAccordingValidTime (validAt, expiredAt, page, pagination) {
   const offset = (page - 1) * pagination
-  if (validAt && expiredAt) {
-    [numTotal, found] = await Promise.all([
-      batches.countBetweenValidDuration(validAt, expiredAt),
-      batches.findBetweenValidDuration(validAt, expiredAt, offset, pagination)
-    ])
-  } else if (validAt) {
-    [numTotal, found] = await Promise.all([
-      batches.countAfterValidTime(validAt),
-      batches.findAfterValidTime(validAt, offset, pagination)
-    ])
-  } else if (expiredAt) {
-    [numTotal, found] = await Promise.all([
-      batches.countBeforeExpiredTime(expiredAt),
-      batches.findBeforeExpiredTime(expiredAt, offset, pagination)
-    ])
-  } else {
-    throw new Error(MISSING_DURATION_QUERY)
-  }
+  return batches.findBetweenValidDuration(validAt, expiredAt, offset, pagination)
+}
 
-  return {
-    numTotal,
-    batches: found
-  }
+function findAccordingCreationTime (createDateFrom, createDateTo, page, pagination) {
+  const offset = (page - 1) * pagination
+  return batches.findBetweenCreationDuration(createDateFrom, createDateTo, offset, pagination)
 }
 
 function findByCode (code) {
@@ -40,7 +22,8 @@ function findByCodeTerm (term, size) {
 
 module.exports = {
   MISSING_DURATION_QUERY,
-  findBetweenValidTime,
+  findAccordingValidTime,
+  findAccordingCreationTime,
   findByCode,
   findByCodeTerm
 }

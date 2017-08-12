@@ -1,12 +1,11 @@
 const knex = require('./knex')
 
 function create (adminId, code, rest = {}) {
-  const { expiredAt, validAt, description } = rest
-  const now = new Date()
+  const { createdAt, expiredAt, validAt, description } = rest
   const data = {
     adminId,
     code,
-    createdAt: now,
+    createdAt: createdAt || new Date(),
     expiredAt,
     validAt,
     description
@@ -39,46 +38,20 @@ function findByCodeTerm (term, size) {
     .limit(size)
 }
 
-function countBetweenValidDuration (validAt, expiredAt) {
-  return select()
-    .where('validAt', '>=', validAt.toDate())
-    .andWhere('expiredAt', '<=', expiredAt.toDate())
-    .count('batches.batchId AS count')
-    .then(([result]) => result.count)
-}
-
-function countAfterValidTime (validAt) {
-  return select()
-    .where('validAt', '>=', validAt.toDate())
-    .count('batches.batchId AS count')
-    .then(([result]) => result.count)
-}
-
-function countBeforeExpiredTime (expiredAt) {
-  return select()
-    .where('expiredAt', '<=', expiredAt.toDate())
-    .count('batches.batchId AS count')
-    .then(([result]) => result.count)
-}
-
 function findBetweenValidDuration (validAt, expiredAt, offset, size) {
   return select()
     .where('validAt', '>=', validAt.toDate())
     .andWhere('expiredAt', '<=', expiredAt.toDate())
+    .orderBy('batches.createdAt', 'desc')
     .offset(offset)
     .limit(size)
 }
 
-function findAfterValidTime (validAt, offset, size) {
+function findBetweenCreationDuration (createDateFrom, createDateTo, offset, size) {
   return select()
-    .where('validAt', '>=', validAt.toDate())
-    .offset(offset)
-    .limit(size)
-}
-
-function findBeforeExpiredTime (expiredAt, offset, size) {
-  return select()
-    .where('expiredAt', '<=', expiredAt.toDate())
+    .where('batches.createdAt', '>=', createDateFrom.toDate())
+    .andWhere('batches.createdAt', '<=', createDateTo.toDate())
+    .orderBy('batches.createdAt', 'desc')
     .offset(offset)
     .limit(size)
 }
@@ -87,10 +60,6 @@ module.exports = {
   create,
   findByCode,
   findByCodeTerm,
-  countBetweenValidDuration,
-  countAfterValidTime,
-  countBeforeExpiredTime,
   findBetweenValidDuration,
-  findAfterValidTime,
-  findBeforeExpiredTime
+  findBetweenCreationDuration
 }

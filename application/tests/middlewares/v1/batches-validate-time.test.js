@@ -38,36 +38,16 @@ test.before(async t => {
   ])
 })
 
-test('GET /api/v1/batches/count count between validate/expired', async t => {
+test('GET /api/v1/batches count between validate/expired', async t => {
   // -1 day to +1 day
   const validAt = minusOneDay.unix()
   const expiredAt = plusOneDay.unix()
   const foundBatchesResponse = await request(app)
-    .get(`/api/v1/batches/count?validAt=${validAt}&expiredAt=${expiredAt}`)
+    .get(`/api/v1/batches?validAt=${validAt}&expiredAt=${expiredAt}&page=1&size=10`)
     .set('Authorization', `JWT ${admin.token}`)
 
-  t.is(foundBatchesResponse.body, 2)
+  t.is(foundBatchesResponse.body.length, 2)
+  t.is(foundBatchesResponse.body[0].code, '+0_day_to_+1_day')
+  t.is(foundBatchesResponse.body[1].code, '-1_day_to_+0_day')
   t.is(foundBatchesResponse.status, 200)
-})
-
-test('GET /api/v1/batches/count count by validate', async t => {
-  // before +0 day
-  const validAt = now.unix()
-  const foundBatchesResponse = await request(app)
-    .get(`/api/v1/batches/count?validAt=${validAt}`)
-    .set('Authorization', `JWT ${admin.token}`)
-
-  t.is(foundBatchesResponse.status, 200)
-  t.is(foundBatchesResponse.body, 2)
-})
-
-test('GET /api/v1/batches/count count by expired', async t => {
-  // before +1 day
-  const expiredAt = plusOneDay.unix()
-  const foundBatchesResponse = await request(app)
-    .get(`/api/v1/batches/count?expiredAt=${expiredAt}`)
-    .set('Authorization', `JWT ${admin.token}`)
-
-  t.is(foundBatchesResponse.status, 200)
-  t.is(foundBatchesResponse.body, 3)
 })
