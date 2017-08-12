@@ -14,11 +14,12 @@ batches.get('/', permission.getCheckScopesMiddleware(['batches.find']), wrapper(
   query: formatters.searchByTimeQuery,
   response: formatters.searchByTimeResponse,
   handler (req, res) {
-    const { validAt, expiredAt, page, size } = req.query
-    return batchFinder.findBetweenValidTime(validAt, expiredAt, {
-      page,
-      size
-    })
+    const { validAt, expiredAt, createDateFrom, createDateTo, page, size } = req.query
+    if (createDateFrom || createDateTo) {
+      return batchFinder.findAccordingCreationTime(createDateFrom, createDateTo, page, size)
+    } else if (validAt || expiredAt) {
+      return batchFinder.findAccordingValidTime(validAt, expiredAt, page, size)
+    }
   }
 }))
 
