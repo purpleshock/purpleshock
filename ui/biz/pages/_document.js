@@ -1,6 +1,7 @@
 import React from 'react'
 import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import 'react-virtualized/styles.css'
 
 export default class RootDocument extends Document {
   render () {
