@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import Router from 'next/router'
 import axios from 'axios'
-import * as tokenApi from '../services/token'
+import * as tokenApi from '../../services/token'
 
 export default ComposedComponent => class Authenticated extends PureComponent {
   static async getInitialProps (context) {
@@ -9,16 +9,15 @@ export default ComposedComponent => class Authenticated extends PureComponent {
     const isServer = req && res
 
     // Check if token is valid
-    const token = isServer ? req.cookies.token : tokenApi.getToken()
+    let token = isServer ? req.cookies.token : tokenApi.getToken()
     let isValid = token !== null && token !== undefined && token !== ''
     if (isValid) {
       isValid = await tokenApi.isValid(token)
     }
 
-    if (isValid) {
-      // set axios header
-      axios.defaults.headers.common.Authorization = `JWT ${token}`
-    } else {
+    if (!isValid) {
+      token = ''
+
       // redirect if token is invalid
       if (isServer) {
         res.redirect('/')
@@ -28,23 +27,25 @@ export default ComposedComponent => class Authenticated extends PureComponent {
       }
     }
 
-    if (typeof ComposedComponent.getInitialProps === 'function') {
-      return await ComposedComponent.getInitialProps(context)
-    } else {
-      return {}
+    const props = {
+      token
     }
+    if (typeof ComposedComponent.getInitialProps === 'function') {
+      props.componentProps = await ComposedComponent.getInitialProps(context)
+    }
+
+    return props
   }
 
-  componentDidMount () {
-    const token = tokenApi.getToken()
-    if (token) {
-      axios.defaults.headers.common.Authorization = `JWT ${token}`
+  componentWillMount () {
+    if (this.props.token) {
+      axios.defaults.headers.common.Authorization = `JWT ${this.props.token}`
     }
   }
 
   render () {
     return (
-      <ComposedComponent {...this.props} />
+      <ComposedComponent {...this.props.componentProps} />
     )
   }
 }

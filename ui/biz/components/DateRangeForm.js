@@ -7,20 +7,26 @@ import 'moment-range'
 
 import calendarCSS from 'react-daterange-picker/dist/css/react-calendar.css'
 
+const setValue = (startAt, endAt) => prevState => {
+  return {
+    isValid: startAt && endAt,
+    value: moment.range(
+      startAt,
+      endAt
+    )
+  }
+}
+
 export default class DateRangeForm extends PureComponent {
   static propTypes = {
     onSearch: PropTypes.func
   }
 
   state = {
-    startAt: null,
-    endAt: null,
     isValid: false
   }
 
   render () {
-    const { startAt, endAt, isValid } = this.state
-
     return (
       <div>
         <style dangerouslySetInnerHTML={{__html: calendarCSS}} />
@@ -32,29 +38,23 @@ export default class DateRangeForm extends PureComponent {
               firstOfWeek={1}
               numberOfCalendars={2}
               selectionType='range'
-              value={startAt && endAt && moment.range(startAt, endAt)}
+              value={this.state.value}
               onSelect={this.onSelect}
             />
           </Form.Field>
-          <Form.Button disabled={!isValid}>Find</Form.Button>
+          <Form.Button disabled={!this.state.isValid}>Find</Form.Button>
         </Form>
       </div>
     )
   }
 
   onSelect = range => {
-    this.setState(() => {
-      return {
-        isValid: range.start && range.end,
-        startAt: range.start,
-        endAt: range.end
-      }
-    })
+    this.setState(setValue(range.start, range.end))
   }
 
   onSubmit = e => {
-    const { startAt, endAt } = this.state
+    const { start, end } = this.state.value
     e.preventDefault()
-    this.props.onSearch(startAt, endAt)
+    this.props.onSearch(start.unix(), end.unix())
   }
 }

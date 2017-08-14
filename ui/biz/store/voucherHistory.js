@@ -1,7 +1,11 @@
 import moment from 'moment'
 import * as voucherHistoryActions from '../actions/voucherHistory'
 
-export default function reducer (state = {}, action) {
+const initialState = {
+  creationOrder: null
+}
+
+export default function reducer (state = initialState, action) {
   switch (action.type) {
     case voucherHistoryActions.SEARCH_HISTORY:
       return searchHistory(state, action)
@@ -11,12 +15,8 @@ export default function reducer (state = {}, action) {
 }
 
 function searchHistory (state, action) {
-  return action.payload.histories.reduce((nextState, history) => {
-    nextState[history.code] = {
-      createdAt: moment.unix(history.createdAt),
-      validAt: history.validAt && moment.unix(history.validAt),
-      expiredAt: history.expiredAt && moment.unix(history.expiredAt)
-    }
-    return nextState
-  }, {})
+  return {
+    ...state,
+    creationOrder: action.payload.histories
+  }
 }
