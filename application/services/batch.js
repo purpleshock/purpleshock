@@ -4,10 +4,11 @@ const codeGenerate = require('./codeGenerate')
 
 async function createBatch (adminId, batchData) {
   const batchCount = batchData.batchCount || 100
-  const { validAt, expiredAt, num, amount, description } = batchData
+  const { validAt, expiredAt, num, amount, description, createdAt } = batchData
   const batch = await batches.create(adminId, codeGenerate.getCode(), {
     validAt: validAt && validAt.toDate(),
     expiredAt: expiredAt && expiredAt.toDate(),
+    createdAt: createdAt && createdAt.toDate(),
     description
   })
 
