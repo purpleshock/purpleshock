@@ -71,3 +71,11 @@ app.prepare()
     console.log(`> Ready on http://localhost:${port}`)
   })
 })
+
+process.on('uncaughtException', err => {
+  console.error(err)
+})
+
+process.on('unhandledRejection', (reason, p) => {
+  console.error(reason)
+})
