@@ -23,6 +23,7 @@ module.exports = {
     ]))
 
     return webpackMerge(config, {
+      devtool: false,
       plugins: [
         definePlugin
       ],
