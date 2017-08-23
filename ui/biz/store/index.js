@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import window from 'global/window'
-import reduxLogger from 'redux-logger'
 import user from './user'
 import voucherAvailableStatus from './voucherAvailableStatus'
 import voucherHistory from './voucherHistory'
@@ -38,10 +37,7 @@ function createProdMiddleware () {
 }
 
 function createDevMiddleware () {
-  let middleware = applyMiddleware(
-    thunkMiddleware,
-    reduxLogger
-  )
+  let middleware = applyMiddleware(thunkMiddleware)
 
   if (window.devToolsExtension) {
     middleware = compose(middleware, window.devToolsExtension())
