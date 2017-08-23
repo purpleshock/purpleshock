@@ -14,11 +14,7 @@ class Index extends PureComponent {
   }
 
   render () {
-    return (
-      <Layout>
-        <LoginForm onLogin={this.props.login} />
-      </Layout>
-    )
+    return <LoginForm onLogin={this.props.login} />
   }
 }
 
