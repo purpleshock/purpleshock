@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     './src/index'
   ],
   output: {
@@ -12,7 +13,11 @@ module.exports = {
     publicPath: '/static/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.AP': `"${process.env.AP || 'http://localhost:7070'}"`,
+      'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'development'}"`
+    })
   ],
   resolve: {
     extensions: ['.js', '.jsx']
