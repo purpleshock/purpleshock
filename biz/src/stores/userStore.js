@@ -1,8 +1,8 @@
-import { observable, action, runInAction, map, computed } from 'mobx'
+import { observable, action, runInAction, ObservableMap, computed } from 'mobx'
 import * as auth from '../services/auth'
 
 class UserStore {
-  @observable user = map({
+  @observable user = new ObservableMap({
     mail: '',
     password: ''
   })
