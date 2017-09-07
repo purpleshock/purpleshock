@@ -25,6 +25,20 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 100000
+        }
+      },
+      {
         test: /\.jsx?$/,
         use: ['babel-loader'],
         include: path.join(__dirname, 'src')

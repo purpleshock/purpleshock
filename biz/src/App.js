@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
+import 'semantic-ui-css/semantic.css'
 import Login from './pages/login/Login'
 
 const Pages = <div>hello</div>
